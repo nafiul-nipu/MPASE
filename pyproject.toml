@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mpase"
+version = "0.1.1"
+description = "Multi-Point Alignment and Shape Extraction (MPASE)"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name = "Nafiul Nipu" }]
+license = { text = "MIT" }
+
+dependencies = [
+  "numpy",
+  "pandas",
+  "scipy",
+  "scikit-learn",
+  "matplotlib",
+  "scikit-image",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
