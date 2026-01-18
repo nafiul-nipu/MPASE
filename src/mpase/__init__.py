@@ -12,9 +12,21 @@ from .types import (
     Plane, Variant, ShapeProduct, RunResult,
 )
 
+
 # ---- Main entrypoint ----
-from .main_run import mpase  # (alias: run_silhouettes)
-run_silhouettes = mpase  # for consistency with README examples
+from .main_run import mpase as _mpase
+
+def run(*args, **kwargs):
+    """
+    Run the MPASE pipeline (recommended user-facing entrypoint).
+
+    This is a convenience alias for the internal `mpase(...)` function.
+    """
+    return _mpase(*args, **kwargs)
+
+# Backward compatibility / explicit names
+mpase = _mpase
+run_silhouettes = _mpase  # optional alias
 
 # ---- Visualization (user-facing) ----
 from .visualization_save_image import (
