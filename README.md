@@ -11,7 +11,7 @@ This README is written as **package-style documentation** (API + parameters + ex
 ### Option A Install from GitHub (current version)
 
 ```bash
-pip install git+https://github.com/nafiul-nipu/MPASE.git
+pip install git+https://github.com/nafiul-nipu/MPASE.git@v0.1.1
 ```
 
 ### Option B (developer / editable install)
