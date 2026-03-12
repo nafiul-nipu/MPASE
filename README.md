@@ -73,6 +73,19 @@ mpase.export_all(
 )
 ```
 
+### 4) Align only and save aligned points
+
+```python
+aligned = mpase.align_points(
+    csv_list=["A.csv", "B.csv"],
+    labels=["A", "B"],
+    xyz_cols=("x", "y", "z"),
+    align_mode="auto",
+)
+
+mpase.export_aligned_points(aligned, out_dir="aligned_points_out")
+```
+
 ---
 
 ## Input formats
@@ -112,6 +125,23 @@ mpase.run(
     cfg_common=None,
     cfg_hdr=None,
     cfg_pf=None,
+    planes=("XY","YZ","XZ"),
+) -> dict
+```
+
+### `mpase.align_points(...)`
+
+```python
+mpase.align_points(
+    csv_list=None,
+    *,
+    points_list=None,
+    labels=None,
+    xyz_cols=("x","y","z"),
+    id_col=None,
+    ids_list=None,
+    align_mode="auto",
+    cfg_common=None,
     planes=("XY","YZ","XZ"),
 ) -> dict
 ```
@@ -157,8 +187,8 @@ mpase.run(
   If True, compute **point-fraction** silhouettes (top fraction of points by KDE score).
 - `point_alignment_only` (bool)  
   If True, stop after alignment + projections + background masks (no silhouettes/metrics).  
-  If True, set `out_dir` to write outputs.  
-  _Use this to quickly verify alignment quality and projection setup before running HDR/PF (faster iteration)._
+  If `out_dir` is provided, MPASE writes aligned-point JSON files plus `meta_data.json`.  
+  _Use this for backward compatibility. Prefer `mpase.align_points(...)` + `mpase.export_aligned_points(...)` for new code._
 
 **Output**
 
@@ -196,6 +226,17 @@ The returned object is a Python dict (see `RunResult` in `types.py`) with the fo
   Present only if HDR was computed.
 - `projections`: dict  
   2D projections per plane, including grid centers (`xs`,`ys`) and 2D point sets per label.
+
+### `mpase.export_aligned_points(...)`
+
+```python
+mpase.export_aligned_points(result, out_dir="aligned_points_out")
+```
+
+Writes one `<label>_aligned.json` file per aligned set. Each file stores:
+
+- `positions`: aligned and scaled 3D coordinates
+- `ids`: optional per-point IDs when present in the result
 
 ---
 
@@ -635,6 +676,20 @@ mpase.view(res, kind="hdr", plane="XY", levels=[95], A_lab="A", B_lab="C")
 ```
 
 ### Alignment-only mode (fast)
+
+Preferred:
+
+```python
+res = mpase.align_points(
+    csv_list=["A.csv","B.csv"],
+    labels=["A","B"],
+    align_mode="auto",
+)
+
+mpase.export_aligned_points(res, out_dir="align_only_out")
+```
+
+Backward-compatible legacy path:
 
 ```python
 res = mpase.run(

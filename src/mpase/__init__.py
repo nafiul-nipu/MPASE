@@ -14,7 +14,7 @@ from .types import (
 
 
 # ---- Main entrypoint ----
-from .main_run import mpase as _mpase
+from .main_run import align_points, mpase as _mpase
 
 def run(*args, **kwargs):
     """
@@ -38,7 +38,8 @@ from .visualization_save_image import (
 
 # ---- Data export (user-facing) ----
 from .export_data_for_visd3three import (
-    export_all
+    export_aligned_points,
+    export_all,
 )
 
 # ---- Optional public helper ----
@@ -47,7 +48,7 @@ from .io_load import load_points
 __all__ = [
     "__version__",
     # main
-    "mpase", "run_silhouettes",
+    "mpase", "run_silhouettes", "align_points",
     # configs / types
     "CfgCommon", "CfgHDR", "CfgPF", "CfgMorph",
     "Plane", "Variant", "ShapeProduct", "RunResult",
@@ -55,7 +56,7 @@ __all__ = [
     "view", "save_figures", "view_projections", "save_projections",
     "view_single", "save_per_label",
     # exporters
-    "export_all",
+    "export_all", "export_aligned_points",
     # helper
     "load_points",
 ]

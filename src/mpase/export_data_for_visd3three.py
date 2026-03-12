@@ -98,6 +98,43 @@ def export_meta(result: RunResult, out_dir: str, *, progress_report: bool = Fals
     return [path]
 
 
+def export_aligned_points(
+    result: RunResult,
+    out_dir: str,
+    *,
+    progress_report: bool = False,
+    report: Optional[Callable] = None,
+) -> List[str]:
+    """
+    Write one aligned-point JSON per label.
+
+    This is the public export companion to `mpase.align_points(...)`.
+    The exporter only needs the aligned coordinates and optional IDs already
+    stored in the result object.
+    """
+    written: List[str] = []
+    _ensure_dir(out_dir)
+
+    labels = list(result.get("labels", []))
+    aligned = list(result.get("aligned_points", []))
+    ids_by_label = result.get("ids_by_label", {})
+
+    for lab, pts in zip(labels, aligned):
+        payload = {
+            "positions": np.asarray(pts, dtype=float).tolist(),
+        }
+        if lab in ids_by_label:
+            # Keep IDs parallel with positions so downstream consumers can link rows safely.
+            payload["ids"] = [str(x) for x in ids_by_label[lab]]
+
+        fname = f"{_safe_name(lab)}_aligned.json"
+        path = _write_json(os.path.join(out_dir, fname), payload)
+        written.append(path)
+        _notify(progress_report, "write", kind="aligned_points", label=str(lab), path=path)
+
+    return written
+
+
 ################### D3: background-as-data ###################
 
 def export_background_mask_json(result: RunResult, out_dir: str, *, progress_report: bool = False, report: Optional[Callable] = None) -> List[str]:
@@ -540,4 +577,3 @@ def export_all(
 
     _notify(progress_report, "done", files=manifest["summary"]["files"], bytes=manifest["summary"]["bytes"])
     
-
