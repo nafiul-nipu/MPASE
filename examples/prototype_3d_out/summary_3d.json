@@ -1,0 +1,24 @@
+{
+  "labels": [
+    "A",
+    "B"
+  ],
+  "grid_dims": [
+    48,
+    48,
+    42
+  ],
+  "occupied_voxels": {
+    "A": 777,
+    "B": 777
+  },
+  "metrics": [
+    {
+      "A": "A",
+      "B": "B",
+      "voxel_iou": 0.20558572536834321,
+      "surface_meanNN": 0.01664347624126227,
+      "surface_hausdorff": 0.05115058413878111
+    }
+  ]
+}
