@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from typing import Tuple
 ###################### IO ######################
-def load_points(csv: str, cols: Tuple[str,str,str]=("middle_x","middle_y","middle_z")) -> np.ndarray:
+def load_points(csv: str, cols: Tuple[str,str,str]=("x","y","z")) -> np.ndarray:
     """
     Load 3D points from CSV using provided column names (default to our current data's middle_x/y/z).
     """

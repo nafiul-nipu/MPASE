@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from typing import Tuple, Optional, Dict, TypedDict, Literal
+from typing import Tuple, Optional, Dict, TypedDict, Literal,List
 from dataclasses import dataclass, field
 
 # Config with default values
@@ -18,7 +18,7 @@ class CfgCommon:
     # error usually stabilizes after ~20
     icp_iters: int = 30 # use ~50 for more difficult cases
     # max points to sample from each set for ICP (None = use all)
-    sample_icp: int = 50000
+    sample_icp: Optional[int] = 50000
 
 @dataclass
 class CfgHDR:
@@ -48,6 +48,8 @@ class CfgPF:
     disk_px: int = 2
     # expose morphology controls to the user
     morph: CfgMorph = field(default_factory=CfgMorph)
+    #reproducibility control
+    rng_seed: int = 0 
 
 # ############################ Public Types ############################
 Plane = Literal["XY", "YZ", "XZ"]
@@ -61,11 +63,13 @@ class ShapeProduct(TypedDict):
     contour: Optional[np.ndarray]  # [N,2] (row, col)
 
 class RunResult(TypedDict):
-    A: np.ndarray           # aligned & scaled 3D points (N,3)
-    B: np.ndarray
-    shapes: Dict[Variant, Dict[Plane, Dict[int, Tuple[ShapeProduct, ShapeProduct]]]]
-    metrics: pd.DataFrame   # columns: plane, level, variant, IoU, meanNN, Hausdorff
+    labels: List[str]                        # e.g. ["A", "B", "C"]
+    aligned_points: List[np.ndarray]         # one (N,3) array per label, same order as labels
+    ids_by_label: Dict[str, np.ndarray]      # label -> original row IDs
+    shapes: Dict[Variant, Dict[Plane, Dict[int, Dict[str, ShapeProduct]]]]
+    metrics: pd.DataFrame   # columns: plane, variant, level, A, B, IoU, meanNN, Hausdorff
     meta: dict
-    background: Dict[Plane, np.ndarray]  # union-of-points mask per plane (bool [ny,nx])
-    densities: Optional[Dict[str, Dict[Plane, np.ndarray]]]  # None if HDR not run; else {'A':{plane:D}, 'B':{...}}
-    projections: Dict[Plane, Dict[str, np.ndarray]]  # {"XY":{"xs","ys","A2","B2"}, ...}
+    background: Dict[Plane, np.ndarray]      # union-of-points mask per plane (bool [ny,nx])
+    background_by_label: Dict[str, Dict[Plane, np.ndarray]]
+    densities: Optional[Dict[str, Dict[Plane, np.ndarray]]]
+    projections: Dict[Plane, Dict[str, np.ndarray]]

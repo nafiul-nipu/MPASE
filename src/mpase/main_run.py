@@ -227,7 +227,7 @@ def align_points(
     *,
     points_list: Optional[Sequence[np.ndarray]] = None,
     labels: Optional[Sequence[str]] = None,
-    xyz_cols: Tuple[str, str, str] = ("middle_x", "middle_y", "middle_z"),
+    xyz_cols: Tuple[str, str, str] = ("x", "y", "z"),
     id_col: Optional[str] = None,
     ids_list: Optional[Sequence[Sequence[Any]]] = None,
     align_mode: Literal["auto", "skip"] = "auto",
@@ -269,7 +269,7 @@ def mpase(
     *,
     points_list: Optional[Sequence[np.ndarray]] = None,
     labels: Optional[Sequence[str]] = None,
-    xyz_cols: Tuple[str, str, str] = ("middle_x", "middle_y", "middle_z"),
+    xyz_cols: Tuple[str, str, str] = ("x", "y", "z"),
     id_col: Optional[str] = None,
     ids_list: Optional[Sequence[Sequence[Any]]] = None,
     align_mode: Literal["auto", "skip"] = "auto",
@@ -391,7 +391,7 @@ def mpase(
                         mean_nn, hausdorff = contour_distances(A_sp["contour"], B_sp["contour"])
                         rows.append(
                             {
-                                "mode": "hdr",
+                                "variant": "hdr",
                                 "plane": plane,
                                 "level": level,
                                 "A": A_lab,
@@ -408,7 +408,8 @@ def mpase(
             xs = proj["xs"]
             ys = proj["ys"]
             sets2d: Dict[str, np.ndarray] = proj["sets"]
-
+            pf_rng = np.random.default_rng(cfg_pf.rng_seed)
+            
             for frac in cfg_pf.frac_levels:
                 level = int(round(frac * 100))
                 shapes["point_fraction"].setdefault(plane, {})
@@ -424,6 +425,7 @@ def mpase(
                         cfg_pf.bandwidth,
                         cfg_pf.disk_px,
                         morph=cfg_pf.morph,
+                        rng=pf_rng
                     )
 
                 for i in range(len(labels_out)):
@@ -436,7 +438,7 @@ def mpase(
                         mean_nn, hausdorff = contour_distances(A_sp["contour"], B_sp["contour"])
                         rows.append(
                             {
-                                "mode": "point_fraction",
+                                "variant": "point_fraction",
                                 "plane": plane,
                                 "level": level,
                                 "A": A_lab,
@@ -449,11 +451,11 @@ def mpase(
 
     metrics = pd.DataFrame(
         rows,
-        columns=["plane", "mode", "level", "A", "B", "IoU", "meanNN", "Hausdorff"],
+        columns=["plane", "variant", "level", "A", "B", "IoU", "meanNN", "Hausdorff"],
     )
     if not metrics.empty:
         metrics = metrics.sort_values(
-            ["plane", "mode", "level", "A", "B"],
+            ["plane", "variant", "level", "A", "B"],
             ascending=[True, True, False, True, True],
         )
 

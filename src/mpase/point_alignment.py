@@ -1,4 +1,4 @@
-import os, json
+# import os, json
 import itertools
 
 import numpy as np
@@ -70,8 +70,10 @@ def icp_rigid_robust(A_pts, B_pts, iters=30, sample=50000, trim_q=0.10, seed=11)
     rs = np.random.default_rng(seed)
     # if sample <= len(pts), use all points
     # else randomly sample without repeat (each points can only be chosen once)
-    A = A_pts if len(A_pts)<=sample else A_pts[rs.choice(len(A_pts), sample, replace=False)]
-    B = B_pts if len(B_pts)<=sample else B_pts[rs.choice(len(B_pts), sample, replace=False)]
+    # A = A_pts if len(A_pts)<=sample else A_pts[rs.choice(len(A_pts), sample, replace=False)]
+    # B = B_pts if len(B_pts)<=sample else B_pts[rs.choice(len(B_pts), sample, replace=False)]
+    A = A_pts if sample is None or len(A_pts) <= sample else A_pts[rs.choice(len(A_pts), sample, replace=False)]
+    B = B_pts if sample is None or len(B_pts) <= sample else B_pts[rs.choice(len(B_pts), sample, replace=False)]
     
     # identity matrix for rotation, zero vector for translation
     R, t = np.eye(3), np.zeros(3)
@@ -100,14 +102,14 @@ def icp_rigid_robust(A_pts, B_pts, iters=30, sample=50000, trim_q=0.10, seed=11)
     return R, t
 
 # point_alignment.py
-def _save_aligned_points(aligned: List[np.ndarray], labels: List[str], out_dir: str,
-                         ids_per_set: Optional[List[List[str]]] = None):
-    os.makedirs(out_dir, exist_ok=True)
-    for idx, (lab, X) in enumerate(zip(labels, aligned)):
-        payload = {"positions": np.asarray(X, dtype=float).tolist()}
-        if ids_per_set is not None:
-            payload["ids"] = [str(x) for x in ids_per_set[idx]]  # 1:1 with rows in X
-        out_path = os.path.join(out_dir, f"{lab}_aligned.json")
-        with open(out_path, "w") as f:
-            json.dump(payload, f, indent=2)
+# def _save_aligned_points(aligned: List[np.ndarray], labels: List[str], out_dir: str,
+#                          ids_per_set: Optional[List[List[str]]] = None):
+#     os.makedirs(out_dir, exist_ok=True)
+#     for idx, (lab, X) in enumerate(zip(labels, aligned)):
+#         payload = {"positions": np.asarray(X, dtype=float).tolist()}
+#         if ids_per_set is not None:
+#             payload["ids"] = [str(x) for x in ids_per_set[idx]]  # 1:1 with rows in X
+#         out_path = os.path.join(out_dir, f"{lab}_aligned.json")
+#         with open(out_path, "w") as f:
+#             json.dump(payload, f, indent=2)
 

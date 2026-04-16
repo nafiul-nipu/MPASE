@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import math
 from pathlib import Path
 from typing import Dict, Tuple, Iterable, Optional, List, Any, Callable
 import numpy as np
@@ -351,7 +352,10 @@ def export_metrics_json(result: RunResult, out_dir: str, *, progress_report: boo
     for r in rows:
         for k, v in list(r.items()):
             if isinstance(v, (np.floating, np.integer)):
-                r[k] = float(v)
+                v = float(v)
+            if isinstance(v, float) and math.isnan(v):
+                v = None
+            r[k] = v
     path = _write_json(os.path.join(out_dir, "metrics_data.json"), rows)
     _notify(progress_report, "write", kind="metrics", path=path, rows=len(rows))
     return [path]
@@ -458,9 +462,15 @@ def export_membership_json(
 
         # assume all planes share same N for this label
         # pick any plane in projections
-        some_plane = next(iter(proj.keys()))
-        N = proj[some_plane]["sets"][lab].shape[0]
-        lab_entry["points"] = int(N)
+        # some_plane = next(iter(proj.keys()))
+        # N = proj[some_plane]["sets"][lab].shape[0]
+        # lab_entry["points"] = int(N)
+        if not proj:
+            lab_entry["points"] = 0
+        else:
+            some_plane = next(iter(proj.keys()))
+            pts = proj[some_plane]["sets"].get(lab)
+            lab_entry["points"] = int(pts.shape[0]) if pts is not None else 0
 
         for plane, pdata in proj.items():
             sets2d = pdata["sets"]
@@ -514,7 +524,7 @@ def export_all(
     result: RunResult,
     out_dir: str = "web_data",
     *,
-    include_density: bool = True,
+    include_density: bool = False,
     export_layout: bool = True,
     export_scales: bool = True,
     kind_levels: Dict[str, "int|Iterable[int]|str"] = {"hdr": "all", "point_fraction": "all"},
@@ -549,20 +559,20 @@ def export_all(
         manifest["written"].setdefault(name, []).extend(paths)
 
     rec("meta", export_meta(result, out_dir, progress_report=progress_report))
-    rec("background", export_background_mask_json(result, out_dir, progress_report=progress_report))
+    # rec("background", export_background_mask_json(result, out_dir, progress_report=progress_report))
     rec("background_by_label", export_background_mask_by_label_json(result, out_dir, progress_report=progress_report))
     if include_density:
         rec("density", export_density_json(result, out_dir, which=which_density, progress_report=progress_report))
     rec("contours", export_contours_d3(result, out_dir, kind_levels=kind_levels, progress_report=progress_report, clean_blobs=clean_blobs,
                                       blob_min_len=blob_min_len, blob_min_area_frac=blob_min_area_frac))
-    rec("projections", export_projections_json(result, out_dir, progress_report=progress_report))
+    # rec("projections", export_projections_json(result, out_dir, progress_report=progress_report))
     rec("metrics", export_metrics_json(result, out_dir, progress_report=progress_report))
     rec("points3d", export_points3d_json(result, out_dir, progress_report=progress_report))
     rec("membership", export_membership_json(result, out_dir, progress_report=progress_report))
-    if export_layout:
-        rec("layout", export_layout_json(out_dir, progress_report=progress_report))
-    if export_scales:
-        rec("scales", export_scales_json(result, out_dir, progress_report=progress_report))
+    # if export_layout:
+    #     rec("layout", export_layout_json(out_dir, progress_report=progress_report))
+    # if export_scales:
+    #     rec("scales", export_scales_json(result, out_dir, progress_report=progress_report))
 
     # Flat summary
     all_paths = [p for group in manifest["written"].values() for p in group]

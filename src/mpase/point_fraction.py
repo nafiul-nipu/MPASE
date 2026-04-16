@@ -36,7 +36,8 @@ def _scott_bandwidth(points2d: np.ndarray) -> float:
     return max(1e-6, std * (n ** (-1.0/(d+4))))
     
 # Pick a data-driven KDE bandwidth when the user doesn’t specify one.
-def auto_bandwidth(points2d: np.ndarray, strategy: str = "median*0.5") -> float:
+def auto_bandwidth(points2d: np.ndarray, strategy: str = "median*0.5", 
+                   rng: Optional[np.random.Generator] = None) -> float:
     """
     strategy E {"median*0.5","scott"}
     """
@@ -51,7 +52,8 @@ def auto_bandwidth(points2d: np.ndarray, strategy: str = "median*0.5") -> float:
     # Computing all pairwise distances scales as O(N^2)
     # subsampling keeps this step fast while still representative.
     if N > 500:
-        idx = np.random.choice(N, size=500, replace=False)
+        rng = rng or np.random.default_rng()
+        idx = rng.choice(N, size=500, replace=False)   # ← was np.random.choice
         samp = points2d[idx]
     else:
         samp = points2d
@@ -65,7 +67,8 @@ def point_fraction_mask(points2d: np.ndarray,
                         frac: float,
                         bandwidth: Optional[float],
                         disk_px: int,
-                        morph: Optional[CfgMorph]=None) -> Tuple[np.ndarray, np.ndarray, float]:
+                        morph: Optional[CfgMorph]=None,
+                        rng: Optional[np.random.Generator] = None) -> Tuple[np.ndarray, np.ndarray, float]:
     """
     Binary mask enclosing the top ceil(frac*N) points by local density.
     Returns (mask, kept_points2d, bandwidth_used).
@@ -78,7 +81,7 @@ def point_fraction_mask(points2d: np.ndarray,
     k = max(1, int(math.ceil(frac * N)))
     # Choose KDE bandwidth: use provided value or auto-estimate from the data.
     # KDE needs a scale; auto keeps things robust across datasets.
-    bw = auto_bandwidth(points2d, strategy="median*0.5") if bandwidth is None else bandwidth
+    bw = auto_bandwidth(points2d, strategy="median*0.5", rng=rng) if bandwidth is None else bandwidth
     # Compute a density (crowdedness) score per point via KDE.
     # We want to rank points by how densely they sit among neighbors, so outliers get low scores.
     scores = kde_scores(points2d, bandwidth=bw)
@@ -160,7 +163,8 @@ def make_pf_shape(points2d: np.ndarray,
                   frac: float,
                   bandwidth: Optional[float], 
                   disk_px: int, 
-                  morph: Optional[CfgMorph]=None) -> ShapeProduct:
+                  morph: Optional[CfgMorph]=None,
+                  rng: Optional[np.random.Generator] = None) -> ShapeProduct:
     """ INPUT: 
         points2d: the 2D projected points for one condition (A or B) on this plane.
         xs, ys: the shared grid’s pixel-center coordinates (so masks line up across A/B).
@@ -175,7 +179,7 @@ def make_pf_shape(points2d: np.ndarray,
     """
     # build the fraction mask and get the kept points
     # mask, kept, bw = point_fraction_mask(points2d, xs, ys, frac, bandwidth, disk_px, morph=morph)
-    mask, kept, bw = point_fraction_mask(points2d, xs, ys, frac, bandwidth, disk_px, morph=morph)
+    mask, kept, bw = point_fraction_mask(points2d, xs, ys, frac, bandwidth, disk_px, morph=morph, rng=rng)
     # Extract the main contour from the boolean mask
     contour = contour_from_bool(mask)
     return dict(plane=plane, level=int(round(frac*100)), variant="point_fraction", mask=mask, contour=contour)

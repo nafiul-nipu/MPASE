@@ -48,7 +48,7 @@ from .io_load import load_points
 __all__ = [
     "__version__",
     # main
-    "mpase", "run_silhouettes", "align_points",
+    "mpase", "run", "run_silhouettes", "align_points",
     # configs / types
     "CfgCommon", "CfgHDR", "CfgPF", "CfgMorph",
     "Plane", "Variant", "ShapeProduct", "RunResult",
