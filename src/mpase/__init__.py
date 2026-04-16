@@ -4,7 +4,7 @@
 **MultiPointAlignmentShapeExtractor (MPASE)** is a pipeline for aligning multiple 3D point clouds, extracting density- and fraction-based shapes, and generating comparable visual and data outputs.
 """
 
-__version__ = "0.1.1"  # bumped minor version
+__version__ = "0.2.0"  # bumped minor version
 
 # ---- Public configs & types ----
 from .types import (
