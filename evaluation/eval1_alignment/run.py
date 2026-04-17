@@ -54,7 +54,8 @@ def run_synthetic():
 
                 rmse_before = rmse(ref, perturbed)
 
-                aligned_ref, aligned_perturbed = mpase.align_points(ref, perturbed)
+                result = mpase.align_points(points_list=[ref, perturbed], labels=["A", "B"])
+                aligned_ref, aligned_perturbed = result["aligned_points"]
                 rmse_after = rmse(aligned_ref, aligned_perturbed)
 
                 rows.append({
