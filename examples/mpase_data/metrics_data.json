@@ -1,7 +1,7 @@
 [
   {
-    "mode":"hdr",
     "plane":"XY",
+    "variant":"hdr",
     "level":100,
     "A":"S",
     "B":"reverse-S",
@@ -10,8 +10,8 @@
     "Hausdorff":5.186574036675841
   },
   {
-    "mode":"hdr",
     "plane":"XY",
+    "variant":"hdr",
     "level":80,
     "A":"S",
     "B":"reverse-S",
@@ -20,8 +20,8 @@
     "Hausdorff":2.945863399752434
   },
   {
-    "mode":"point_fraction",
     "plane":"XY",
+    "variant":"point_fraction",
     "level":100,
     "A":"S",
     "B":"reverse-S",
@@ -30,18 +30,18 @@
     "Hausdorff":5.830951894845301
   },
   {
-    "mode":"point_fraction",
     "plane":"XY",
+    "variant":"point_fraction",
     "level":80,
     "A":"S",
     "B":"reverse-S",
-    "IoU":0.8929984177213423,
-    "meanNN":1.0436173280141374,
+    "IoU":0.8946534653463574,
+    "meanNN":1.0242148788865433,
     "Hausdorff":5.656854249492381
   },
   {
-    "mode":"hdr",
     "plane":"XZ",
+    "variant":"hdr",
     "level":100,
     "A":"S",
     "B":"reverse-S",
@@ -50,8 +50,8 @@
     "Hausdorff":2.7412122916545703
   },
   {
-    "mode":"hdr",
     "plane":"XZ",
+    "variant":"hdr",
     "level":80,
     "A":"S",
     "B":"reverse-S",
@@ -60,8 +60,8 @@
     "Hausdorff":2.255044121616311
   },
   {
-    "mode":"point_fraction",
     "plane":"XZ",
+    "variant":"point_fraction",
     "level":100,
     "A":"S",
     "B":"reverse-S",
@@ -70,18 +70,18 @@
     "Hausdorff":4.123105625617661
   },
   {
-    "mode":"point_fraction",
     "plane":"XZ",
+    "variant":"point_fraction",
     "level":80,
     "A":"S",
     "B":"reverse-S",
-    "IoU":0.8773388773385733,
-    "meanNN":0.9838142653750922,
+    "IoU":0.8776853776850736,
+    "meanNN":0.9817394962039238,
     "Hausdorff":4.123105625617661
   },
   {
-    "mode":"hdr",
     "plane":"YZ",
+    "variant":"hdr",
     "level":100,
     "A":"S",
     "B":"reverse-S",
@@ -90,8 +90,8 @@
     "Hausdorff":5.608702615654643
   },
   {
-    "mode":"hdr",
     "plane":"YZ",
+    "variant":"hdr",
     "level":80,
     "A":"S",
     "B":"reverse-S",
@@ -100,8 +100,8 @@
     "Hausdorff":1.3457901625657271
   },
   {
-    "mode":"point_fraction",
     "plane":"YZ",
+    "variant":"point_fraction",
     "level":100,
     "A":"S",
     "B":"reverse-S",
@@ -110,13 +110,13 @@
     "Hausdorff":5.656854249492381
   },
   {
-    "mode":"point_fraction",
     "plane":"YZ",
+    "variant":"point_fraction",
     "level":80,
     "A":"S",
     "B":"reverse-S",
-    "IoU":0.9621324307169531,
-    "meanNN":0.5549308492001093,
+    "IoU":0.9616033755272232,
+    "meanNN":0.5486723660246458,
     "Hausdorff":3.0
   }
 ]

@@ -4,9 +4,6 @@
     "meta":[
       "mpase_data/meta_data.json"
     ],
-    "background":[
-      "mpase_data/background_mask.json"
-    ],
     "background_by_label":[
       "mpase_data/background_by_label/S_background.json",
       "mpase_data/background_by_label/reverse-S_background.json"
@@ -19,11 +16,6 @@
       "mpase_data/contour/S_contour.json",
       "mpase_data/contour/reverse-S_contour.json"
     ],
-    "projections":[
-      "mpase_data/projections/YZ_projections.json",
-      "mpase_data/projections/XZ_projections.json",
-      "mpase_data/projections/XY_projections.json"
-    ],
     "metrics":[
       "mpase_data/metrics_data.json"
     ],
@@ -33,16 +25,10 @@
     ],
     "membership":[
       "mpase_data/membership.json"
-    ],
-    "layout":[
-      "mpase_data/layout.json"
-    ],
-    "scales":[
-      "mpase_data/scales.json"
     ]
   },
   "summary":{
-    "files":17,
-    "bytes":10974144
+    "files":11,
+    "bytes":8554371
   }
 }
