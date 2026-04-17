@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from typing import Tuple, Optional, Dict, TypedDict, Literal,List
+from typing import Any, Tuple, Optional, Dict, TypedDict, Literal, List
 from dataclasses import dataclass, field
 
 # Config with default values
@@ -65,11 +65,11 @@ class ShapeProduct(TypedDict):
 class RunResult(TypedDict):
     labels: List[str]                        # e.g. ["A", "B", "C"]
     aligned_points: List[np.ndarray]         # one (N,3) array per label, same order as labels
-    ids_by_label: Dict[str, np.ndarray]      # label -> original row IDs
+    ids_by_label: Dict[str, List[str]]       # label -> original row IDs
     shapes: Dict[Variant, Dict[Plane, Dict[int, Dict[str, ShapeProduct]]]]
     metrics: pd.DataFrame   # columns: plane, variant, level, A, B, IoU, meanNN, Hausdorff
     meta: dict
     background: Dict[Plane, np.ndarray]      # union-of-points mask per plane (bool [ny,nx])
-    background_by_label: Dict[str, Dict[Plane, np.ndarray]]
+    background_by_label: Dict[Plane, Dict[str, np.ndarray]]
     densities: Optional[Dict[str, Dict[Plane, np.ndarray]]]
-    projections: Dict[Plane, Dict[str, np.ndarray]]
+    projections: Dict[Plane, Dict[str, Any]]  # keys: "xs" (ndarray), "ys" (ndarray), "sets" (Dict[str, ndarray])

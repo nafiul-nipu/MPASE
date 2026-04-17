@@ -96,7 +96,6 @@ def point_fraction_mask(points2d: np.ndarray,
     
     # Draw the kept points as small disks on the shared grid to create a raw boolean mask.
     # Converts scattered points into a contiguous region suitable for cleanup/contouring
-    # mask = rasterize_points(kept, xs, ys, disk_px=disk_px)
     mask = rasterize_points(kept, xs, ys, disk_px=disk_px)
     if morph.closing > 0:
         # Morphological closing to seal tiny gaps and connect near pixels.
@@ -178,7 +177,6 @@ def make_pf_shape(points2d: np.ndarray,
         kept: the actual subset of points retained by the fraction rule (densest ceil(frac×N)).
     """
     # build the fraction mask and get the kept points
-    # mask, kept, bw = point_fraction_mask(points2d, xs, ys, frac, bandwidth, disk_px, morph=morph)
     mask, kept, bw = point_fraction_mask(points2d, xs, ys, frac, bandwidth, disk_px, morph=morph, rng=rng)
     # Extract the main contour from the boolean mask
     contour = contour_from_bool(mask)

@@ -21,17 +21,6 @@ def make_grid_from_bounds(P: np.ndarray, base=160, pad_frac=0.05):
     edges = [np.linspace(mn[i], mx[i], dims[i] + 1, dtype=np.float32) for i in range(3)]
     return edges, dims
 
-# def grid_centers_from_edges(ex, ey):
-#     # Number of pixels along X and Y for this plane.
-#     # Convert bin edges into number of bins (pixels). If edges have length N+1, there are N bins.
-#     # The raster mask needs exact dimensions
-#     nx = len(ex) - 1; ny = len(ey) - 1
-#     # Create arrays of pixel center coordinates along X and Y.
-#     # When rasterizing points, we need to know where pixel centers are to place each point in the right bin.
-#     xs = np.linspace(ex[0], ex[-1], nx)
-#     ys = np.linspace(ey[0], ey[-1], ny)
-#     return xs, ys
-
 def grid_centers_from_edges(ex, ey):
     """
     Return true bin centers given edges ex (len nx+1) and ey (len ny+1).
@@ -41,13 +30,6 @@ def grid_centers_from_edges(ex, ey):
     ys = 0.5 * (ey[:-1] + ey[1:])
     return xs, ys
 
-
-# Projects a 3D point set P onto a 2D plane by dropping one axis.
-def project_plane(P: np.ndarray, axis: str) -> np.ndarray:
-    # The dictionary maps the dropped axis ('x', 'y', or 'z') to the two axes to keep.
-    d = {'x': [1,2], 'y': [0,2], 'z': [0,1]}[axis]
-    # P[:, d] slices columns to keep just those two coordinates.
-    return P[:, d]
 
 def rasterize_points(points2d: np.ndarray, xs, ys, disk_px=2, ex=None, ey=None) -> np.ndarray:
     """Rasterize points to a binary mask with small disks (radius=disk_px pixels).
@@ -89,8 +71,10 @@ def rasterize_points(points2d: np.ndarray, xs, ys, disk_px=2, ex=None, ey=None) 
         # adjust the starting index inside the disk mask when part of the disk if clipped
         # If the disk goes off the edge, we can’t take the full mask
         # we need to slice it starting further in.
-        dy0 = 0 if y0==y-dh else (y-dh - y0)
-        dx0 = 0 if x0==x-dw else (x-dw - x0)
+        # dy0 = 0 if y0==y-dh else (y-dh - y0)
+        # dx0 = 0 if x0==x-dw else (x-dw - x0)
+        dy0 = max(0, dh - y)
+        dx0 = max(0, dw - x)
         # Overlay the disk on the image.
         # |= means logical OR — so if any disk covers a pixel, that pixel becomes True.
         # The slices [dy0:…] and [dx0:…] ensure we only take the part of the disk mask that fits inside the image.
@@ -108,7 +92,7 @@ def points_to_pixel_indices(points2d: np.ndarray, xs, ys):
     xs, ys: 1D arrays of grid center coordinates.
     """
     ny, nx = len(ys), len(xs)
-    x_idx = np.clip(np.searchsorted(xs, points2d[:, 0]) - 1, 0, nx - 1)
-    y_idx = np.clip(np.searchsorted(ys, points2d[:, 1]) - 1, 0, ny - 1)
+    x_idx = np.clip(np.searchsorted(xs, points2d[:, 0], side='right') - 1, 0, nx - 1)
+    y_idx = np.clip(np.searchsorted(ys, points2d[:, 1], side='right') - 1, 0, ny - 1)
     return x_idx, y_idx
 

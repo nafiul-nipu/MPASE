@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from typing import Optional, Tuple, Literal
 import re
 
-from skimage.measure import find_contours  
 from .metrics_calculation import all_contours_from_bool
 from .types import CfgHDR, CfgPF, RunResult, Plane, ShapeProduct
 
@@ -401,6 +400,10 @@ def view_single(result: RunResult,
     cfg_hdr = cfg_hdr or CfgHDR()
     cfg_pf  = cfg_pf  or CfgPF()
     lvls = _levels_from_result(kind, cfg_hdr, cfg_pf, levels)
+    
+    all_labels = result.get("labels", [])
+    if label not in all_labels:
+        raise ValueError(f"label '{label}' not in result['labels']: {all_labels}")
 
     if kind not in result.get("shapes", {}):
         print(f"[view_single] No shapes for kind='{kind}'.")
@@ -462,7 +465,10 @@ def save_per_label(result: RunResult,
 
     all_labels = list(result.get("labels", []))
     labels = labels or tuple(all_labels)
-
+    invalid = [l for l in labels if l not in all_labels]   # ← add after line 467
+    if invalid:
+        raise ValueError(f"Labels not in result['labels']: {invalid}. Available: {all_labels}")
+    
     if kind not in result.get("shapes", {}):
         print(f"[save_per_label] No shapes for kind='{kind}'.")
         return

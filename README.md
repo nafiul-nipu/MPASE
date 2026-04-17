@@ -11,7 +11,7 @@ This README is written as **package-style documentation** (API + parameters + ex
 ### Option A Install from GitHub (current version)
 
 ```bash
-pip install git+https://github.com/nafiul-nipu/MPASE.git@v0.2.0
+pip install git+https://github.com/nafiul-nipu/MPASE.git@v1.0.0
 ```
 
 ### Option B (developer / editable install)
@@ -68,7 +68,6 @@ mpase.view(
 mpase.export_all(
     res,
     out_dir="web_bundle",
-    include_density=True,
     kind_levels={"hdr": "all", "point_fraction": "all"},
 )
 ```
@@ -94,7 +93,7 @@ MPASE accepts input in one of two modes:
 
 ### A) CSV mode (`csv_list`)
 
-Each CSV must contain 3 columns for 3D coordinates (default: `middle_x`, `middle_y`, `middle_z`).
+Each CSV must contain 3 columns for 3D coordinates (default: `x`, `y`, `z`).
 
 Optional: you can provide an ID column (`id_col`) so that MPASE carries per-point IDs through alignment/export.
 
@@ -213,15 +212,20 @@ The returned object is a Python dict (see `RunResult` in `types.py`) with the fo
 - `labels`: list[str]
 - `aligned_points`: list[np.ndarray]  
   A list of aligned 3D point arrays, each shaped `(Ni, 3)`.
+- `ids_by_label`: dict[str, list[str]]  
+  Per-label point IDs (empty if no `id_col` / `ids_list` was provided).
 - `shapes`: dict  
   Shape products for each `variant` (`"hdr"`, `"point_fraction"`), each `plane`, each `level`, and each `label`.
 - `metrics`: pandas.DataFrame  
-  Pairwise metrics (IoU, meanNN, Hausdorff) computed per plane/level/variant.
+  Pairwise metrics (IoU, meanNN, Hausdorff) computed per plane/level/variant.  
+  Columns: `plane`, `variant`, `level`, `A`, `B`, `IoU`, `meanNN`, `Hausdorff`.
 - `meta`: dict  
   Metadata including available planes/levels/labels and grid parameters.
 - `background`: dict[plane -> bool mask]  
   Union-of-presence mask per plane.  
   _Used as a shared spatial frame so contours/densities from different labels are comparable on the same grid._
+- `background_by_label`: dict[plane -> dict[label -> bool mask]]  
+  Per-label presence mask per plane.
 - `densities`: dict[label -> dict[plane -> density]] | None  
   Present only if HDR was computed.
 - `projections`: dict  
@@ -262,7 +266,7 @@ Controls shared grid construction and alignment behavior.
   _Higher values ignore more outliers (good for noisy reconstructions) but may underfit if data are already clean._
 - `icp_iters` (int, default=30)  
   Number of ICP iterations. Increase (e.g., 50) for hard alignment cases.
-- `sample_icp` (int, default=50000)  
+- `sample_icp` (int | None, default=50000)  
   Maximum number of points sampled per set for ICP. Use `None` to use all points.
 
 ---
@@ -308,7 +312,7 @@ Optional morphological cleanup applied to **point-fraction masks**.
 
 ---
 
-### `mpase.CfgPF(frac_levels=(...), bandwidth=None, disk_px=2, morph=CfgMorph(...))`
+### `mpase.CfgPF(frac_levels=(...), bandwidth=None, disk_px=2, rng_seed=0, morph=CfgMorph(...))`
 
 Controls point-fraction silhouette extraction.
 
@@ -323,6 +327,8 @@ Controls point-fraction silhouette extraction.
 - `disk_px` (int, default=2)  
   Raster disk radius (in pixels) when painting kept points into the mask grid.  
   _Larger disks make masks more continuous for sparse data but can over-thicken shapes._
+- `rng_seed` (int, default=0)  
+  Random seed for reproducible KDE bandwidth subsampling.
 - `morph` (CfgMorph)  
   Morphological cleanup configuration applied after rasterization.
 
@@ -481,7 +487,7 @@ mpase.view_single(
 )
 ```
 
-Shows silhouettes for **one label** at a time. If per-label backgrounds exist, they are used automatically.
+Shows silhouettes for **one label** at a time. If per-label backgrounds exist, they are used automatically. Raises `ValueError` if the label is not in `result["labels"]`.
 
 #### Key parameters
 
@@ -489,7 +495,7 @@ Shows silhouettes for **one label** at a time. If per-label backgrounds exist, t
   Output returned by `mpase.run(...)`.
 
 - `label` (`str`)  
-  Label of the dataset to visualize.
+  Label of the dataset to visualize. Must be present in `result["labels"]`.
 
 - `kind` (`"hdr"` | `"point_fraction"`)  
   Which silhouette variant to display.
@@ -538,7 +544,7 @@ mpase.save_per_label(
 )
 ```
 
-Saves `label × level` PNGs without overlay.
+Saves `label × level` PNGs without overlay. Raises `ValueError` if any requested label is not in `result["labels"]`.
 
 #### Key parameters
 
@@ -583,9 +589,7 @@ mpase.export_all(
     result,
     out_dir="web_data",
     *,
-    include_density=True,
-    export_layout=True,
-    export_scales=True,
+    include_density=False,
     kind_levels={"hdr": "all", "point_fraction": "all"},
     which_density=None,
     progress_report=False,
@@ -599,14 +603,10 @@ mpase.export_all(
 
 - `out_dir` (str)  
   Output directory for the exported bundle.
-- `include_density` (bool)  
+- `include_density` (bool, default=False)  
   If True and HDR ran, export per-label density fields.
-- `export_layout` (bool)  
-  If True, export `layout.json` for 3D slice placement (used by some frontends).
-- `export_scales` (bool)  
-  If True, export `scales.json` containing global bbox min/max across all aligned points.
 - `kind_levels` (dict)  
-  Which levels to export, per variant. Default `all` for HDR and PF Example:
+  Which levels to export, per variant. Default exports all computed levels for both HDR and PF. Example:
   ```python
   {"hdr": [100,95,80], "point_fraction": "all"}
   ```
@@ -619,23 +619,22 @@ mpase.export_all(
 
 #### Outputs
 
-Most web-based visualization frontends typically use the contour data, 2D projections,
-3D point coordinates, and metadata. Density files are optional and are only required
-when rendering heatmaps or density underlays.
-
-`export_all` writes a manifest plus structured JSON files under `out_dir`, including:
+`export_all` writes a manifest plus structured JSON files under `out_dir`:
 
 - `meta_data.json`
-- `background_mask.json`
-- `background_mask_by_label.json` (if available)
-- `contours/`
-- `density/` (optional)
-- `projections/`
+- `background_by_label/<Label>_background.json` (per label)
+- `contour/<Label>_contour.json` (per label)
+- `density/<Label>_density.json` (per label, only if `include_density=True` and HDR ran)
 - `metrics_data.json`
-- `points3d/`
-- `layout.json` (optional)
-- `scales.json` (optional)
+- `points3d/<Label>_points3d.json` (per label)
+- `membership.json`
 - `manifest.json`
+
+#### JSON format notes
+
+- Contour `variant` field uses `"hdr"` or `"pf"`.
+- `membership.json` stores per-gene pixel coordinates and shape membership under `"hdr"` and `"pf"` keys.
+- Metric rows use column name `"variant"` (values: `"hdr"` or `"point_fraction"`).
 
 ---
 
@@ -707,14 +706,14 @@ res = mpase.run(
 
 ## Troubleshooting
 
-### “It runs locally but fails after `pip install git+...`”
+### "It runs locally but fails after `pip install git+...`"
 
 - Ensure your package is in `src/mpase/` (not `mpase/` at repo root).
 - Ensure `pyproject.toml` includes:
   - `package-dir = {"" = "src"}`
   - a packages find section pointing at `src`.
 
-### “My results changed after edits”
+### "My results changed after edits"
 
 If you changed code, ensure you are running editable install:
 

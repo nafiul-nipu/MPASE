@@ -3,9 +3,8 @@ import pandas as pd
 from typing import Tuple
 ###################### IO ######################
 def load_points(csv: str, cols: Tuple[str,str,str]=("x","y","z")) -> np.ndarray:
-    """
-    Load 3D points from CSV using provided column names (default to our current data's middle_x/y/z).
-    """
+    """Load 3D points from CSV using provided column names."""
+
     df = pd.read_csv(csv)
     for c in cols:
         if c not in df.columns:

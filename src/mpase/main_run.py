@@ -22,7 +22,7 @@ from .types import CfgCommon, CfgHDR, CfgPF, Plane, ShapeProduct, Variant
 def _empty_metrics() -> pd.DataFrame:
     # Keep one canonical empty table shape so every entrypoint returns the same columns.
     return pd.DataFrame(
-        columns=["plane", "mode", "level", "A", "B", "IoU", "meanNN", "Hausdorff"]
+        columns=["plane", "variant", "level", "A", "B", "IoU", "meanNN", "Hausdorff"]
     )
 
 
@@ -31,7 +31,7 @@ def _prepare_inputs(
     *,
     points_list: Optional[Sequence[np.ndarray]] = None,
     labels: Optional[Sequence[str]] = None,
-    xyz_cols: Tuple[str, str, str] = ("middle_x", "middle_y", "middle_z"),
+    xyz_cols: Tuple[str, str, str] = ("x", "y", "z"),
     id_col: Optional[str] = None,
     ids_list: Optional[Sequence[Sequence[Any]]] = None,
 ) -> Tuple[List[np.ndarray], List[str], List[str], List[List[str]]]:
@@ -343,13 +343,8 @@ def mpase(
             base=cfg_common.grid_base,
             pad_frac=cfg_common.pad_frac,
         )
-
-        for axis in ("x", "y", "z"):
-            plane: Plane = PLANE_FROM_AXIS[axis]  # type: ignore[assignment]
-            if plane not in planes:
-                continue
-            for lab, pts in zip(labels_out, aligned):
-                boot = boot_density_2d(
+        for lab, pts in zip(labels_out, aligned):
+            boot = boot_density_2d(
                     pts,
                     edges3d,
                     n_boot=cfg_hdr.n_boot,
@@ -357,7 +352,12 @@ def mpase(
                     sigma_px=cfg_hdr.sigma_px,
                     rng_seed=cfg_hdr.rng_seed,
                 )
+            for axis in ("x", "y", "z"):
+                plane = PLANE_FROM_AXIS[axis]
+                if plane not in planes:
+                    continue
                 densities[lab][plane] = boot[axis]
+
 
     shapes: Dict[Variant, Dict[Plane, Dict[int, Dict[str, ShapeProduct]]]] = {}
     rows: List[dict] = []
@@ -386,7 +386,7 @@ def mpase(
                         A_lab, B_lab = labels_out[i], labels_out[j]
                         A_sp = shapes["hdr"][plane][level].get(A_lab)
                         B_sp = shapes["hdr"][plane][level].get(B_lab)
-                        if not A_sp or not B_sp:
+                        if A_sp is None or B_sp is None:
                             continue
                         mean_nn, hausdorff = contour_distances(A_sp["contour"], B_sp["contour"])
                         rows.append(
@@ -433,7 +433,7 @@ def mpase(
                         A_lab, B_lab = labels_out[i], labels_out[j]
                         A_sp = shapes["point_fraction"][plane][level].get(A_lab)
                         B_sp = shapes["point_fraction"][plane][level].get(B_lab)
-                        if not A_sp or not B_sp:
+                        if A_sp is None or B_sp is None:
                             continue
                         mean_nn, hausdorff = contour_distances(A_sp["contour"], B_sp["contour"])
                         rows.append(

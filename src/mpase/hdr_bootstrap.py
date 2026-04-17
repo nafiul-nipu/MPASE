@@ -49,9 +49,10 @@ def mass_threshold(D: np.ndarray, mass: float) -> float:
     return float(v[np.searchsorted(c, mass * c[-1], side='left')])
 
 # find contour at given mass level
-def contour_at_mass(D: np.ndarray, mass: float) -> Optional[np.ndarray]:
+def contour_at_mass(D: np.ndarray, mass: float, tau: Optional[float] = None) -> Optional[np.ndarray]:
     # get the cutoff tau, if tau is inf or NaN, return None
-    tau = mass_threshold(D, mass)
+    if tau is None:
+        tau = mass_threshold(D, mass)
     if not np.isfinite(tau): return None
     # Use skimage.measure.find_contours to trace level-tau isolines on the 2D array.
     # returns a list of polylines (each is [N,2] as [row,col])
@@ -110,5 +111,5 @@ def make_hdr_shape(D: np.ndarray, plane: Plane, mass: float, density_floor_frac:
     # Turn the density maps into binary masks 
     mask = (Df >= tau)
     # Extract the contour lines (the actual silhouette boundaries).
-    contour = contour_at_mass(Df, mass)
+    contour = contour_at_mass(Df, mass, tau=tau)
     return dict(plane=plane, level=int(round(mass*100)), variant="hdr", mask=mask, contour=contour)
