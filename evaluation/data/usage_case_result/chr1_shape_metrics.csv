@@ -1,0 +1,10 @@
+Group,Comparison,Condition,YZ (60%),YZ (95%),XZ (60%),XZ (95%)
+Within-condition,12h -> 18h,UNTR,0.326/2.63,0.592/4.15,0.288/3.43,0.607/3.36
+Within-condition,12h -> 24h,UNTR,0.319/2.81,0.601/2.86,0.301/17.40,0.633/11.25
+Within-condition,18h -> 24h,UNTR,0.309/3.62,0.570/3.91,0.344/20.57,0.550/12.46
+Within-condition,12h -> 18h,VACV,0.245/4.12,0.502/5.24,0.196/4.96,0.463/5.46
+Within-condition,12h -> 24h,VACV,0.320/2.97,0.582/8.93,0.247/39.42,0.572/3.86
+Within-condition,18h -> 24h,VACV,0.246/6.13,0.491/11.34,0.172/55.03,0.440/5.48
+Between-condition,UNTR vs VACV,12h,0.271/3.16,0.540/3.98,0.144/21.20,0.499/5.58
+Between-condition,UNTR vs VACV,18h,0.240/5.07,0.457/6.87,0.179/22.70,0.435/5.93
+Between-condition,UNTR vs VACV,24h,0.274/3.70,0.548/8.14,0.271/3.94,0.560/10.29
