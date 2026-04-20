@@ -1,0 +1,7 @@
+pair,category,representation,plane,level,IoU,meanNN
+UNTR 12h vs 18h,Stability,HDR,YZ,60,0.2617,3.963
+UNTR 12h vs 18h,Stability,PF,YZ,60,0.7217,3.598
+VACV 12h vs 18h,Temporal change,HDR,YZ,60,0.287,3.598
+VACV 12h vs 18h,Temporal change,PF,YZ,60,0.7311,3.559
+UNTR vs VACV at 18h,Condition difference,HDR,YZ,60,0.2633,11.458
+UNTR vs VACV at 18h,Condition difference,PF,YZ,60,0.6081,6.259

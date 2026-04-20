@@ -1,0 +1,19 @@
+chrom,pair,align,plane,level,IoU,meanNN
+chr2,UNTR 12h-18h,none,YZ,60,0.2287,7.402
+chr2,UNTR 12h-18h,pca,YZ,60,0.3041,7.088
+chr2,UNTR 12h-18h,pca_icp,YZ,60,0.3168,4.529
+chr7,UNTR 12h-18h,none,YZ,60,0.0272,7.797
+chr7,UNTR 12h-18h,pca,YZ,60,0.1575,35.875
+chr7,UNTR 12h-18h,pca_icp,YZ,60,0.1773,7.602
+chr13,UNTR 12h-18h,none,YZ,60,0.0892,16.646
+chr13,UNTR 12h-18h,pca,YZ,60,0.1771,56.541
+chr13,UNTR 12h-18h,pca_icp,YZ,60,0.1939,63.916
+chr20,UNTR 12h-18h,none,YZ,60,0.2182,16.625
+chr20,UNTR 12h-18h,pca,YZ,60,0.3581,3.1
+chr20,UNTR 12h-18h,pca_icp,YZ,60,0.3636,3.085
+chr21,UNTR 12h-18h,none,YZ,60,0.0079,45.551
+chr21,UNTR 12h-18h,pca,YZ,60,0.278,67.437
+chr21,UNTR 12h-18h,pca_icp,YZ,60,0.2866,66.781
+chr22,UNTR 12h-18h,none,YZ,60,0.1323,22.221
+chr22,UNTR 12h-18h,pca,YZ,60,0.2274,61.958
+chr22,UNTR 12h-18h,pca_icp,YZ,60,0.2377,62.159
