@@ -181,3 +181,4 @@ cython_debug/
 .cursorindexingignore
 
 **/.DS_Store
+/evaluation/data/all_structure_files
