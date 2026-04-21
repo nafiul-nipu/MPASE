@@ -1,73 +1,577 @@
-chrom,pair,align,plane,level,IoU,meanNN
-chr1,UNTR 12h-18h,none,YZ,60,0.2153,12.386
-chr1,UNTR 12h-18h,pca,YZ,60,0.2505,3.952
-chr1,UNTR 12h-18h,pca_icp,YZ,60,0.2617,3.963
-chr2,UNTR 12h-18h,none,YZ,60,0.2287,7.402
-chr2,UNTR 12h-18h,pca,YZ,60,0.3041,7.088
-chr2,UNTR 12h-18h,pca_icp,YZ,60,0.3168,4.529
-chr3,UNTR 12h-18h,none,YZ,60,0.1082,13.531
-chr3,UNTR 12h-18h,pca,YZ,60,0.237,3.967
-chr3,UNTR 12h-18h,pca_icp,YZ,60,0.2034,3.146
-chr4,UNTR 12h-18h,none,YZ,60,0.1457,4.893
-chr4,UNTR 12h-18h,pca,YZ,60,0.2607,5.291
-chr4,UNTR 12h-18h,pca_icp,YZ,60,0.2582,2.277
-chr5,UNTR 12h-18h,none,YZ,60,0.1581,15.794
-chr5,UNTR 12h-18h,pca,YZ,60,0.1978,2.124
-chr5,UNTR 12h-18h,pca_icp,YZ,60,0.2058,6.271
-chr6,UNTR 12h-18h,none,YZ,60,0.1773,10.083
-chr6,UNTR 12h-18h,pca,YZ,60,0.249,20.931
-chr6,UNTR 12h-18h,pca_icp,YZ,60,0.2317,23.459
-chr7,UNTR 12h-18h,none,YZ,60,0.0272,7.797
-chr7,UNTR 12h-18h,pca,YZ,60,0.1575,35.875
-chr7,UNTR 12h-18h,pca_icp,YZ,60,0.1773,7.602
-chr10,UNTR 12h-18h,none,YZ,60,0.1818,36.722
-chr10,UNTR 12h-18h,pca,YZ,60,0.2359,4.838
-chr10,UNTR 12h-18h,pca_icp,YZ,60,0.2362,4.867
-chr12,UNTR 12h-18h,none,YZ,60,0.1633,16.442
-chr12,UNTR 12h-18h,pca,YZ,60,0.1827,16.009
-chr12,UNTR 12h-18h,pca_icp,YZ,60,0.1842,10.933
-chr13,UNTR 12h-18h,none,YZ,60,0.0892,16.646
-chr13,UNTR 12h-18h,pca,YZ,60,0.1771,56.541
-chr13,UNTR 12h-18h,pca_icp,YZ,60,0.1939,63.916
-chr14,UNTR 12h-18h,none,YZ,60,0.1257,42.927
-chr14,UNTR 12h-18h,pca,YZ,60,0.1896,3.013
-chr14,UNTR 12h-18h,pca_icp,YZ,60,0.1968,2.49
-chr15,UNTR 12h-18h,none,YZ,60,0.1518,16.083
-chr15,UNTR 12h-18h,pca,YZ,60,0.1497,11.409
-chr15,UNTR 12h-18h,pca_icp,YZ,60,0.167,29.856
-chr16,UNTR 12h-18h,none,YZ,60,0.1817,16.175
-chr16,UNTR 12h-18h,pca,YZ,60,0.2349,47.334
-chr16,UNTR 12h-18h,pca_icp,YZ,60,0.2368,5.678
-chr18,UNTR 12h-18h,none,YZ,60,0.0978,16.955
-chr18,UNTR 12h-18h,pca,YZ,60,0.1302,15.24
-chr18,UNTR 12h-18h,pca_icp,YZ,60,0.136,15.683
-chr19,UNTR 12h-18h,none,YZ,60,0.1558,3.266
-chr19,UNTR 12h-18h,pca,YZ,60,0.1453,12.718
-chr19,UNTR 12h-18h,pca_icp,YZ,60,0.1502,5.501
-chr20,UNTR 12h-18h,none,YZ,60,0.2182,16.625
-chr20,UNTR 12h-18h,pca,YZ,60,0.3581,3.1
-chr20,UNTR 12h-18h,pca_icp,YZ,60,0.3636,3.085
-chr21,UNTR 12h-18h,none,YZ,60,0.0079,45.551
-chr21,UNTR 12h-18h,pca,YZ,60,0.278,67.437
-chr21,UNTR 12h-18h,pca_icp,YZ,60,0.2866,66.781
-chr22,UNTR 12h-18h,none,YZ,60,0.1323,22.221
-chr22,UNTR 12h-18h,pca,YZ,60,0.2274,61.958
-chr22,UNTR 12h-18h,pca_icp,YZ,60,0.2377,62.159
-chr23,UNTR 12h-18h,none,YZ,60,0.1786,31.003
-chr23,UNTR 12h-18h,pca,YZ,60,0.2327,3.04
-chr23,UNTR 12h-18h,pca_icp,YZ,60,0.247,2.099
-chr25,UNTR 12h-18h,none,YZ,60,0.0866,33.266
-chr25,UNTR 12h-18h,pca,YZ,60,0.231,38.884
-chr25,UNTR 12h-18h,pca_icp,YZ,60,0.2187,39.906
-chr26,UNTR 12h-18h,none,YZ,60,0.1021,4.215
-chr26,UNTR 12h-18h,pca,YZ,60,0.155,15.923
-chr26,UNTR 12h-18h,pca_icp,YZ,60,0.1467,16.515
-chr27,UNTR 12h-18h,none,YZ,60,0.0912,33.21
-chr27,UNTR 12h-18h,pca,YZ,60,0.1198,21.208
-chr27,UNTR 12h-18h,pca_icp,YZ,60,0.1105,17.03
-chr28,UNTR 12h-18h,none,YZ,60,0.1043,28.843
-chr28,UNTR 12h-18h,pca,YZ,60,0.1423,31.873
-chr28,UNTR 12h-18h,pca_icp,YZ,60,0.1491,30.288
-chr29,UNTR 12h-18h,none,YZ,60,0.0752,18.475
-chr29,UNTR 12h-18h,pca,YZ,60,0.1163,8.785
-chr29,UNTR 12h-18h,pca_icp,YZ,60,0.097,18.0
+chrom,align,variant,variant_folder,plane,level,IoU,meanNN
+chr1,none,hdr,hdr,YZ,60,0.2133,21.69
+chr1,none,hdr,hdr,YZ,80,0.3268,7.541
+chr1,none,hdr,hdr,YZ,95,0.4775,5.257
+chr1,none,hdr,hdr,YZ,100,0.662,7.442
+chr1,none,point_fraction,pf,YZ,60,0.5413,8.473
+chr1,none,point_fraction,pf,YZ,80,0.7114,5.471
+chr1,none,point_fraction,pf,YZ,95,0.6458,5.57
+chr1,none,point_fraction,pf,YZ,100,0.5773,5.758
+chr1,pca,hdr,hdr,YZ,60,0.2526,4.708
+chr1,pca,hdr,hdr,YZ,80,0.3604,20.029
+chr1,pca,hdr,hdr,YZ,95,0.5157,4.055
+chr1,pca,hdr,hdr,YZ,100,0.6919,5.012
+chr1,pca,point_fraction,pf,YZ,60,0.7309,3.702
+chr1,pca,point_fraction,pf,YZ,80,0.7149,3.31
+chr1,pca,point_fraction,pf,YZ,95,0.6941,4.262
+chr1,pca,point_fraction,pf,YZ,100,0.6488,4.346
+chr1,pca_icp,hdr,hdr,YZ,60,0.2598,3.982
+chr1,pca_icp,hdr,hdr,YZ,80,0.3817,4.909
+chr1,pca_icp,hdr,hdr,YZ,95,0.5264,3.5
+chr1,pca_icp,hdr,hdr,YZ,100,0.7385,4.402
+chr1,pca_icp,point_fraction,pf,YZ,60,0.7217,3.598
+chr1,pca_icp,point_fraction,pf,YZ,80,0.7479,3.543
+chr1,pca_icp,point_fraction,pf,YZ,95,0.7141,3.588
+chr1,pca_icp,point_fraction,pf,YZ,100,0.688,3.897
+chr2,none,hdr,hdr,YZ,60,0.2257,7.374
+chr2,none,hdr,hdr,YZ,80,0.3587,5.306
+chr2,none,hdr,hdr,YZ,95,0.4709,4.961
+chr2,none,hdr,hdr,YZ,100,0.5805,7.093
+chr2,none,point_fraction,pf,YZ,60,0.6074,5.381
+chr2,none,point_fraction,pf,YZ,80,0.6865,4.912
+chr2,none,point_fraction,pf,YZ,95,0.631,4.796
+chr2,none,point_fraction,pf,YZ,100,0.5644,5.438
+chr2,pca,hdr,hdr,YZ,60,0.3034,7.095
+chr2,pca,hdr,hdr,YZ,80,0.4378,2.656
+chr2,pca,hdr,hdr,YZ,95,0.5394,3.45
+chr2,pca,hdr,hdr,YZ,100,0.6851,4.123
+chr2,pca,point_fraction,pf,YZ,60,0.8497,1.747
+chr2,pca,point_fraction,pf,YZ,80,0.8033,2.256
+chr2,pca,point_fraction,pf,YZ,95,0.7022,2.825
+chr2,pca,point_fraction,pf,YZ,100,0.6307,3.296
+chr2,pca_icp,hdr,hdr,YZ,60,0.3192,4.666
+chr2,pca_icp,hdr,hdr,YZ,80,0.4576,2.308
+chr2,pca_icp,hdr,hdr,YZ,95,0.5478,3.641
+chr2,pca_icp,hdr,hdr,YZ,100,0.6813,4.286
+chr2,pca_icp,point_fraction,pf,YZ,60,0.8337,1.845
+chr2,pca_icp,point_fraction,pf,YZ,80,0.7907,2.534
+chr2,pca_icp,point_fraction,pf,YZ,95,0.7134,3.142
+chr2,pca_icp,point_fraction,pf,YZ,100,0.6315,3.473
+chr3,none,hdr,hdr,YZ,60,0.1109,13.494
+chr3,none,hdr,hdr,YZ,80,0.1714,10.086
+chr3,none,hdr,hdr,YZ,95,0.259,12.492
+chr3,none,hdr,hdr,YZ,100,0.3891,13.446
+chr3,none,point_fraction,pf,YZ,60,0.2773,10.306
+chr3,none,point_fraction,pf,YZ,80,0.3069,17.888
+chr3,none,point_fraction,pf,YZ,95,0.3013,13.618
+chr3,none,point_fraction,pf,YZ,100,0.2923,14.825
+chr3,pca,hdr,hdr,YZ,60,0.2361,3.992
+chr3,pca,hdr,hdr,YZ,80,0.3723,4.206
+chr3,pca,hdr,hdr,YZ,95,0.5275,2.847
+chr3,pca,hdr,hdr,YZ,100,0.7034,3.654
+chr3,pca,point_fraction,pf,YZ,60,0.7518,2.063
+chr3,pca,point_fraction,pf,YZ,80,0.71,2.683
+chr3,pca,point_fraction,pf,YZ,95,0.6253,2.954
+chr3,pca,point_fraction,pf,YZ,100,0.5859,3.209
+chr3,pca_icp,hdr,hdr,YZ,60,0.2043,3.526
+chr3,pca_icp,hdr,hdr,YZ,80,0.3488,2.956
+chr3,pca_icp,hdr,hdr,YZ,95,0.5055,2.969
+chr3,pca_icp,hdr,hdr,YZ,100,0.6953,3.507
+chr3,pca_icp,point_fraction,pf,YZ,60,0.7099,2.335
+chr3,pca_icp,point_fraction,pf,YZ,80,0.6951,2.469
+chr3,pca_icp,point_fraction,pf,YZ,95,0.6106,2.459
+chr3,pca_icp,point_fraction,pf,YZ,100,0.5695,2.539
+chr4,none,hdr,hdr,YZ,60,0.1437,4.004
+chr4,none,hdr,hdr,YZ,80,0.2093,3.962
+chr4,none,hdr,hdr,YZ,95,0.3367,5.814
+chr4,none,hdr,hdr,YZ,100,0.5086,6.481
+chr4,none,point_fraction,pf,YZ,60,0.454,5.053
+chr4,none,point_fraction,pf,YZ,80,0.4392,5.093
+chr4,none,point_fraction,pf,YZ,95,0.4054,4.657
+chr4,none,point_fraction,pf,YZ,100,0.3949,4.688
+chr4,pca,hdr,hdr,YZ,60,0.2567,5.297
+chr4,pca,hdr,hdr,YZ,80,0.3215,3.129
+chr4,pca,hdr,hdr,YZ,95,0.4618,2.644
+chr4,pca,hdr,hdr,YZ,100,0.6615,2.998
+chr4,pca,point_fraction,pf,YZ,60,0.7792,1.767
+chr4,pca,point_fraction,pf,YZ,80,0.671,2.24
+chr4,pca,point_fraction,pf,YZ,95,0.5633,2.391
+chr4,pca,point_fraction,pf,YZ,100,0.5294,2.606
+chr4,pca_icp,hdr,hdr,YZ,60,0.2602,2.379
+chr4,pca_icp,hdr,hdr,YZ,80,0.329,3.535
+chr4,pca_icp,hdr,hdr,YZ,95,0.4672,3.022
+chr4,pca_icp,hdr,hdr,YZ,100,0.6608,2.792
+chr4,pca_icp,point_fraction,pf,YZ,60,0.7684,1.965
+chr4,pca_icp,point_fraction,pf,YZ,80,0.6536,2.346
+chr4,pca_icp,point_fraction,pf,YZ,95,0.5581,2.993
+chr4,pca_icp,point_fraction,pf,YZ,100,0.5257,3.035
+chr5,none,hdr,hdr,YZ,60,0.1569,15.724
+chr5,none,hdr,hdr,YZ,80,0.2378,12.31
+chr5,none,hdr,hdr,YZ,95,0.3718,15.131
+chr5,none,hdr,hdr,YZ,100,0.5675,7.335
+chr5,none,point_fraction,pf,YZ,60,0.4697,12.729
+chr5,none,point_fraction,pf,YZ,80,0.5128,12.972
+chr5,none,point_fraction,pf,YZ,95,0.5082,15.68
+chr5,none,point_fraction,pf,YZ,100,0.4831,9.861
+chr5,pca,hdr,hdr,YZ,60,0.2045,2.095
+chr5,pca,hdr,hdr,YZ,80,0.306,2.597
+chr5,pca,hdr,hdr,YZ,95,0.4546,4.632
+chr5,pca,hdr,hdr,YZ,100,0.691,3.891
+chr5,pca,point_fraction,pf,YZ,60,0.7381,3.857
+chr5,pca,point_fraction,pf,YZ,80,0.6699,4.466
+chr5,pca,point_fraction,pf,YZ,95,0.6405,5.086
+chr5,pca,point_fraction,pf,YZ,100,0.6064,5.987
+chr5,pca_icp,hdr,hdr,YZ,60,0.2055,6.487
+chr5,pca_icp,hdr,hdr,YZ,80,0.3074,3.507
+chr5,pca_icp,hdr,hdr,YZ,95,0.4654,4.977
+chr5,pca_icp,hdr,hdr,YZ,100,0.7028,3.684
+chr5,pca_icp,point_fraction,pf,YZ,60,0.7556,3.665
+chr5,pca_icp,point_fraction,pf,YZ,80,0.6753,4.068
+chr5,pca_icp,point_fraction,pf,YZ,95,0.6708,4.682
+chr5,pca_icp,point_fraction,pf,YZ,100,0.628,4.861
+chr6,none,hdr,hdr,YZ,60,0.1795,10.174
+chr6,none,hdr,hdr,YZ,80,0.2933,11.113
+chr6,none,hdr,hdr,YZ,95,0.4696,13.68
+chr6,none,hdr,hdr,YZ,100,0.6835,6.002
+chr6,none,point_fraction,pf,YZ,60,0.6385,10.881
+chr6,none,point_fraction,pf,YZ,80,0.6714,12.15
+chr6,none,point_fraction,pf,YZ,95,0.6722,12.353
+chr6,none,point_fraction,pf,YZ,100,0.616,12.703
+chr6,pca,hdr,hdr,YZ,60,0.247,20.883
+chr6,pca,hdr,hdr,YZ,80,0.3532,29.767
+chr6,pca,hdr,hdr,YZ,95,0.5024,3.33
+chr6,pca,hdr,hdr,YZ,100,0.7158,4.469
+chr6,pca,point_fraction,pf,YZ,60,0.7236,6.548
+chr6,pca,point_fraction,pf,YZ,80,0.7562,8.167
+chr6,pca,point_fraction,pf,YZ,95,0.6943,9.826
+chr6,pca,point_fraction,pf,YZ,100,0.6392,9.248
+chr6,pca_icp,hdr,hdr,YZ,60,0.2308,23.774
+chr6,pca_icp,hdr,hdr,YZ,80,0.3624,30.504
+chr6,pca_icp,hdr,hdr,YZ,95,0.5355,10.07
+chr6,pca_icp,hdr,hdr,YZ,100,0.7527,3.986
+chr6,pca_icp,point_fraction,pf,YZ,60,0.7312,6.5
+chr6,pca_icp,point_fraction,pf,YZ,80,0.7622,8.363
+chr6,pca_icp,point_fraction,pf,YZ,95,0.7078,9.908
+chr6,pca_icp,point_fraction,pf,YZ,100,0.6838,9.232
+chr7,none,hdr,hdr,YZ,60,0.0285,7.575
+chr7,none,hdr,hdr,YZ,80,0.0644,14.139
+chr7,none,hdr,hdr,YZ,95,0.1222,15.715
+chr7,none,hdr,hdr,YZ,100,0.198,19.426
+chr7,none,point_fraction,pf,YZ,60,0.1177,11.641
+chr7,none,point_fraction,pf,YZ,80,0.1486,12.656
+chr7,none,point_fraction,pf,YZ,95,0.1561,14.696
+chr7,none,point_fraction,pf,YZ,100,0.15,17.253
+chr7,pca,hdr,hdr,YZ,60,0.1628,15.518
+chr7,pca,hdr,hdr,YZ,80,0.2956,38.533
+chr7,pca,hdr,hdr,YZ,95,0.4304,4.435
+chr7,pca,hdr,hdr,YZ,100,0.6013,5.941
+chr7,pca,point_fraction,pf,YZ,60,0.5901,3.785
+chr7,pca,point_fraction,pf,YZ,80,0.5972,4.11
+chr7,pca,point_fraction,pf,YZ,95,0.5566,4.266
+chr7,pca,point_fraction,pf,YZ,100,0.5299,4.994
+chr7,pca_icp,hdr,hdr,YZ,60,0.1728,7.52
+chr7,pca_icp,hdr,hdr,YZ,80,0.2891,44.477
+chr7,pca_icp,hdr,hdr,YZ,95,0.418,4.396
+chr7,pca_icp,hdr,hdr,YZ,100,0.5741,6.981
+chr7,pca_icp,point_fraction,pf,YZ,60,0.63,3.577
+chr7,pca_icp,point_fraction,pf,YZ,80,0.5828,3.917
+chr7,pca_icp,point_fraction,pf,YZ,95,0.5307,4.881
+chr7,pca_icp,point_fraction,pf,YZ,100,0.4957,5.765
+chr10,none,hdr,hdr,YZ,60,0.1842,36.834
+chr10,none,hdr,hdr,YZ,80,0.2711,7.43
+chr10,none,hdr,hdr,YZ,95,0.3506,7.643
+chr10,none,hdr,hdr,YZ,100,0.4855,10.609
+chr10,none,point_fraction,pf,YZ,60,0.422,7.589
+chr10,none,point_fraction,pf,YZ,80,0.4358,7.149
+chr10,none,point_fraction,pf,YZ,95,0.4511,7.031
+chr10,none,point_fraction,pf,YZ,100,0.4161,7.766
+chr10,pca,hdr,hdr,YZ,60,0.2331,4.975
+chr10,pca,hdr,hdr,YZ,80,0.3208,7.224
+chr10,pca,hdr,hdr,YZ,95,0.4116,5.4
+chr10,pca,hdr,hdr,YZ,100,0.5326,7.423
+chr10,pca,point_fraction,pf,YZ,60,0.6866,3.689
+chr10,pca,point_fraction,pf,YZ,80,0.5972,4.577
+chr10,pca,point_fraction,pf,YZ,95,0.486,6.4
+chr10,pca,point_fraction,pf,YZ,100,0.4581,8.03
+chr10,pca_icp,hdr,hdr,YZ,60,0.2332,5.327
+chr10,pca_icp,hdr,hdr,YZ,80,0.318,7.454
+chr10,pca_icp,hdr,hdr,YZ,95,0.4142,6.532
+chr10,pca_icp,hdr,hdr,YZ,100,0.5419,6.793
+chr10,pca_icp,point_fraction,pf,YZ,60,0.6982,3.318
+chr10,pca_icp,point_fraction,pf,YZ,80,0.6088,4.389
+chr10,pca_icp,point_fraction,pf,YZ,95,0.5,6.464
+chr10,pca_icp,point_fraction,pf,YZ,100,0.4703,8.014
+chr12,none,hdr,hdr,YZ,60,0.1645,16.613
+chr12,none,hdr,hdr,YZ,80,0.2559,19.698
+chr12,none,hdr,hdr,YZ,95,0.3685,8.16
+chr12,none,hdr,hdr,YZ,100,0.5316,10.559
+chr12,none,point_fraction,pf,YZ,60,0.5133,4.826
+chr12,none,point_fraction,pf,YZ,80,0.5054,7.653
+chr12,none,point_fraction,pf,YZ,95,0.4753,8.225
+chr12,none,point_fraction,pf,YZ,100,0.461,8.507
+chr12,pca,hdr,hdr,YZ,60,0.1861,15.831
+chr12,pca,hdr,hdr,YZ,80,0.296,5.61
+chr12,pca,hdr,hdr,YZ,95,0.4713,6.859
+chr12,pca,hdr,hdr,YZ,100,0.6686,8.817
+chr12,pca,point_fraction,pf,YZ,60,0.6205,6.566
+chr12,pca,point_fraction,pf,YZ,80,0.6582,6.943
+chr12,pca,point_fraction,pf,YZ,95,0.6217,8.56
+chr12,pca,point_fraction,pf,YZ,100,0.6154,8.18
+chr12,pca_icp,hdr,hdr,YZ,60,0.1881,9.514
+chr12,pca_icp,hdr,hdr,YZ,80,0.2831,4.307
+chr12,pca_icp,hdr,hdr,YZ,95,0.4689,7.941
+chr12,pca_icp,hdr,hdr,YZ,100,0.6678,9.7
+chr12,pca_icp,point_fraction,pf,YZ,60,0.6113,6.712
+chr12,pca_icp,point_fraction,pf,YZ,80,0.6595,7.543
+chr12,pca_icp,point_fraction,pf,YZ,95,0.6176,8.015
+chr12,pca_icp,point_fraction,pf,YZ,100,0.6139,7.634
+chr13,none,hdr,hdr,YZ,60,0.0892,16.815
+chr13,none,hdr,hdr,YZ,80,0.161,9.619
+chr13,none,hdr,hdr,YZ,95,0.2611,8.991
+chr13,none,hdr,hdr,YZ,100,0.4127,9.926
+chr13,none,point_fraction,pf,YZ,60,0.3311,8.233
+chr13,none,point_fraction,pf,YZ,80,0.3311,8.823
+chr13,none,point_fraction,pf,YZ,95,0.307,9.801
+chr13,none,point_fraction,pf,YZ,100,0.2958,9.641
+chr13,pca,hdr,hdr,YZ,60,0.175,56.231
+chr13,pca,hdr,hdr,YZ,80,0.2789,5.301
+chr13,pca,hdr,hdr,YZ,95,0.4349,7.893
+chr13,pca,hdr,hdr,YZ,100,0.6432,5.376
+chr13,pca,point_fraction,pf,YZ,60,0.5722,6.102
+chr13,pca,point_fraction,pf,YZ,80,0.5977,8.78
+chr13,pca,point_fraction,pf,YZ,95,0.5516,9.282
+chr13,pca,point_fraction,pf,YZ,100,0.521,10.551
+chr13,pca_icp,hdr,hdr,YZ,60,0.1957,59.491
+chr13,pca_icp,hdr,hdr,YZ,80,0.315,39.125
+chr13,pca_icp,hdr,hdr,YZ,95,0.4786,8.279
+chr13,pca_icp,hdr,hdr,YZ,100,0.6914,3.993
+chr13,pca_icp,point_fraction,pf,YZ,60,0.6029,5.865
+chr13,pca_icp,point_fraction,pf,YZ,80,0.6484,7.42
+chr13,pca_icp,point_fraction,pf,YZ,95,0.6015,8.621
+chr13,pca_icp,point_fraction,pf,YZ,100,0.5727,9.536
+chr14,none,hdr,hdr,YZ,60,0.127,42.313
+chr14,none,hdr,hdr,YZ,80,0.214,14.93
+chr14,none,hdr,hdr,YZ,95,0.3473,7.625
+chr14,none,hdr,hdr,YZ,100,0.5173,10.859
+chr14,none,point_fraction,pf,YZ,60,0.5275,6.367
+chr14,none,point_fraction,pf,YZ,80,0.5181,7.094
+chr14,none,point_fraction,pf,YZ,95,0.467,8.527
+chr14,none,point_fraction,pf,YZ,100,0.4394,9.475
+chr14,pca,hdr,hdr,YZ,60,0.1876,2.874
+chr14,pca,hdr,hdr,YZ,80,0.3099,3.502
+chr14,pca,hdr,hdr,YZ,95,0.5005,7.614
+chr14,pca,hdr,hdr,YZ,100,0.747,3.727
+chr14,pca,point_fraction,pf,YZ,60,0.7378,2.555
+chr14,pca,point_fraction,pf,YZ,80,0.7061,3.23
+chr14,pca,point_fraction,pf,YZ,95,0.6824,3.862
+chr14,pca,point_fraction,pf,YZ,100,0.6774,3.632
+chr14,pca_icp,hdr,hdr,YZ,60,0.1988,2.589
+chr14,pca_icp,hdr,hdr,YZ,80,0.3188,3.171
+chr14,pca_icp,hdr,hdr,YZ,95,0.5027,4.388
+chr14,pca_icp,hdr,hdr,YZ,100,0.7598,3.391
+chr14,pca_icp,point_fraction,pf,YZ,60,0.7258,2.675
+chr14,pca_icp,point_fraction,pf,YZ,80,0.6989,3.3
+chr14,pca_icp,point_fraction,pf,YZ,95,0.6898,3.448
+chr14,pca_icp,point_fraction,pf,YZ,100,0.6931,3.304
+chr15,none,hdr,hdr,YZ,60,0.153,23.58
+chr15,none,hdr,hdr,YZ,80,0.2637,5.504
+chr15,none,hdr,hdr,YZ,95,0.4314,8.194
+chr15,none,hdr,hdr,YZ,100,0.6528,5.121
+chr15,none,point_fraction,pf,YZ,60,0.597,3.663
+chr15,none,point_fraction,pf,YZ,80,0.5438,5.704
+chr15,none,point_fraction,pf,YZ,95,0.505,6.883
+chr15,none,point_fraction,pf,YZ,100,0.4912,7.177
+chr15,pca,hdr,hdr,YZ,60,0.1488,11.726
+chr15,pca,hdr,hdr,YZ,80,0.2566,6.895
+chr15,pca,hdr,hdr,YZ,95,0.4187,4.036
+chr15,pca,hdr,hdr,YZ,100,0.6847,3.563
+chr15,pca,point_fraction,pf,YZ,60,0.6059,3.194
+chr15,pca,point_fraction,pf,YZ,80,0.614,3.204
+chr15,pca,point_fraction,pf,YZ,95,0.5725,3.295
+chr15,pca,point_fraction,pf,YZ,100,0.5443,3.522
+chr15,pca_icp,hdr,hdr,YZ,60,0.1694,11.347
+chr15,pca_icp,hdr,hdr,YZ,80,0.2943,9.205
+chr15,pca_icp,hdr,hdr,YZ,95,0.4504,3.914
+chr15,pca_icp,hdr,hdr,YZ,100,0.7054,3.339
+chr15,pca_icp,point_fraction,pf,YZ,60,0.6406,3.942
+chr15,pca_icp,point_fraction,pf,YZ,80,0.6226,3.208
+chr15,pca_icp,point_fraction,pf,YZ,95,0.5857,3.47
+chr15,pca_icp,point_fraction,pf,YZ,100,0.5542,3.613
+chr16,none,hdr,hdr,YZ,60,0.1817,16.484
+chr16,none,hdr,hdr,YZ,80,0.2698,11.007
+chr16,none,hdr,hdr,YZ,95,0.3925,6.07
+chr16,none,hdr,hdr,YZ,100,0.5677,7.782
+chr16,none,point_fraction,pf,YZ,60,0.5374,5.467
+chr16,none,point_fraction,pf,YZ,80,0.521,5.832
+chr16,none,point_fraction,pf,YZ,95,0.4963,6.175
+chr16,none,point_fraction,pf,YZ,100,0.476,6.589
+chr16,pca,hdr,hdr,YZ,60,0.2356,47.881
+chr16,pca,hdr,hdr,YZ,80,0.3386,8.783
+chr16,pca,hdr,hdr,YZ,95,0.478,4.38
+chr16,pca,hdr,hdr,YZ,100,0.7055,4.285
+chr16,pca,point_fraction,pf,YZ,60,0.7147,3.154
+chr16,pca,point_fraction,pf,YZ,80,0.7026,3.221
+chr16,pca,point_fraction,pf,YZ,95,0.6941,4.622
+chr16,pca,point_fraction,pf,YZ,100,0.6612,4.404
+chr16,pca_icp,hdr,hdr,YZ,60,0.2386,4.587
+chr16,pca_icp,hdr,hdr,YZ,80,0.3407,18.265
+chr16,pca_icp,hdr,hdr,YZ,95,0.4704,3.964
+chr16,pca_icp,hdr,hdr,YZ,100,0.7058,5.195
+chr16,pca_icp,point_fraction,pf,YZ,60,0.7108,4.103
+chr16,pca_icp,point_fraction,pf,YZ,80,0.6808,4.189
+chr16,pca_icp,point_fraction,pf,YZ,95,0.6469,4.135
+chr16,pca_icp,point_fraction,pf,YZ,100,0.6145,4.242
+chr18,none,hdr,hdr,YZ,60,0.0975,16.971
+chr18,none,hdr,hdr,YZ,80,0.1883,15.139
+chr18,none,hdr,hdr,YZ,95,0.3345,5.945
+chr18,none,hdr,hdr,YZ,100,0.5452,7.209
+chr18,none,point_fraction,pf,YZ,60,0.3271,7.059
+chr18,none,point_fraction,pf,YZ,80,0.3543,8.727
+chr18,none,point_fraction,pf,YZ,95,0.3627,10.511
+chr18,none,point_fraction,pf,YZ,100,0.3644,11.13
+chr18,pca,hdr,hdr,YZ,60,0.1327,19.506
+chr18,pca,hdr,hdr,YZ,80,0.2322,21.696
+chr18,pca,hdr,hdr,YZ,95,0.3929,4.25
+chr18,pca,hdr,hdr,YZ,100,0.6024,5.158
+chr18,pca,point_fraction,pf,YZ,60,0.4745,3.785
+chr18,pca,point_fraction,pf,YZ,80,0.4423,3.779
+chr18,pca,point_fraction,pf,YZ,95,0.4037,3.672
+chr18,pca,point_fraction,pf,YZ,100,0.3936,3.672
+chr18,pca_icp,hdr,hdr,YZ,60,0.1357,15.098
+chr18,pca_icp,hdr,hdr,YZ,80,0.2321,22.829
+chr18,pca_icp,hdr,hdr,YZ,95,0.3797,3.636
+chr18,pca_icp,hdr,hdr,YZ,100,0.5806,11.285
+chr18,pca_icp,point_fraction,pf,YZ,60,0.4624,3.562
+chr18,pca_icp,point_fraction,pf,YZ,80,0.4414,3.238
+chr18,pca_icp,point_fraction,pf,YZ,95,0.4175,3.343
+chr18,pca_icp,point_fraction,pf,YZ,100,0.4024,3.343
+chr19,none,hdr,hdr,YZ,60,0.1575,3.241
+chr19,none,hdr,hdr,YZ,80,0.2292,6.912
+chr19,none,hdr,hdr,YZ,95,0.3692,3.146
+chr19,none,hdr,hdr,YZ,100,0.5517,5.516
+chr19,none,point_fraction,pf,YZ,60,0.5909,3.781
+chr19,none,point_fraction,pf,YZ,80,0.5146,4.338
+chr19,none,point_fraction,pf,YZ,95,0.4638,4.188
+chr19,none,point_fraction,pf,YZ,100,0.4273,4.188
+chr19,pca,hdr,hdr,YZ,60,0.1472,18.333
+chr19,pca,hdr,hdr,YZ,80,0.2205,5.842
+chr19,pca,hdr,hdr,YZ,95,0.3621,4.539
+chr19,pca,hdr,hdr,YZ,100,0.5609,3.73
+chr19,pca,point_fraction,pf,YZ,60,0.5271,3.196
+chr19,pca,point_fraction,pf,YZ,80,0.4802,3.97
+chr19,pca,point_fraction,pf,YZ,95,0.4331,4.567
+chr19,pca,point_fraction,pf,YZ,100,0.3998,4.567
+chr19,pca_icp,hdr,hdr,YZ,60,0.1478,5.475
+chr19,pca_icp,hdr,hdr,YZ,80,0.2265,5.525
+chr19,pca_icp,hdr,hdr,YZ,95,0.3707,4.47
+chr19,pca_icp,hdr,hdr,YZ,100,0.5722,3.325
+chr19,pca_icp,point_fraction,pf,YZ,60,0.5319,3.803
+chr19,pca_icp,point_fraction,pf,YZ,80,0.4907,4.25
+chr19,pca_icp,point_fraction,pf,YZ,95,0.4528,5.251
+chr19,pca_icp,point_fraction,pf,YZ,100,0.4179,5.251
+chr20,none,hdr,hdr,YZ,60,0.2165,16.528
+chr20,none,hdr,hdr,YZ,80,0.3246,17.247
+chr20,none,hdr,hdr,YZ,95,0.4509,7.356
+chr20,none,hdr,hdr,YZ,100,0.5926,8.69
+chr20,none,point_fraction,pf,YZ,60,0.5456,6.979
+chr20,none,point_fraction,pf,YZ,80,0.595,6.764
+chr20,none,point_fraction,pf,YZ,95,0.6011,8.014
+chr20,none,point_fraction,pf,YZ,100,0.5527,8.469
+chr20,pca,hdr,hdr,YZ,60,0.3605,3.19
+chr20,pca,hdr,hdr,YZ,80,0.4712,3.343
+chr20,pca,hdr,hdr,YZ,95,0.6309,3.029
+chr20,pca,hdr,hdr,YZ,100,0.8012,2.97
+chr20,pca,point_fraction,pf,YZ,60,0.8728,1.469
+chr20,pca,point_fraction,pf,YZ,80,0.8693,1.77
+chr20,pca,point_fraction,pf,YZ,95,0.8332,2.252
+chr20,pca,point_fraction,pf,YZ,100,0.7688,2.734
+chr20,pca_icp,hdr,hdr,YZ,60,0.3615,3.041
+chr20,pca_icp,hdr,hdr,YZ,80,0.4794,4.548
+chr20,pca_icp,hdr,hdr,YZ,95,0.626,2.863
+chr20,pca_icp,hdr,hdr,YZ,100,0.7931,3.202
+chr20,pca_icp,point_fraction,pf,YZ,60,0.8753,1.573
+chr20,pca_icp,point_fraction,pf,YZ,80,0.8577,2.144
+chr20,pca_icp,point_fraction,pf,YZ,95,0.817,2.714
+chr20,pca_icp,point_fraction,pf,YZ,100,0.7509,2.983
+chr21,none,hdr,hdr,YZ,60,0.0082,45.51
+chr21,none,hdr,hdr,YZ,80,0.0345,50.068
+chr21,none,hdr,hdr,YZ,95,0.0947,31.222
+chr21,none,hdr,hdr,YZ,100,0.1889,16.376
+chr21,none,point_fraction,pf,YZ,60,0.0606,13.832
+chr21,none,point_fraction,pf,YZ,80,0.1177,13.302
+chr21,none,point_fraction,pf,YZ,95,0.1425,13.497
+chr21,none,point_fraction,pf,YZ,100,0.1376,16.152
+chr21,pca,hdr,hdr,YZ,60,0.2776,67.336
+chr21,pca,hdr,hdr,YZ,80,0.3759,55.097
+chr21,pca,hdr,hdr,YZ,95,0.53,2.733
+chr21,pca,hdr,hdr,YZ,100,0.7269,3.315
+chr21,pca,point_fraction,pf,YZ,60,0.6647,2.391
+chr21,pca,point_fraction,pf,YZ,80,0.6913,6.659
+chr21,pca,point_fraction,pf,YZ,95,0.6579,9.552
+chr21,pca,point_fraction,pf,YZ,100,0.6364,11.936
+chr21,pca_icp,hdr,hdr,YZ,60,0.2862,66.187
+chr21,pca_icp,hdr,hdr,YZ,80,0.3866,3.084
+chr21,pca_icp,hdr,hdr,YZ,95,0.5673,2.667
+chr21,pca_icp,hdr,hdr,YZ,100,0.7369,2.978
+chr21,pca_icp,point_fraction,pf,YZ,60,0.6977,2.112
+chr21,pca_icp,point_fraction,pf,YZ,80,0.7125,2.375
+chr21,pca_icp,point_fraction,pf,YZ,95,0.6877,2.471
+chr21,pca_icp,point_fraction,pf,YZ,100,0.6702,2.652
+chr22,none,hdr,hdr,YZ,60,0.1311,22.776
+chr22,none,hdr,hdr,YZ,80,0.2171,9.345
+chr22,none,hdr,hdr,YZ,95,0.3451,9.178
+chr22,none,hdr,hdr,YZ,100,0.4994,8.577
+chr22,none,point_fraction,pf,YZ,60,0.4149,7.295
+chr22,none,point_fraction,pf,YZ,80,0.4515,8.405
+chr22,none,point_fraction,pf,YZ,95,0.4454,9.791
+chr22,none,point_fraction,pf,YZ,100,0.4421,9.568
+chr22,pca,hdr,hdr,YZ,60,0.2294,62.458
+chr22,pca,hdr,hdr,YZ,80,0.3196,5.51
+chr22,pca,hdr,hdr,YZ,95,0.4631,3.286
+chr22,pca,hdr,hdr,YZ,100,0.6792,3.403
+chr22,pca,point_fraction,pf,YZ,60,0.5779,3.375
+chr22,pca,point_fraction,pf,YZ,80,0.6394,7.144
+chr22,pca,point_fraction,pf,YZ,95,0.606,6.786
+chr22,pca,point_fraction,pf,YZ,100,0.5754,6.999
+chr22,pca_icp,hdr,hdr,YZ,60,0.2393,59.729
+chr22,pca_icp,hdr,hdr,YZ,80,0.3377,4.494
+chr22,pca_icp,hdr,hdr,YZ,95,0.4767,4.299
+chr22,pca_icp,hdr,hdr,YZ,100,0.6967,3.351
+chr22,pca_icp,point_fraction,pf,YZ,60,0.5757,3.397
+chr22,pca_icp,point_fraction,pf,YZ,80,0.6453,6.452
+chr22,pca_icp,point_fraction,pf,YZ,95,0.6522,9.343
+chr22,pca_icp,point_fraction,pf,YZ,100,0.6238,9.744
+chr23,none,hdr,hdr,YZ,60,0.1816,31.1
+chr23,none,hdr,hdr,YZ,80,0.2839,14.176
+chr23,none,hdr,hdr,YZ,95,0.4346,5.306
+chr23,none,hdr,hdr,YZ,100,0.6,6.85
+chr23,none,point_fraction,pf,YZ,60,0.5329,4.272
+chr23,none,point_fraction,pf,YZ,80,0.5429,4.848
+chr23,none,point_fraction,pf,YZ,95,0.536,4.21
+chr23,none,point_fraction,pf,YZ,100,0.5106,4.072
+chr23,pca,hdr,hdr,YZ,60,0.2322,3.235
+chr23,pca,hdr,hdr,YZ,80,0.3254,27.116
+chr23,pca,hdr,hdr,YZ,95,0.4793,3.89
+chr23,pca,hdr,hdr,YZ,100,0.6785,3.423
+chr23,pca,point_fraction,pf,YZ,60,0.6745,2.821
+chr23,pca,point_fraction,pf,YZ,80,0.6259,2.8
+chr23,pca,point_fraction,pf,YZ,95,0.6182,3.698
+chr23,pca,point_fraction,pf,YZ,100,0.576,3.923
+chr23,pca_icp,hdr,hdr,YZ,60,0.2475,2.189
+chr23,pca_icp,hdr,hdr,YZ,80,0.3256,7.211
+chr23,pca_icp,hdr,hdr,YZ,95,0.4677,5.008
+chr23,pca_icp,hdr,hdr,YZ,100,0.676,3.37
+chr23,pca_icp,point_fraction,pf,YZ,60,0.7339,2.445
+chr23,pca_icp,point_fraction,pf,YZ,80,0.6896,2.87
+chr23,pca_icp,point_fraction,pf,YZ,95,0.6404,3.209
+chr23,pca_icp,point_fraction,pf,YZ,100,0.5926,3.562
+chr25,none,hdr,hdr,YZ,60,0.0901,32.765
+chr25,none,hdr,hdr,YZ,80,0.1443,20.852
+chr25,none,hdr,hdr,YZ,95,0.2289,10.19
+chr25,none,hdr,hdr,YZ,100,0.3435,15.387
+chr25,none,point_fraction,pf,YZ,60,0.2617,8.136
+chr25,none,point_fraction,pf,YZ,80,0.2896,8.985
+chr25,none,point_fraction,pf,YZ,95,0.2943,10.112
+chr25,none,point_fraction,pf,YZ,100,0.2749,10.405
+chr25,pca,hdr,hdr,YZ,60,0.2327,39.433
+chr25,pca,hdr,hdr,YZ,80,0.3542,3.258
+chr25,pca,hdr,hdr,YZ,95,0.5013,3.116
+chr25,pca,hdr,hdr,YZ,100,0.7399,3.488
+chr25,pca,point_fraction,pf,YZ,60,0.7175,2.056
+chr25,pca,point_fraction,pf,YZ,80,0.6873,2.188
+chr25,pca,point_fraction,pf,YZ,95,0.6277,2.598
+chr25,pca,point_fraction,pf,YZ,100,0.585,2.693
+chr25,pca_icp,hdr,hdr,YZ,60,0.217,38.763
+chr25,pca_icp,hdr,hdr,YZ,80,0.3544,2.811
+chr25,pca_icp,hdr,hdr,YZ,95,0.5023,3.207
+chr25,pca_icp,hdr,hdr,YZ,100,0.7333,3.281
+chr25,pca_icp,point_fraction,pf,YZ,60,0.7022,2.644
+chr25,pca_icp,point_fraction,pf,YZ,80,0.676,2.502
+chr25,pca_icp,point_fraction,pf,YZ,95,0.6224,2.691
+chr25,pca_icp,point_fraction,pf,YZ,100,0.5803,2.79
+chr26,none,hdr,hdr,YZ,60,0.1028,4.23
+chr26,none,hdr,hdr,YZ,80,0.1688,24.043
+chr26,none,hdr,hdr,YZ,95,0.292,11.016
+chr26,none,hdr,hdr,YZ,100,0.4819,6.11
+chr26,none,point_fraction,pf,YZ,60,0.4217,4.599
+chr26,none,point_fraction,pf,YZ,80,0.3856,4.613
+chr26,none,point_fraction,pf,YZ,95,0.3382,5.387
+chr26,none,point_fraction,pf,YZ,100,0.3199,5.364
+chr26,pca,hdr,hdr,YZ,60,0.1544,40.424
+chr26,pca,hdr,hdr,YZ,80,0.2407,7.544
+chr26,pca,hdr,hdr,YZ,95,0.3775,7.674
+chr26,pca,hdr,hdr,YZ,100,0.6116,4.974
+chr26,pca,point_fraction,pf,YZ,60,0.4381,4.49
+chr26,pca,point_fraction,pf,YZ,80,0.4346,6.644
+chr26,pca,point_fraction,pf,YZ,95,0.405,7.6
+chr26,pca,point_fraction,pf,YZ,100,0.3867,7.732
+chr26,pca_icp,hdr,hdr,YZ,60,0.145,16.624
+chr26,pca_icp,hdr,hdr,YZ,80,0.2453,7.255
+chr26,pca_icp,hdr,hdr,YZ,95,0.3945,4.602
+chr26,pca_icp,hdr,hdr,YZ,100,0.6022,4.279
+chr26,pca_icp,point_fraction,pf,YZ,60,0.452,5.203
+chr26,pca_icp,point_fraction,pf,YZ,80,0.4385,5.876
+chr26,pca_icp,point_fraction,pf,YZ,95,0.4139,6.548
+chr26,pca_icp,point_fraction,pf,YZ,100,0.4021,6.764
+chr27,none,hdr,hdr,YZ,60,0.0943,1.946
+chr27,none,hdr,hdr,YZ,80,0.1462,12.789
+chr27,none,hdr,hdr,YZ,95,0.2444,16.789
+chr27,none,hdr,hdr,YZ,100,0.4247,4.698
+chr27,none,point_fraction,pf,YZ,60,0.2649,16.708
+chr27,none,point_fraction,pf,YZ,80,0.2245,57.03
+chr27,none,point_fraction,pf,YZ,95,0.2187,58.845
+chr27,none,point_fraction,pf,YZ,100,0.2069,58.845
+chr27,pca,hdr,hdr,YZ,60,0.1212,21.144
+chr27,pca,hdr,hdr,YZ,80,0.184,24.778
+chr27,pca,hdr,hdr,YZ,95,0.2973,17.867
+chr27,pca,hdr,hdr,YZ,100,0.4966,4.005
+chr27,pca,point_fraction,pf,YZ,60,0.3119,20.661
+chr27,pca,point_fraction,pf,YZ,80,0.3021,20.661
+chr27,pca,point_fraction,pf,YZ,95,0.2796,20.661
+chr27,pca,point_fraction,pf,YZ,100,0.2653,20.661
+chr27,pca_icp,hdr,hdr,YZ,60,0.1094,72.251
+chr27,pca_icp,hdr,hdr,YZ,80,0.1621,26.589
+chr27,pca_icp,hdr,hdr,YZ,95,0.2889,23.927
+chr27,pca_icp,hdr,hdr,YZ,100,0.4951,4.589
+chr27,pca_icp,point_fraction,pf,YZ,60,0.2789,3.842
+chr27,pca_icp,point_fraction,pf,YZ,80,0.256,3.842
+chr27,pca_icp,point_fraction,pf,YZ,95,0.2312,3.842
+chr27,pca_icp,point_fraction,pf,YZ,100,0.2202,3.842
+chr28,none,hdr,hdr,YZ,60,0.1043,48.988
+chr28,none,hdr,hdr,YZ,80,0.1867,7.704
+chr28,none,hdr,hdr,YZ,95,0.3273,6.159
+chr28,none,hdr,hdr,YZ,100,0.521,4.764
+chr28,none,point_fraction,pf,YZ,60,0.4011,5.8
+chr28,none,point_fraction,pf,YZ,80,0.3978,5.512
+chr28,none,point_fraction,pf,YZ,95,0.3557,6.195
+chr28,none,point_fraction,pf,YZ,100,0.3296,6.274
+chr28,pca,hdr,hdr,YZ,60,0.1384,31.728
+chr28,pca,hdr,hdr,YZ,80,0.1996,3.021
+chr28,pca,hdr,hdr,YZ,95,0.314,5.706
+chr28,pca,hdr,hdr,YZ,100,0.5344,6.005
+chr28,pca,point_fraction,pf,YZ,60,0.3665,3.07
+chr28,pca,point_fraction,pf,YZ,80,0.3586,4.179
+chr28,pca,point_fraction,pf,YZ,95,0.3223,4.974
+chr28,pca,point_fraction,pf,YZ,100,0.3057,4.974
+chr28,pca_icp,hdr,hdr,YZ,60,0.1489,30.188
+chr28,pca_icp,hdr,hdr,YZ,80,0.2102,2.857
+chr28,pca_icp,hdr,hdr,YZ,95,0.3342,7.133
+chr28,pca_icp,hdr,hdr,YZ,100,0.5288,4.706
+chr28,pca_icp,point_fraction,pf,YZ,60,0.3415,2.807
+chr28,pca_icp,point_fraction,pf,YZ,80,0.3427,3.447
+chr28,pca_icp,point_fraction,pf,YZ,95,0.3085,3.994
+chr28,pca_icp,point_fraction,pf,YZ,100,0.2983,3.994
+chr29,none,hdr,hdr,YZ,60,0.0768,18.495
+chr29,none,hdr,hdr,YZ,80,0.1463,16.34
+chr29,none,hdr,hdr,YZ,95,0.2686,9.573
+chr29,none,hdr,hdr,YZ,100,0.4254,7.297
+chr29,none,point_fraction,pf,YZ,60,0.3169,4.608
+chr29,none,point_fraction,pf,YZ,80,0.2646,5.027
+chr29,none,point_fraction,pf,YZ,95,0.2426,5.027
+chr29,none,point_fraction,pf,YZ,100,0.2276,5.027
+chr29,pca,hdr,hdr,YZ,60,0.1157,6.683
+chr29,pca,hdr,hdr,YZ,80,0.1722,5.636
+chr29,pca,hdr,hdr,YZ,95,0.2609,4.758
+chr29,pca,hdr,hdr,YZ,100,0.4137,4.327
+chr29,pca,point_fraction,pf,YZ,60,0.3006,4.514
+chr29,pca,point_fraction,pf,YZ,80,0.2769,5.671
+chr29,pca,point_fraction,pf,YZ,95,0.2368,5.89
+chr29,pca,point_fraction,pf,YZ,100,0.2253,5.89
+chr29,pca_icp,hdr,hdr,YZ,60,0.1011,18.519
+chr29,pca_icp,hdr,hdr,YZ,80,0.1523,4.577
+chr29,pca_icp,hdr,hdr,YZ,95,0.2613,7.447
+chr29,pca_icp,hdr,hdr,YZ,100,0.4219,4.629
+chr29,pca_icp,point_fraction,pf,YZ,60,0.275,4.041
+chr29,pca_icp,point_fraction,pf,YZ,80,0.2548,5.015
+chr29,pca_icp,point_fraction,pf,YZ,95,0.2197,5.108
+chr29,pca_icp,point_fraction,pf,YZ,100,0.2112,5.108

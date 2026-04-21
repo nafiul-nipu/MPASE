@@ -6,8 +6,11 @@ Compares three alignment modes:
   pca     : align_mode="auto", icp_iters=0  (PCA pre-align, no ICP)
   pca_icp : align_mode="auto", icp_iters=30 (full pipeline)
 
-Extracts IoU and meanNN at YZ plane, 60% HDR level.
-Identifies "best case" chromosomes where the improvement trend is clearest.
+We use only UNTR 12h vs UNTR 18h (same condition, adjacent timepoints) across
+all chromosomes. Keeping condition fixed isolates the alignment contribution
+from biological variation.
+
+Figures are saved under figures/{hdr|pf}/level_{60|80|95|100}/.
 
 Usage:
     python run.py
@@ -16,7 +19,6 @@ Usage:
 import os, sys
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
 import seaborn as sns
 import numpy as np
 
@@ -26,7 +28,7 @@ sys.path.insert(0, os.path.join(_ROOT, "src"))
 import mpase
 
 # ── paths ──────────────────────────────────────────────────────────────────
-DATA_ROOT  = os.path.join(_ROOT, "evaluation", "data", "all_structure_files")
+DATA_ROOT   = os.path.join(_ROOT, "evaluation", "data", "all_structure_files")
 RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results")
 FIGURES_DIR = os.path.join(os.path.dirname(__file__), "figures")
 
@@ -39,20 +41,23 @@ CHROMS = [
 ]
 
 ALIGN_MODES = {
-    "none":    dict(align_mode="skip",  cfg_common=mpase.CfgCommon()),
-    "pca":     dict(align_mode="auto",  cfg_common=mpase.CfgCommon(icp_iters=0)),
-    "pca_icp": dict(align_mode="auto",  cfg_common=mpase.CfgCommon(icp_iters=30)),
+    "none":    dict(align_mode="skip", cfg_common=mpase.CfgCommon()),
+    "pca":     dict(align_mode="auto", cfg_common=mpase.CfgCommon(icp_iters=0)),
+    "pca_icp": dict(align_mode="auto", cfg_common=mpase.CfgCommon(icp_iters=30)),
 }
 
-PLANE  = "YZ"
-LEVEL  = 60
-VARIANT = "hdr"
-
-CFG_HDR = mpase.CfgHDR(n_boot=128, mass_levels=(0.60, 0.80, 0.95, 1.00))
-CFG_PF  = mpase.CfgPF(frac_levels=(0.60, 0.80, 0.95, 1.00))
-
+PLANE    = "YZ"
+LEVELS   = [60, 80, 95, 100]
+VARIANTS = [
+    ("hdr",            "hdr"),
+    ("point_fraction", "pf"),
+]
 
 XYZ_COLS = ("middle_x", "middle_y", "middle_z")
+
+CFG_HDR = mpase.CfgHDR(n_boot=256, mass_levels=(0.60, 0.80, 0.95, 1.00))
+CFG_PF  = mpase.CfgPF(frac_levels=(0.60, 0.80, 0.95, 1.00))
+
 
 def csv_path(chrom: str, hrs: str, cond: str) -> str:
     return os.path.join(DATA_ROOT, chrom, hrs, cond,
@@ -86,17 +91,20 @@ def run_all() -> pd.DataFrame:
                     cfg_pf=CFG_PF,
                     **mode_kwargs,
                 )
-                iou, meannn = extract_metric(result, PLANE, LEVEL, VARIANT)
-                rows.append({
-                    "chrom":     chrom,
-                    "pair":      "UNTR 12h-18h",
-                    "align":     mode_name,
-                    "plane":     PLANE,
-                    "level":     LEVEL,
-                    "IoU":       round(iou, 4),
-                    "meanNN":    round(meannn, 3),
-                })
-                print(f"  {chrom:6}  {mode_name:8}  IoU={iou:.3f}  meanNN={meannn:.2f}")
+                for variant_key, variant_folder in VARIANTS:
+                    for level in LEVELS:
+                        iou, meannn = extract_metric(result, PLANE, level, variant_key)
+                        rows.append({
+                            "chrom":          chrom,
+                            "align":          mode_name,
+                            "variant":        variant_key,
+                            "variant_folder": variant_folder,
+                            "plane":          PLANE,
+                            "level":          level,
+                            "IoU":            round(iou, 4),
+                            "meanNN":         round(meannn, 3),
+                        })
+                print(f"  {chrom:6}  {mode_name:8}  done")
             except Exception as e:
                 print(f"  {chrom:6}  {mode_name:8}  ERROR: {e}")
 
@@ -104,15 +112,10 @@ def run_all() -> pd.DataFrame:
 
 
 def find_best_cases(df: pd.DataFrame, top_n: int = 6) -> list:
-    """
-    Best cases = chromosomes with largest IoU gain from none -> pca_icp
-    AND monotone improvement (none < pca < pca_icp).
-    """
     pivot = df.pivot_table(index="chrom", columns="align", values="IoU")
     if not {"none", "pca", "pca_icp"}.issubset(pivot.columns):
         return df["chrom"].unique().tolist()
-
-    pivot["gain"] = pivot["pca_icp"] - pivot["none"]
+    pivot["gain"]     = pivot["pca_icp"] - pivot["none"]
     pivot["monotone"] = (pivot["pca"] >= pivot["none"]) & (pivot["pca_icp"] >= pivot["pca"])
     best = pivot[pivot["monotone"]].sort_values("gain", ascending=False)
     return best.head(top_n).index.tolist()
@@ -120,52 +123,47 @@ def find_best_cases(df: pd.DataFrame, top_n: int = 6) -> list:
 
 # ── figures ─────────────────────────────────────────────────────────────────
 
-def plot_all_chromosomes(df: pd.DataFrame, best_chroms: list):
-    """Grouped bar: IoU for all three methods, one group per chromosome."""
-    order    = ["none", "pca", "pca_icp"]
-    palette  = {"none": "#d9534f", "pca": "#f0ad4e", "pca_icp": "#5cb85c"}
-    labels   = {"none": "No alignment", "pca": "PCA only", "pca_icp": "PCA + ICP"}
+def fig_dir(variant_folder: str, level: int) -> str:
+    d = os.path.join(FIGURES_DIR, variant_folder, f"level_{level}")
+    os.makedirs(d, exist_ok=True)
+    return d
+
+
+def plot_all_chromosomes(df: pd.DataFrame, best_chroms: list, variant_folder: str, level: int):
+    order   = ["none", "pca", "pca_icp"]
+    palette = {"none": "#d9534f", "pca": "#f0ad4e", "pca_icp": "#5cb85c"}
+    labels  = {"none": "No alignment", "pca": "PCA only", "pca_icp": "PCA + ICP"}
 
     fig, axes = plt.subplots(1, 2, figsize=(18, 5))
-
     for ax, metric in zip(axes, ["IoU", "meanNN"]):
-        chrom_order = sorted(df["chrom"].unique(),
-                             key=lambda c: int(c.replace("chr", "")))
+        chrom_order = sorted(df["chrom"].unique(), key=lambda c: int(c.replace("chr", "")))
         x     = np.arange(len(chrom_order))
         width = 0.26
         for i, mode in enumerate(order):
-            vals = [df[(df["chrom"]==c) & (df["align"]==mode)][metric].values
-                    for c in chrom_order]
+            vals = [df[(df["chrom"] == c) & (df["align"] == mode)][metric].values for c in chrom_order]
             vals = [v[0] if len(v) else np.nan for v in vals]
-            bars = ax.bar(x + (i - 1) * width, vals, width,
-                          label=labels[mode], color=palette[mode], alpha=0.85)
-
-            # highlight best case chromosomes
+            ax.bar(x + (i - 1) * width, vals, width, label=labels[mode], color=palette[mode], alpha=0.85)
             for j, (c, v) in enumerate(zip(chrom_order, vals)):
                 if c in best_chroms and not np.isnan(v):
                     ax.bar(x[j] + (i - 1) * width, v, width,
-                           color=palette[mode], alpha=1.0,
-                           edgecolor="black", linewidth=1.5)
-
+                           color=palette[mode], alpha=1.0, edgecolor="black", linewidth=1.5)
         ax.set_xticks(x)
         ax.set_xticklabels(chrom_order, rotation=45, ha="right", fontsize=8)
         ax.set_ylabel(metric)
-        ax.set_title(f"{metric} by alignment method — all chromosomes\n"
-                     f"(bold outlines = best-case chromosomes)")
+        ax.set_title(f"{metric} by alignment method — all chromosomes\n(bold = best-case)")
         ax.legend()
         if metric == "IoU":
             ax.set_ylim(0, 1)
         ax.axhline(0, color="gray", linewidth=0.5)
 
     plt.tight_layout()
-    out = os.path.join(FIGURES_DIR, "all_chroms_bar.png")
+    out = os.path.join(fig_dir(variant_folder, level), "all_chroms_bar.png")
     plt.savefig(out, dpi=150, bbox_inches="tight")
     plt.close()
     print(f"Saved {out}")
 
 
-def plot_best_cases(df: pd.DataFrame, best_chroms: list):
-    """Two separate line plots (IoU and meanNN) for selected chromosomes."""
+def plot_best_cases(df: pd.DataFrame, best_chroms: list, variant_folder: str, level: int):
     order   = ["none", "pca", "pca_icp"]
     xlabels = ["No alignment", "PCA only", "PCA + ICP"]
     sub     = df[df["chrom"].isin(best_chroms)]
@@ -184,24 +182,22 @@ def plot_best_cases(df: pd.DataFrame, best_chroms: list):
                     ax.annotate(f"{v:.3f}", (xi, v),
                                 textcoords="offset points", xytext=(0, 6),
                                 ha="center", fontsize=7, color=color)
-
         ax.set_xticks(range(3))
         ax.set_xticklabels(xlabels)
         ax.set_ylabel(metric)
-        ax.set_title(f"{metric} — UNTR 12h vs 18h (YZ, 60% HDR)")
+        ax.set_title(f"{metric} — UNTR 12h vs 18h (YZ, {level}%)")
         ax.legend(fontsize=8)
         if metric == "IoU":
             ax.set_ylim(0, 0.6)
         ax.grid(axis="y", alpha=0.3)
         plt.tight_layout()
-        out = os.path.join(FIGURES_DIR, fname)
+        out = os.path.join(fig_dir(variant_folder, level), fname)
         plt.savefig(out, dpi=150, bbox_inches="tight")
         plt.close()
         print(f"Saved {out}")
 
 
-def plot_gain_heatmap(df: pd.DataFrame):
-    """Heatmap: IoU values for all three methods per chromosome."""
+def plot_gain_heatmap(df: pd.DataFrame, variant_folder: str, level: int):
     pivot = df.pivot_table(index="chrom", columns="align", values="IoU")
     pivot = pivot[["none", "pca", "pca_icp"]].copy()
     pivot.columns = ["No alignment", "PCA only", "PCA + ICP"]
@@ -209,44 +205,38 @@ def plot_gain_heatmap(df: pd.DataFrame):
     fig, ax = plt.subplots(figsize=(7, max(5, len(pivot) * 0.35)))
     sns.heatmap(pivot, annot=True, fmt=".3f", cmap="RdYlGn",
                 ax=ax, linewidths=0.5, cbar_kws={"label": "IoU"})
-    ax.set_title("IoU by alignment method\n(UNTR 12h vs 18h, YZ 60% HDR)")
+    ax.set_title(f"IoU by alignment method\n(UNTR 12h vs 18h, YZ {level}%)")
     ax.set_xlabel("")
     ax.set_ylabel("Chromosome")
     plt.tight_layout()
-    out = os.path.join(FIGURES_DIR, "gain_heatmap.png")
+    out = os.path.join(fig_dir(variant_folder, level), "gain_heatmap.png")
     plt.savefig(out, dpi=150, bbox_inches="tight")
     plt.close()
     print(f"Saved {out}")
 
 
-def plot_meannn_heatmap(df: pd.DataFrame):
-    """Heatmap: meanNN values for all three methods per chromosome."""
+def plot_meannn_heatmap(df: pd.DataFrame, variant_folder: str, level: int):
     pivot = df.pivot_table(index="chrom", columns="align", values="meanNN")
     pivot = pivot[["none", "pca", "pca_icp"]].copy()
     pivot.columns = ["No alignment", "PCA only", "PCA + ICP"]
     pivot = pivot.reindex(sorted(pivot.index, key=lambda c: int(c.replace("chr", ""))))
-
-    # cap display at 20 — outliers (chr13=52, chr25=34) would collapse contrast otherwise
-    vmax = 20
-    annot = pivot.round(2).astype(str)  # show real values in cells even if color is clipped
-
+    vmax  = 20
+    annot = pivot.round(2).astype(str)
     fig, ax = plt.subplots(figsize=(7, max(5, len(pivot) * 0.35)))
     sns.heatmap(pivot, annot=annot, fmt="", cmap="RdYlGn_r",
                 vmin=0, vmax=vmax, ax=ax,
                 linewidths=0.5, cbar_kws={"label": "meanNN (pixels, capped at 20)"})
-    ax.set_title("meanNN by alignment method\n(UNTR 12h vs 18h, YZ 60% HDR)\n"
-                 "lower = better  |  values >20 shown in red")
+    ax.set_title(f"meanNN by alignment method\n(UNTR 12h vs 18h, YZ {level}%)\nlower = better")
     ax.set_xlabel("")
     ax.set_ylabel("Chromosome")
     plt.tight_layout()
-    out = os.path.join(FIGURES_DIR, "meannn_heatmap.png")
+    out = os.path.join(fig_dir(variant_folder, level), "meannn_heatmap.png")
     plt.savefig(out, dpi=150, bbox_inches="tight")
     plt.close()
     print(f"Saved {out}")
 
 
-def plot_all_chroms_trend(df: pd.DataFrame):
-    """Two line plots (IoU and meanNN) for ALL chromosomes."""
+def plot_all_chroms_trend(df: pd.DataFrame, variant_folder: str, level: int):
     order   = ["none", "pca", "pca_icp"]
     xlabels = ["No alignment", "PCA only", "PCA + ICP"]
     chroms  = sorted(df["chrom"].unique(), key=lambda c: int(c.replace("chr", "")))
@@ -255,71 +245,58 @@ def plot_all_chroms_trend(df: pd.DataFrame):
     for metric, fname in [("IoU", "all_trend_iou.png"), ("meanNN", "all_trend_meannn.png")]:
         fig, ax = plt.subplots(figsize=(8, 5))
         for color, chrom in zip(palette, chroms):
-            sub = df[df["chrom"] == chrom]
-            vals = []
-            for mode in order:
-                row = sub[sub["align"] == mode][metric]
-                vals.append(row.values[0] if len(row) else np.nan)
-            ax.plot(range(3), vals, marker="o", label=chrom, color=color,
-                    linewidth=1.5, alpha=0.85)
+            sub  = df[df["chrom"] == chrom]
+            vals = [sub[sub["align"] == mode][metric].values for mode in order]
+            vals = [v[0] if len(v) else np.nan for v in vals]
+            ax.plot(range(3), vals, marker="o", label=chrom, color=color, linewidth=1.5, alpha=0.85)
         ax.set_xticks(range(3))
         ax.set_xticklabels(xlabels)
         ax.set_ylabel(metric)
-        ax.set_title(f"{metric} — all chromosomes (UNTR 12h vs 18h, YZ 60% HDR)")
+        ax.set_title(f"{metric} — all chromosomes (UNTR 12h vs 18h, YZ {level}%)")
         ax.legend(fontsize=7, ncol=3, loc="upper left", bbox_to_anchor=(1, 1))
         if metric == "IoU":
             ax.set_ylim(0, 0.6)
         ax.grid(axis="y", alpha=0.3)
         plt.tight_layout()
-        out = os.path.join(FIGURES_DIR, fname)
+        out = os.path.join(fig_dir(variant_folder, level), fname)
         plt.savefig(out, dpi=150, bbox_inches="tight")
         plt.close()
         print(f"Saved {out}")
 
 
-def save_best_cases_csv(df: pd.DataFrame, best_chroms: list):
-    sub = df[df["chrom"].isin(best_chroms)].copy()
-    out = os.path.join(RESULTS_DIR, "best_cases.csv")
-    sub.to_csv(out, index=False)
-    print(f"Saved {out}")
+def generate_figures_for(df: pd.DataFrame, variant_key: str, variant_folder: str, level: int):
+    sub = df[(df["variant"] == variant_key) & (df["level"] == level)].copy()
+    if sub.empty:
+        return
+    best_chroms = find_best_cases(sub)
+    plot_all_chromosomes(sub, best_chroms, variant_folder, level)
+    plot_best_cases(sub, best_chroms, variant_folder, level)
+    plot_gain_heatmap(sub, variant_folder, level)
+    plot_meannn_heatmap(sub, variant_folder, level)
+    plot_all_chroms_trend(sub, variant_folder, level)
 
 
 def main():
     os.makedirs(RESULTS_DIR, exist_ok=True)
-    os.makedirs(FIGURES_DIR, exist_ok=True)
 
-    print("Running alignment ablation on all chromosomes...")
+    print("Running alignment ablation (UNTR 12h vs 18h, all chromosomes)...")
     df = run_all()
 
     if df.empty:
         print("No results — check data paths.")
         return
 
-    # save full results
     full_csv = os.path.join(RESULTS_DIR, "ablation_all.csv")
     df.to_csv(full_csv, index=False)
     print(f"\nSaved {full_csv}")
 
-    # find best cases
-    best_chroms = find_best_cases(df, top_n=6)
-    print(f"\nBest-case chromosomes: {best_chroms}")
-
-    save_best_cases_csv(df, best_chroms)
-
-    # figures
     print("\nGenerating figures...")
-    plot_all_chromosomes(df, best_chroms)
-    plot_best_cases(df, best_chroms)
-    plot_gain_heatmap(df)
-    plot_meannn_heatmap(df)
-    plot_all_chroms_trend(df)
+    for variant_key, variant_folder in VARIANTS:
+        for level in LEVELS:
+            print(f"\n  [{variant_folder.upper()}] level {level}%")
+            generate_figures_for(df, variant_key, variant_folder, level)
 
-    # print summary table
-    print("\n── Summary (best cases) ──────────────────────────────────────")
-    pivot = df[df["chrom"].isin(best_chroms)].pivot_table(
-        index="chrom", columns="align", values=["IoU","meanNN"]
-    ).round(3)
-    print(pivot.to_string())
+    print("\nDone.")
 
 
 if __name__ == "__main__":
