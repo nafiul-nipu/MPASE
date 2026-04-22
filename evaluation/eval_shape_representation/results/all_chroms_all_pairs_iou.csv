@@ -1,0 +1,577 @@
+chrom,pair,category,representation,level,IoU
+chr1,UNTR 12h vs 18h,Stability,HDR,60,0.3255
+chr1,UNTR 12h vs 18h,Stability,HDR,80,0.45
+chr1,UNTR 12h vs 18h,Stability,HDR,95,0.5917
+chr1,UNTR 12h vs 18h,Stability,HDR,100,0.7747
+chr1,UNTR 12h vs 18h,Stability,PF,60,0.7478
+chr1,UNTR 12h vs 18h,Stability,PF,80,0.791
+chr1,UNTR 12h vs 18h,Stability,PF,95,0.7746
+chr1,UNTR 12h vs 18h,Stability,PF,100,0.7554
+chr1,VACV 12h vs 18h,Temporal change,HDR,60,0.245
+chr1,VACV 12h vs 18h,Temporal change,HDR,80,0.3657
+chr1,VACV 12h vs 18h,Temporal change,HDR,95,0.5015
+chr1,VACV 12h vs 18h,Temporal change,HDR,100,0.6403
+chr1,VACV 12h vs 18h,Temporal change,PF,60,0.6022
+chr1,VACV 12h vs 18h,Temporal change,PF,80,0.6482
+chr1,VACV 12h vs 18h,Temporal change,PF,95,0.647
+chr1,VACV 12h vs 18h,Temporal change,PF,100,0.6007
+chr1,UNTR vs VACV at 18h,Condition difference,HDR,60,0.2399
+chr1,UNTR vs VACV at 18h,Condition difference,HDR,80,0.3172
+chr1,UNTR vs VACV at 18h,Condition difference,HDR,95,0.4565
+chr1,UNTR vs VACV at 18h,Condition difference,HDR,100,0.6227
+chr1,UNTR vs VACV at 18h,Condition difference,PF,60,0.5745
+chr1,UNTR vs VACV at 18h,Condition difference,PF,80,0.6047
+chr1,UNTR vs VACV at 18h,Condition difference,PF,95,0.5985
+chr1,UNTR vs VACV at 18h,Condition difference,PF,100,0.5762
+chr2,UNTR 12h vs 18h,Stability,HDR,60,0.327
+chr2,UNTR 12h vs 18h,Stability,HDR,80,0.4635
+chr2,UNTR 12h vs 18h,Stability,HDR,95,0.5531
+chr2,UNTR 12h vs 18h,Stability,HDR,100,0.6864
+chr2,UNTR 12h vs 18h,Stability,PF,60,0.8441
+chr2,UNTR 12h vs 18h,Stability,PF,80,0.8063
+chr2,UNTR 12h vs 18h,Stability,PF,95,0.7517
+chr2,UNTR 12h vs 18h,Stability,PF,100,0.6623
+chr2,VACV 12h vs 18h,Temporal change,HDR,60,0.3017
+chr2,VACV 12h vs 18h,Temporal change,HDR,80,0.4147
+chr2,VACV 12h vs 18h,Temporal change,HDR,95,0.5327
+chr2,VACV 12h vs 18h,Temporal change,HDR,100,0.6938
+chr2,VACV 12h vs 18h,Temporal change,PF,60,0.782
+chr2,VACV 12h vs 18h,Temporal change,PF,80,0.7832
+chr2,VACV 12h vs 18h,Temporal change,PF,95,0.7309
+chr2,VACV 12h vs 18h,Temporal change,PF,100,0.6489
+chr2,UNTR vs VACV at 18h,Condition difference,HDR,60,0.3019
+chr2,UNTR vs VACV at 18h,Condition difference,HDR,80,0.4431
+chr2,UNTR vs VACV at 18h,Condition difference,HDR,95,0.5276
+chr2,UNTR vs VACV at 18h,Condition difference,HDR,100,0.6357
+chr2,UNTR vs VACV at 18h,Condition difference,PF,60,0.7664
+chr2,UNTR vs VACV at 18h,Condition difference,PF,80,0.7735
+chr2,UNTR vs VACV at 18h,Condition difference,PF,95,0.7098
+chr2,UNTR vs VACV at 18h,Condition difference,PF,100,0.6238
+chr3,UNTR 12h vs 18h,Stability,HDR,60,0.2073
+chr3,UNTR 12h vs 18h,Stability,HDR,80,0.349
+chr3,UNTR 12h vs 18h,Stability,HDR,95,0.5118
+chr3,UNTR 12h vs 18h,Stability,HDR,100,0.6974
+chr3,UNTR 12h vs 18h,Stability,PF,60,0.7081
+chr3,UNTR 12h vs 18h,Stability,PF,80,0.6859
+chr3,UNTR 12h vs 18h,Stability,PF,95,0.6039
+chr3,UNTR 12h vs 18h,Stability,PF,100,0.5593
+chr3,VACV 12h vs 18h,Temporal change,HDR,60,0.1875
+chr3,VACV 12h vs 18h,Temporal change,HDR,80,0.2756
+chr3,VACV 12h vs 18h,Temporal change,HDR,95,0.4163
+chr3,VACV 12h vs 18h,Temporal change,HDR,100,0.6344
+chr3,VACV 12h vs 18h,Temporal change,PF,60,0.6677
+chr3,VACV 12h vs 18h,Temporal change,PF,80,0.5998
+chr3,VACV 12h vs 18h,Temporal change,PF,95,0.5305
+chr3,VACV 12h vs 18h,Temporal change,PF,100,0.491
+chr3,UNTR vs VACV at 18h,Condition difference,HDR,60,0.2461
+chr3,UNTR vs VACV at 18h,Condition difference,HDR,80,0.3421
+chr3,UNTR vs VACV at 18h,Condition difference,HDR,95,0.4732
+chr3,UNTR vs VACV at 18h,Condition difference,HDR,100,0.6532
+chr3,UNTR vs VACV at 18h,Condition difference,PF,60,0.7768
+chr3,UNTR vs VACV at 18h,Condition difference,PF,80,0.6707
+chr3,UNTR vs VACV at 18h,Condition difference,PF,95,0.5593
+chr3,UNTR vs VACV at 18h,Condition difference,PF,100,0.5224
+chr4,UNTR 12h vs 18h,Stability,HDR,60,0.2584
+chr4,UNTR 12h vs 18h,Stability,HDR,80,0.334
+chr4,UNTR 12h vs 18h,Stability,HDR,95,0.4863
+chr4,UNTR 12h vs 18h,Stability,HDR,100,0.6799
+chr4,UNTR 12h vs 18h,Stability,PF,60,0.7756
+chr4,UNTR 12h vs 18h,Stability,PF,80,0.6639
+chr4,UNTR 12h vs 18h,Stability,PF,95,0.5948
+chr4,UNTR 12h vs 18h,Stability,PF,100,0.5583
+chr4,VACV 12h vs 18h,Temporal change,HDR,60,0.2497
+chr4,VACV 12h vs 18h,Temporal change,HDR,80,0.3425
+chr4,VACV 12h vs 18h,Temporal change,HDR,95,0.4922
+chr4,VACV 12h vs 18h,Temporal change,HDR,100,0.6706
+chr4,VACV 12h vs 18h,Temporal change,PF,60,0.7013
+chr4,VACV 12h vs 18h,Temporal change,PF,80,0.6821
+chr4,VACV 12h vs 18h,Temporal change,PF,95,0.5975
+chr4,VACV 12h vs 18h,Temporal change,PF,100,0.5628
+chr4,UNTR vs VACV at 18h,Condition difference,HDR,60,0.2388
+chr4,UNTR vs VACV at 18h,Condition difference,HDR,80,0.3453
+chr4,UNTR vs VACV at 18h,Condition difference,HDR,95,0.4713
+chr4,UNTR vs VACV at 18h,Condition difference,HDR,100,0.648
+chr4,UNTR vs VACV at 18h,Condition difference,PF,60,0.772
+chr4,UNTR vs VACV at 18h,Condition difference,PF,80,0.6824
+chr4,UNTR vs VACV at 18h,Condition difference,PF,95,0.581
+chr4,UNTR vs VACV at 18h,Condition difference,PF,100,0.5342
+chr5,UNTR 12h vs 18h,Stability,HDR,60,0.2224
+chr5,UNTR 12h vs 18h,Stability,HDR,80,0.3273
+chr5,UNTR 12h vs 18h,Stability,HDR,95,0.4878
+chr5,UNTR 12h vs 18h,Stability,HDR,100,0.7273
+chr5,UNTR 12h vs 18h,Stability,PF,60,0.8158
+chr5,UNTR 12h vs 18h,Stability,PF,80,0.7332
+chr5,UNTR 12h vs 18h,Stability,PF,95,0.7255
+chr5,UNTR 12h vs 18h,Stability,PF,100,0.6722
+chr5,VACV 12h vs 18h,Temporal change,HDR,60,0.1964
+chr5,VACV 12h vs 18h,Temporal change,HDR,80,0.2929
+chr5,VACV 12h vs 18h,Temporal change,HDR,95,0.4512
+chr5,VACV 12h vs 18h,Temporal change,HDR,100,0.667
+chr5,VACV 12h vs 18h,Temporal change,PF,60,0.7031
+chr5,VACV 12h vs 18h,Temporal change,PF,80,0.7455
+chr5,VACV 12h vs 18h,Temporal change,PF,95,0.6799
+chr5,VACV 12h vs 18h,Temporal change,PF,100,0.6252
+chr5,UNTR vs VACV at 18h,Condition difference,HDR,60,0.164
+chr5,UNTR vs VACV at 18h,Condition difference,HDR,80,0.2692
+chr5,UNTR vs VACV at 18h,Condition difference,HDR,95,0.4207
+chr5,UNTR vs VACV at 18h,Condition difference,HDR,100,0.6513
+chr5,UNTR vs VACV at 18h,Condition difference,PF,60,0.5955
+chr5,UNTR vs VACV at 18h,Condition difference,PF,80,0.6579
+chr5,UNTR vs VACV at 18h,Condition difference,PF,95,0.6562
+chr5,UNTR vs VACV at 18h,Condition difference,PF,100,0.6104
+chr6,UNTR 12h vs 18h,Stability,HDR,60,0.2402
+chr6,UNTR 12h vs 18h,Stability,HDR,80,0.3667
+chr6,UNTR 12h vs 18h,Stability,HDR,95,0.5453
+chr6,UNTR 12h vs 18h,Stability,HDR,100,0.7582
+chr6,UNTR 12h vs 18h,Stability,PF,60,0.7384
+chr6,UNTR 12h vs 18h,Stability,PF,80,0.7773
+chr6,UNTR 12h vs 18h,Stability,PF,95,0.7345
+chr6,UNTR 12h vs 18h,Stability,PF,100,0.7042
+chr6,VACV 12h vs 18h,Temporal change,HDR,60,0.1606
+chr6,VACV 12h vs 18h,Temporal change,HDR,80,0.2671
+chr6,VACV 12h vs 18h,Temporal change,HDR,95,0.431
+chr6,VACV 12h vs 18h,Temporal change,HDR,100,0.6189
+chr6,VACV 12h vs 18h,Temporal change,PF,60,0.6132
+chr6,VACV 12h vs 18h,Temporal change,PF,80,0.6481
+chr6,VACV 12h vs 18h,Temporal change,PF,95,0.6236
+chr6,VACV 12h vs 18h,Temporal change,PF,100,0.5802
+chr6,UNTR vs VACV at 18h,Condition difference,HDR,60,0.1879
+chr6,UNTR vs VACV at 18h,Condition difference,HDR,80,0.3044
+chr6,UNTR vs VACV at 18h,Condition difference,HDR,95,0.4435
+chr6,UNTR vs VACV at 18h,Condition difference,HDR,100,0.6087
+chr6,UNTR vs VACV at 18h,Condition difference,PF,60,0.6255
+chr6,UNTR vs VACV at 18h,Condition difference,PF,80,0.6597
+chr6,UNTR vs VACV at 18h,Condition difference,PF,95,0.615
+chr6,UNTR vs VACV at 18h,Condition difference,PF,100,0.5827
+chr7,UNTR 12h vs 18h,Stability,HDR,60,0.2221
+chr7,UNTR 12h vs 18h,Stability,HDR,80,0.3486
+chr7,UNTR 12h vs 18h,Stability,HDR,95,0.4734
+chr7,UNTR 12h vs 18h,Stability,HDR,100,0.6019
+chr7,UNTR 12h vs 18h,Stability,PF,60,0.6849
+chr7,UNTR 12h vs 18h,Stability,PF,80,0.6668
+chr7,UNTR 12h vs 18h,Stability,PF,95,0.597
+chr7,UNTR 12h vs 18h,Stability,PF,100,0.5514
+chr7,VACV 12h vs 18h,Temporal change,HDR,60,0.2025
+chr7,VACV 12h vs 18h,Temporal change,HDR,80,0.309
+chr7,VACV 12h vs 18h,Temporal change,HDR,95,0.455
+chr7,VACV 12h vs 18h,Temporal change,HDR,100,0.6194
+chr7,VACV 12h vs 18h,Temporal change,PF,60,0.5809
+chr7,VACV 12h vs 18h,Temporal change,PF,80,0.6295
+chr7,VACV 12h vs 18h,Temporal change,PF,95,0.5742
+chr7,VACV 12h vs 18h,Temporal change,PF,100,0.5481
+chr7,UNTR vs VACV at 18h,Condition difference,HDR,60,0.1491
+chr7,UNTR vs VACV at 18h,Condition difference,HDR,80,0.2743
+chr7,UNTR vs VACV at 18h,Condition difference,HDR,95,0.4311
+chr7,UNTR vs VACV at 18h,Condition difference,HDR,100,0.5634
+chr7,UNTR vs VACV at 18h,Condition difference,PF,60,0.5304
+chr7,UNTR vs VACV at 18h,Condition difference,PF,80,0.5488
+chr7,UNTR vs VACV at 18h,Condition difference,PF,95,0.5429
+chr7,UNTR vs VACV at 18h,Condition difference,PF,100,0.5006
+chr10,UNTR 12h vs 18h,Stability,HDR,60,0.2322
+chr10,UNTR 12h vs 18h,Stability,HDR,80,0.3232
+chr10,UNTR 12h vs 18h,Stability,HDR,95,0.4201
+chr10,UNTR 12h vs 18h,Stability,HDR,100,0.5436
+chr10,UNTR 12h vs 18h,Stability,PF,60,0.6981
+chr10,UNTR 12h vs 18h,Stability,PF,80,0.6118
+chr10,UNTR 12h vs 18h,Stability,PF,95,0.4934
+chr10,UNTR 12h vs 18h,Stability,PF,100,0.4618
+chr10,VACV 12h vs 18h,Temporal change,HDR,60,0.2158
+chr10,VACV 12h vs 18h,Temporal change,HDR,80,0.3642
+chr10,VACV 12h vs 18h,Temporal change,HDR,95,0.5281
+chr10,VACV 12h vs 18h,Temporal change,HDR,100,0.7588
+chr10,VACV 12h vs 18h,Temporal change,PF,60,0.7783
+chr10,VACV 12h vs 18h,Temporal change,PF,80,0.763
+chr10,VACV 12h vs 18h,Temporal change,PF,95,0.6603
+chr10,VACV 12h vs 18h,Temporal change,PF,100,0.6542
+chr10,UNTR vs VACV at 18h,Condition difference,HDR,60,0.2749
+chr10,UNTR vs VACV at 18h,Condition difference,HDR,80,0.3723
+chr10,UNTR vs VACV at 18h,Condition difference,HDR,95,0.4763
+chr10,UNTR vs VACV at 18h,Condition difference,HDR,100,0.6699
+chr10,UNTR vs VACV at 18h,Condition difference,PF,60,0.8172
+chr10,UNTR vs VACV at 18h,Condition difference,PF,80,0.6976
+chr10,UNTR vs VACV at 18h,Condition difference,PF,95,0.5849
+chr10,UNTR vs VACV at 18h,Condition difference,PF,100,0.5721
+chr12,UNTR 12h vs 18h,Stability,HDR,60,0.1881
+chr12,UNTR 12h vs 18h,Stability,HDR,80,0.2831
+chr12,UNTR 12h vs 18h,Stability,HDR,95,0.4689
+chr12,UNTR 12h vs 18h,Stability,HDR,100,0.6678
+chr12,UNTR 12h vs 18h,Stability,PF,60,0.6113
+chr12,UNTR 12h vs 18h,Stability,PF,80,0.6595
+chr12,UNTR 12h vs 18h,Stability,PF,95,0.6184
+chr12,UNTR 12h vs 18h,Stability,PF,100,0.6139
+chr12,VACV 12h vs 18h,Temporal change,HDR,60,0.2092
+chr12,VACV 12h vs 18h,Temporal change,HDR,80,0.3556
+chr12,VACV 12h vs 18h,Temporal change,HDR,95,0.5267
+chr12,VACV 12h vs 18h,Temporal change,HDR,100,0.7205
+chr12,VACV 12h vs 18h,Temporal change,PF,60,0.6349
+chr12,VACV 12h vs 18h,Temporal change,PF,80,0.6647
+chr12,VACV 12h vs 18h,Temporal change,PF,95,0.6599
+chr12,VACV 12h vs 18h,Temporal change,PF,100,0.653
+chr12,UNTR vs VACV at 18h,Condition difference,HDR,60,0.1464
+chr12,UNTR vs VACV at 18h,Condition difference,HDR,80,0.2597
+chr12,UNTR vs VACV at 18h,Condition difference,HDR,95,0.4118
+chr12,UNTR vs VACV at 18h,Condition difference,HDR,100,0.6232
+chr12,UNTR vs VACV at 18h,Condition difference,PF,60,0.4195
+chr12,UNTR vs VACV at 18h,Condition difference,PF,80,0.5096
+chr12,UNTR vs VACV at 18h,Condition difference,PF,95,0.5489
+chr12,UNTR vs VACV at 18h,Condition difference,PF,100,0.528
+chr13,UNTR 12h vs 18h,Stability,HDR,60,0.2235
+chr13,UNTR 12h vs 18h,Stability,HDR,80,0.3517
+chr13,UNTR 12h vs 18h,Stability,HDR,95,0.5153
+chr13,UNTR 12h vs 18h,Stability,HDR,100,0.7222
+chr13,UNTR 12h vs 18h,Stability,PF,60,0.6806
+chr13,UNTR 12h vs 18h,Stability,PF,80,0.739
+chr13,UNTR 12h vs 18h,Stability,PF,95,0.6881
+chr13,UNTR 12h vs 18h,Stability,PF,100,0.6647
+chr13,VACV 12h vs 18h,Temporal change,HDR,60,0.1625
+chr13,VACV 12h vs 18h,Temporal change,HDR,80,0.2502
+chr13,VACV 12h vs 18h,Temporal change,HDR,95,0.3935
+chr13,VACV 12h vs 18h,Temporal change,HDR,100,0.6151
+chr13,VACV 12h vs 18h,Temporal change,PF,60,0.4985
+chr13,VACV 12h vs 18h,Temporal change,PF,80,0.5382
+chr13,VACV 12h vs 18h,Temporal change,PF,95,0.5121
+chr13,VACV 12h vs 18h,Temporal change,PF,100,0.507
+chr13,UNTR vs VACV at 18h,Condition difference,HDR,60,0.184
+chr13,UNTR vs VACV at 18h,Condition difference,HDR,80,0.2844
+chr13,UNTR vs VACV at 18h,Condition difference,HDR,95,0.4304
+chr13,UNTR vs VACV at 18h,Condition difference,HDR,100,0.6508
+chr13,UNTR vs VACV at 18h,Condition difference,PF,60,0.6134
+chr13,UNTR vs VACV at 18h,Condition difference,PF,80,0.6361
+chr13,UNTR vs VACV at 18h,Condition difference,PF,95,0.5851
+chr13,UNTR vs VACV at 18h,Condition difference,PF,100,0.5573
+chr14,UNTR 12h vs 18h,Stability,HDR,60,0.2435
+chr14,UNTR 12h vs 18h,Stability,HDR,80,0.3849
+chr14,UNTR 12h vs 18h,Stability,HDR,95,0.5894
+chr14,UNTR 12h vs 18h,Stability,HDR,100,0.8059
+chr14,UNTR 12h vs 18h,Stability,PF,60,0.7767
+chr14,UNTR 12h vs 18h,Stability,PF,80,0.7327
+chr14,UNTR 12h vs 18h,Stability,PF,95,0.7332
+chr14,UNTR 12h vs 18h,Stability,PF,100,0.742
+chr14,VACV 12h vs 18h,Temporal change,HDR,60,0.1348
+chr14,VACV 12h vs 18h,Temporal change,HDR,80,0.251
+chr14,VACV 12h vs 18h,Temporal change,HDR,95,0.4369
+chr14,VACV 12h vs 18h,Temporal change,HDR,100,0.6302
+chr14,VACV 12h vs 18h,Temporal change,PF,60,0.637
+chr14,VACV 12h vs 18h,Temporal change,PF,80,0.6143
+chr14,VACV 12h vs 18h,Temporal change,PF,95,0.5861
+chr14,VACV 12h vs 18h,Temporal change,PF,100,0.5471
+chr14,UNTR vs VACV at 18h,Condition difference,HDR,60,0.1729
+chr14,UNTR vs VACV at 18h,Condition difference,HDR,80,0.2817
+chr14,UNTR vs VACV at 18h,Condition difference,HDR,95,0.4247
+chr14,UNTR vs VACV at 18h,Condition difference,HDR,100,0.5839
+chr14,UNTR vs VACV at 18h,Condition difference,PF,60,0.539
+chr14,UNTR vs VACV at 18h,Condition difference,PF,80,0.5256
+chr14,UNTR vs VACV at 18h,Condition difference,PF,95,0.511
+chr14,UNTR vs VACV at 18h,Condition difference,PF,100,0.5062
+chr15,UNTR 12h vs 18h,Stability,HDR,60,0.1823
+chr15,UNTR 12h vs 18h,Stability,HDR,80,0.3151
+chr15,UNTR 12h vs 18h,Stability,HDR,95,0.4682
+chr15,UNTR 12h vs 18h,Stability,HDR,100,0.7229
+chr15,UNTR 12h vs 18h,Stability,PF,60,0.718
+chr15,UNTR 12h vs 18h,Stability,PF,80,0.689
+chr15,UNTR 12h vs 18h,Stability,PF,95,0.6623
+chr15,UNTR 12h vs 18h,Stability,PF,100,0.625
+chr15,VACV 12h vs 18h,Temporal change,HDR,60,0.1539
+chr15,VACV 12h vs 18h,Temporal change,HDR,80,0.2654
+chr15,VACV 12h vs 18h,Temporal change,HDR,95,0.4408
+chr15,VACV 12h vs 18h,Temporal change,HDR,100,0.6733
+chr15,VACV 12h vs 18h,Temporal change,PF,60,0.4939
+chr15,VACV 12h vs 18h,Temporal change,PF,80,0.5234
+chr15,VACV 12h vs 18h,Temporal change,PF,95,0.5171
+chr15,VACV 12h vs 18h,Temporal change,PF,100,0.496
+chr15,UNTR vs VACV at 18h,Condition difference,HDR,60,0.1328
+chr15,UNTR vs VACV at 18h,Condition difference,HDR,80,0.2327
+chr15,UNTR vs VACV at 18h,Condition difference,HDR,95,0.3943
+chr15,UNTR vs VACV at 18h,Condition difference,HDR,100,0.6287
+chr15,UNTR vs VACV at 18h,Condition difference,PF,60,0.5075
+chr15,UNTR vs VACV at 18h,Condition difference,PF,80,0.4799
+chr15,UNTR vs VACV at 18h,Condition difference,PF,95,0.496
+chr15,UNTR vs VACV at 18h,Condition difference,PF,100,0.4814
+chr16,UNTR 12h vs 18h,Stability,HDR,60,0.2467
+chr16,UNTR 12h vs 18h,Stability,HDR,80,0.3567
+chr16,UNTR 12h vs 18h,Stability,HDR,95,0.4812
+chr16,UNTR 12h vs 18h,Stability,HDR,100,0.7186
+chr16,UNTR 12h vs 18h,Stability,PF,60,0.7558
+chr16,UNTR 12h vs 18h,Stability,PF,80,0.727
+chr16,UNTR 12h vs 18h,Stability,PF,95,0.6841
+chr16,UNTR 12h vs 18h,Stability,PF,100,0.658
+chr16,VACV 12h vs 18h,Temporal change,HDR,60,0.1998
+chr16,VACV 12h vs 18h,Temporal change,HDR,80,0.3037
+chr16,VACV 12h vs 18h,Temporal change,HDR,95,0.4499
+chr16,VACV 12h vs 18h,Temporal change,HDR,100,0.6927
+chr16,VACV 12h vs 18h,Temporal change,PF,60,0.5923
+chr16,VACV 12h vs 18h,Temporal change,PF,80,0.5745
+chr16,VACV 12h vs 18h,Temporal change,PF,95,0.6222
+chr16,VACV 12h vs 18h,Temporal change,PF,100,0.5999
+chr16,UNTR vs VACV at 18h,Condition difference,HDR,60,0.2108
+chr16,UNTR vs VACV at 18h,Condition difference,HDR,80,0.3169
+chr16,UNTR vs VACV at 18h,Condition difference,HDR,95,0.4566
+chr16,UNTR vs VACV at 18h,Condition difference,HDR,100,0.72
+chr16,UNTR vs VACV at 18h,Condition difference,PF,60,0.5915
+chr16,UNTR vs VACV at 18h,Condition difference,PF,80,0.5928
+chr16,UNTR vs VACV at 18h,Condition difference,PF,95,0.6168
+chr16,UNTR vs VACV at 18h,Condition difference,PF,100,0.6084
+chr18,UNTR 12h vs 18h,Stability,HDR,60,0.1451
+chr18,UNTR 12h vs 18h,Stability,HDR,80,0.2433
+chr18,UNTR 12h vs 18h,Stability,HDR,95,0.3911
+chr18,UNTR 12h vs 18h,Stability,HDR,100,0.5903
+chr18,UNTR 12h vs 18h,Stability,PF,60,0.4933
+chr18,UNTR 12h vs 18h,Stability,PF,80,0.4648
+chr18,UNTR 12h vs 18h,Stability,PF,95,0.4451
+chr18,UNTR 12h vs 18h,Stability,PF,100,0.4299
+chr18,VACV 12h vs 18h,Temporal change,HDR,60,0.142
+chr18,VACV 12h vs 18h,Temporal change,HDR,80,0.2157
+chr18,VACV 12h vs 18h,Temporal change,HDR,95,0.3405
+chr18,VACV 12h vs 18h,Temporal change,HDR,100,0.5671
+chr18,VACV 12h vs 18h,Temporal change,PF,60,0.4094
+chr18,VACV 12h vs 18h,Temporal change,PF,80,0.4021
+chr18,VACV 12h vs 18h,Temporal change,PF,95,0.3827
+chr18,VACV 12h vs 18h,Temporal change,PF,100,0.3645
+chr18,UNTR vs VACV at 18h,Condition difference,HDR,60,0.1365
+chr18,UNTR vs VACV at 18h,Condition difference,HDR,80,0.2183
+chr18,UNTR vs VACV at 18h,Condition difference,HDR,95,0.3538
+chr18,UNTR vs VACV at 18h,Condition difference,HDR,100,0.5619
+chr18,UNTR vs VACV at 18h,Condition difference,PF,60,0.4311
+chr18,UNTR vs VACV at 18h,Condition difference,PF,80,0.3948
+chr18,UNTR vs VACV at 18h,Condition difference,PF,95,0.3724
+chr18,UNTR vs VACV at 18h,Condition difference,PF,100,0.361
+chr19,UNTR 12h vs 18h,Stability,HDR,60,0.1624
+chr19,UNTR 12h vs 18h,Stability,HDR,80,0.2357
+chr19,UNTR 12h vs 18h,Stability,HDR,95,0.3787
+chr19,UNTR 12h vs 18h,Stability,HDR,100,0.5737
+chr19,UNTR 12h vs 18h,Stability,PF,60,0.5365
+chr19,UNTR 12h vs 18h,Stability,PF,80,0.5099
+chr19,UNTR 12h vs 18h,Stability,PF,95,0.4625
+chr19,UNTR 12h vs 18h,Stability,PF,100,0.4261
+chr19,VACV 12h vs 18h,Temporal change,HDR,60,0.1453
+chr19,VACV 12h vs 18h,Temporal change,HDR,80,0.232
+chr19,VACV 12h vs 18h,Temporal change,HDR,95,0.3703
+chr19,VACV 12h vs 18h,Temporal change,HDR,100,0.5881
+chr19,VACV 12h vs 18h,Temporal change,PF,60,0.4951
+chr19,VACV 12h vs 18h,Temporal change,PF,80,0.4511
+chr19,VACV 12h vs 18h,Temporal change,PF,95,0.4035
+chr19,VACV 12h vs 18h,Temporal change,PF,100,0.3805
+chr19,UNTR vs VACV at 18h,Condition difference,HDR,60,0.143
+chr19,UNTR vs VACV at 18h,Condition difference,HDR,80,0.2085
+chr19,UNTR vs VACV at 18h,Condition difference,HDR,95,0.3365
+chr19,UNTR vs VACV at 18h,Condition difference,HDR,100,0.5217
+chr19,UNTR vs VACV at 18h,Condition difference,PF,60,0.4847
+chr19,UNTR vs VACV at 18h,Condition difference,PF,80,0.4406
+chr19,UNTR vs VACV at 18h,Condition difference,PF,95,0.3979
+chr19,UNTR vs VACV at 18h,Condition difference,PF,100,0.3661
+chr20,UNTR 12h vs 18h,Stability,HDR,60,0.3721
+chr20,UNTR 12h vs 18h,Stability,HDR,80,0.4931
+chr20,UNTR 12h vs 18h,Stability,HDR,95,0.6471
+chr20,UNTR 12h vs 18h,Stability,HDR,100,0.8001
+chr20,UNTR 12h vs 18h,Stability,PF,60,0.8844
+chr20,UNTR 12h vs 18h,Stability,PF,80,0.87
+chr20,UNTR 12h vs 18h,Stability,PF,95,0.8265
+chr20,UNTR 12h vs 18h,Stability,PF,100,0.7605
+chr20,VACV 12h vs 18h,Temporal change,HDR,60,0.3237
+chr20,VACV 12h vs 18h,Temporal change,HDR,80,0.455
+chr20,VACV 12h vs 18h,Temporal change,HDR,95,0.569
+chr20,VACV 12h vs 18h,Temporal change,HDR,100,0.6876
+chr20,VACV 12h vs 18h,Temporal change,PF,60,0.7804
+chr20,VACV 12h vs 18h,Temporal change,PF,80,0.783
+chr20,VACV 12h vs 18h,Temporal change,PF,95,0.7126
+chr20,VACV 12h vs 18h,Temporal change,PF,100,0.6485
+chr20,UNTR vs VACV at 18h,Condition difference,HDR,60,0.3417
+chr20,UNTR vs VACV at 18h,Condition difference,HDR,80,0.4902
+chr20,UNTR vs VACV at 18h,Condition difference,HDR,95,0.6167
+chr20,UNTR vs VACV at 18h,Condition difference,HDR,100,0.7546
+chr20,UNTR vs VACV at 18h,Condition difference,PF,60,0.8813
+chr20,UNTR vs VACV at 18h,Condition difference,PF,80,0.8212
+chr20,UNTR vs VACV at 18h,Condition difference,PF,95,0.7385
+chr20,UNTR vs VACV at 18h,Condition difference,PF,100,0.7097
+chr21,UNTR 12h vs 18h,Stability,HDR,60,0.2969
+chr21,UNTR 12h vs 18h,Stability,HDR,80,0.3996
+chr21,UNTR 12h vs 18h,Stability,HDR,95,0.5746
+chr21,UNTR 12h vs 18h,Stability,HDR,100,0.7411
+chr21,UNTR 12h vs 18h,Stability,PF,60,0.6842
+chr21,UNTR 12h vs 18h,Stability,PF,80,0.7125
+chr21,UNTR 12h vs 18h,Stability,PF,95,0.691
+chr21,UNTR 12h vs 18h,Stability,PF,100,0.6702
+chr21,VACV 12h vs 18h,Temporal change,HDR,60,0.2008
+chr21,VACV 12h vs 18h,Temporal change,HDR,80,0.3047
+chr21,VACV 12h vs 18h,Temporal change,HDR,95,0.447
+chr21,VACV 12h vs 18h,Temporal change,HDR,100,0.6138
+chr21,VACV 12h vs 18h,Temporal change,PF,60,0.5674
+chr21,VACV 12h vs 18h,Temporal change,PF,80,0.5888
+chr21,VACV 12h vs 18h,Temporal change,PF,95,0.5517
+chr21,VACV 12h vs 18h,Temporal change,PF,100,0.5519
+chr21,UNTR vs VACV at 18h,Condition difference,HDR,60,0.2368
+chr21,UNTR vs VACV at 18h,Condition difference,HDR,80,0.3249
+chr21,UNTR vs VACV at 18h,Condition difference,HDR,95,0.4828
+chr21,UNTR vs VACV at 18h,Condition difference,HDR,100,0.6567
+chr21,UNTR vs VACV at 18h,Condition difference,PF,60,0.5698
+chr21,UNTR vs VACV at 18h,Condition difference,PF,80,0.6377
+chr21,UNTR vs VACV at 18h,Condition difference,PF,95,0.6171
+chr21,UNTR vs VACV at 18h,Condition difference,PF,100,0.6035
+chr22,UNTR 12h vs 18h,Stability,HDR,60,0.243
+chr22,UNTR 12h vs 18h,Stability,HDR,80,0.3483
+chr22,UNTR 12h vs 18h,Stability,HDR,95,0.4883
+chr22,UNTR 12h vs 18h,Stability,HDR,100,0.7043
+chr22,UNTR 12h vs 18h,Stability,PF,60,0.5808
+chr22,UNTR 12h vs 18h,Stability,PF,80,0.6518
+chr22,UNTR 12h vs 18h,Stability,PF,95,0.6549
+chr22,UNTR 12h vs 18h,Stability,PF,100,0.626
+chr22,VACV 12h vs 18h,Temporal change,HDR,60,0.2109
+chr22,VACV 12h vs 18h,Temporal change,HDR,80,0.3223
+chr22,VACV 12h vs 18h,Temporal change,HDR,95,0.4665
+chr22,VACV 12h vs 18h,Temporal change,HDR,100,0.7238
+chr22,VACV 12h vs 18h,Temporal change,PF,60,0.5885
+chr22,VACV 12h vs 18h,Temporal change,PF,80,0.5882
+chr22,VACV 12h vs 18h,Temporal change,PF,95,0.578
+chr22,VACV 12h vs 18h,Temporal change,PF,100,0.5699
+chr22,UNTR vs VACV at 18h,Condition difference,HDR,60,0.1992
+chr22,UNTR vs VACV at 18h,Condition difference,HDR,80,0.2955
+chr22,UNTR vs VACV at 18h,Condition difference,HDR,95,0.4318
+chr22,UNTR vs VACV at 18h,Condition difference,HDR,100,0.6738
+chr22,UNTR vs VACV at 18h,Condition difference,PF,60,0.5342
+chr22,UNTR vs VACV at 18h,Condition difference,PF,80,0.6047
+chr22,UNTR vs VACV at 18h,Condition difference,PF,95,0.5968
+chr22,UNTR vs VACV at 18h,Condition difference,PF,100,0.5669
+chr23,UNTR 12h vs 18h,Stability,HDR,60,0.2481
+chr23,UNTR 12h vs 18h,Stability,HDR,80,0.3317
+chr23,UNTR 12h vs 18h,Stability,HDR,95,0.4763
+chr23,UNTR 12h vs 18h,Stability,HDR,100,0.6875
+chr23,UNTR 12h vs 18h,Stability,PF,60,0.7915
+chr23,UNTR 12h vs 18h,Stability,PF,80,0.7282
+chr23,UNTR 12h vs 18h,Stability,PF,95,0.671
+chr23,UNTR 12h vs 18h,Stability,PF,100,0.6273
+chr23,VACV 12h vs 18h,Temporal change,HDR,60,0.1996
+chr23,VACV 12h vs 18h,Temporal change,HDR,80,0.2895
+chr23,VACV 12h vs 18h,Temporal change,HDR,95,0.4434
+chr23,VACV 12h vs 18h,Temporal change,HDR,100,0.6379
+chr23,VACV 12h vs 18h,Temporal change,PF,60,0.6189
+chr23,VACV 12h vs 18h,Temporal change,PF,80,0.6114
+chr23,VACV 12h vs 18h,Temporal change,PF,95,0.5593
+chr23,VACV 12h vs 18h,Temporal change,PF,100,0.5181
+chr23,UNTR vs VACV at 18h,Condition difference,HDR,60,0.2086
+chr23,UNTR vs VACV at 18h,Condition difference,HDR,80,0.2861
+chr23,UNTR vs VACV at 18h,Condition difference,HDR,95,0.4401
+chr23,UNTR vs VACV at 18h,Condition difference,HDR,100,0.6307
+chr23,UNTR vs VACV at 18h,Condition difference,PF,60,0.5862
+chr23,UNTR vs VACV at 18h,Condition difference,PF,80,0.5828
+chr23,UNTR vs VACV at 18h,Condition difference,PF,95,0.5508
+chr23,UNTR vs VACV at 18h,Condition difference,PF,100,0.5129
+chr25,UNTR 12h vs 18h,Stability,HDR,60,0.2253
+chr25,UNTR 12h vs 18h,Stability,HDR,80,0.3691
+chr25,UNTR 12h vs 18h,Stability,HDR,95,0.5214
+chr25,UNTR 12h vs 18h,Stability,HDR,100,0.7554
+chr25,UNTR 12h vs 18h,Stability,PF,60,0.697
+chr25,UNTR 12h vs 18h,Stability,PF,80,0.6693
+chr25,UNTR 12h vs 18h,Stability,PF,95,0.629
+chr25,UNTR 12h vs 18h,Stability,PF,100,0.5844
+chr25,VACV 12h vs 18h,Temporal change,HDR,60,0.2213
+chr25,VACV 12h vs 18h,Temporal change,HDR,80,0.3307
+chr25,VACV 12h vs 18h,Temporal change,HDR,95,0.4685
+chr25,VACV 12h vs 18h,Temporal change,HDR,100,0.6791
+chr25,VACV 12h vs 18h,Temporal change,PF,60,0.6328
+chr25,VACV 12h vs 18h,Temporal change,PF,80,0.5997
+chr25,VACV 12h vs 18h,Temporal change,PF,95,0.5542
+chr25,VACV 12h vs 18h,Temporal change,PF,100,0.5206
+chr25,UNTR vs VACV at 18h,Condition difference,HDR,60,0.2146
+chr25,UNTR vs VACV at 18h,Condition difference,HDR,80,0.317
+chr25,UNTR vs VACV at 18h,Condition difference,HDR,95,0.4486
+chr25,UNTR vs VACV at 18h,Condition difference,HDR,100,0.6272
+chr25,UNTR vs VACV at 18h,Condition difference,PF,60,0.5963
+chr25,UNTR vs VACV at 18h,Condition difference,PF,80,0.563
+chr25,UNTR vs VACV at 18h,Condition difference,PF,95,0.5276
+chr25,UNTR vs VACV at 18h,Condition difference,PF,100,0.4966
+chr26,UNTR 12h vs 18h,Stability,HDR,60,0.1602
+chr26,UNTR 12h vs 18h,Stability,HDR,80,0.2514
+chr26,UNTR 12h vs 18h,Stability,HDR,95,0.4075
+chr26,UNTR 12h vs 18h,Stability,HDR,100,0.6164
+chr26,UNTR 12h vs 18h,Stability,PF,60,0.4665
+chr26,UNTR 12h vs 18h,Stability,PF,80,0.4521
+chr26,UNTR 12h vs 18h,Stability,PF,95,0.433
+chr26,UNTR 12h vs 18h,Stability,PF,100,0.4223
+chr26,VACV 12h vs 18h,Temporal change,HDR,60,0.1379
+chr26,VACV 12h vs 18h,Temporal change,HDR,80,0.2287
+chr26,VACV 12h vs 18h,Temporal change,HDR,95,0.3882
+chr26,VACV 12h vs 18h,Temporal change,HDR,100,0.6317
+chr26,VACV 12h vs 18h,Temporal change,PF,60,0.5249
+chr26,VACV 12h vs 18h,Temporal change,PF,80,0.4851
+chr26,VACV 12h vs 18h,Temporal change,PF,95,0.4383
+chr26,VACV 12h vs 18h,Temporal change,PF,100,0.4164
+chr26,UNTR vs VACV at 18h,Condition difference,HDR,60,0.1208
+chr26,UNTR vs VACV at 18h,Condition difference,HDR,80,0.2127
+chr26,UNTR vs VACV at 18h,Condition difference,HDR,95,0.3622
+chr26,UNTR vs VACV at 18h,Condition difference,HDR,100,0.582
+chr26,UNTR vs VACV at 18h,Condition difference,PF,60,0.4338
+chr26,UNTR vs VACV at 18h,Condition difference,PF,80,0.4202
+chr26,UNTR vs VACV at 18h,Condition difference,PF,95,0.3965
+chr26,UNTR vs VACV at 18h,Condition difference,PF,100,0.3746
+chr27,UNTR 12h vs 18h,Stability,HDR,60,0.1181
+chr27,UNTR 12h vs 18h,Stability,HDR,80,0.175
+chr27,UNTR 12h vs 18h,Stability,HDR,95,0.3237
+chr27,UNTR 12h vs 18h,Stability,HDR,100,0.5372
+chr27,UNTR 12h vs 18h,Stability,PF,60,0.3355
+chr27,UNTR 12h vs 18h,Stability,PF,80,0.3122
+chr27,UNTR 12h vs 18h,Stability,PF,95,0.2817
+chr27,UNTR 12h vs 18h,Stability,PF,100,0.2699
+chr27,VACV 12h vs 18h,Temporal change,HDR,60,0.096
+chr27,VACV 12h vs 18h,Temporal change,HDR,80,0.1592
+chr27,VACV 12h vs 18h,Temporal change,HDR,95,0.2837
+chr27,VACV 12h vs 18h,Temporal change,HDR,100,0.5345
+chr27,VACV 12h vs 18h,Temporal change,PF,60,0.2492
+chr27,VACV 12h vs 18h,Temporal change,PF,80,0.2441
+chr27,VACV 12h vs 18h,Temporal change,PF,95,0.2186
+chr27,VACV 12h vs 18h,Temporal change,PF,100,0.2164
+chr27,UNTR vs VACV at 18h,Condition difference,HDR,60,0.1039
+chr27,UNTR vs VACV at 18h,Condition difference,HDR,80,0.1777
+chr27,UNTR vs VACV at 18h,Condition difference,HDR,95,0.2955
+chr27,UNTR vs VACV at 18h,Condition difference,HDR,100,0.4993
+chr27,UNTR vs VACV at 18h,Condition difference,PF,60,0.2648
+chr27,UNTR vs VACV at 18h,Condition difference,PF,80,0.2621
+chr27,UNTR vs VACV at 18h,Condition difference,PF,95,0.2449
+chr27,UNTR vs VACV at 18h,Condition difference,PF,100,0.2335
+chr28,UNTR 12h vs 18h,Stability,HDR,60,0.1535
+chr28,UNTR 12h vs 18h,Stability,HDR,80,0.2293
+chr28,UNTR 12h vs 18h,Stability,HDR,95,0.3586
+chr28,UNTR 12h vs 18h,Stability,HDR,100,0.5618
+chr28,UNTR 12h vs 18h,Stability,PF,60,0.384
+chr28,UNTR 12h vs 18h,Stability,PF,80,0.4075
+chr28,UNTR 12h vs 18h,Stability,PF,95,0.3596
+chr28,UNTR 12h vs 18h,Stability,PF,100,0.3462
+chr28,VACV 12h vs 18h,Temporal change,HDR,60,0.1872
+chr28,VACV 12h vs 18h,Temporal change,HDR,80,0.2552
+chr28,VACV 12h vs 18h,Temporal change,HDR,95,0.3837
+chr28,VACV 12h vs 18h,Temporal change,HDR,100,0.5909
+chr28,VACV 12h vs 18h,Temporal change,PF,60,0.3747
+chr28,VACV 12h vs 18h,Temporal change,PF,80,0.474
+chr28,VACV 12h vs 18h,Temporal change,PF,95,0.4917
+chr28,VACV 12h vs 18h,Temporal change,PF,100,0.4593
+chr28,UNTR vs VACV at 18h,Condition difference,HDR,60,0.1256
+chr28,UNTR vs VACV at 18h,Condition difference,HDR,80,0.2029
+chr28,UNTR vs VACV at 18h,Condition difference,HDR,95,0.3212
+chr28,UNTR vs VACV at 18h,Condition difference,HDR,100,0.5129
+chr28,UNTR vs VACV at 18h,Condition difference,PF,60,0.3449
+chr28,UNTR vs VACV at 18h,Condition difference,PF,80,0.4113
+chr28,UNTR vs VACV at 18h,Condition difference,PF,95,0.3798
+chr28,UNTR vs VACV at 18h,Condition difference,PF,100,0.3642
+chr29,UNTR 12h vs 18h,Stability,HDR,60,0.1055
+chr29,UNTR 12h vs 18h,Stability,HDR,80,0.1564
+chr29,UNTR 12h vs 18h,Stability,HDR,95,0.2686
+chr29,UNTR 12h vs 18h,Stability,HDR,100,0.429
+chr29,UNTR 12h vs 18h,Stability,PF,60,0.2885
+chr29,UNTR 12h vs 18h,Stability,PF,80,0.2735
+chr29,UNTR 12h vs 18h,Stability,PF,95,0.2364
+chr29,UNTR 12h vs 18h,Stability,PF,100,0.229
+chr29,VACV 12h vs 18h,Temporal change,HDR,60,0.097
+chr29,VACV 12h vs 18h,Temporal change,HDR,80,0.1571
+chr29,VACV 12h vs 18h,Temporal change,HDR,95,0.2584
+chr29,VACV 12h vs 18h,Temporal change,HDR,100,0.4062
+chr29,VACV 12h vs 18h,Temporal change,PF,60,0.295
+chr29,VACV 12h vs 18h,Temporal change,PF,80,0.2548
+chr29,VACV 12h vs 18h,Temporal change,PF,95,0.2257
+chr29,VACV 12h vs 18h,Temporal change,PF,100,0.2167
+chr29,UNTR vs VACV at 18h,Condition difference,HDR,60,0.083
+chr29,UNTR vs VACV at 18h,Condition difference,HDR,80,0.1268
+chr29,UNTR vs VACV at 18h,Condition difference,HDR,95,0.2157
+chr29,UNTR vs VACV at 18h,Condition difference,HDR,100,0.3591
+chr29,UNTR vs VACV at 18h,Condition difference,PF,60,0.2466
+chr29,UNTR vs VACV at 18h,Condition difference,PF,80,0.2269
+chr29,UNTR vs VACV at 18h,Condition difference,PF,95,0.199
+chr29,UNTR vs VACV at 18h,Condition difference,PF,100,0.1866

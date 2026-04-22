@@ -6,8 +6,9 @@ Three representative pairs for chr1:
   - VACV 12h vs VACV 18h  : temporal change (infected condition)
   - UNTR vs VACV at 18h   : condition difference (same timepoint)
 
-Settings: PCA+ICP alignment, YZ plane, 60% HDR/PF level.
-Compares IoU and meanNN between HDR and point-fraction representations.
+Settings: PCA+ICP alignment, YZ plane, levels 60/80/95/100%.
+Compares IoU and meanNN between HDR and point-fraction representations,
+and plots IoU as a function of density level to show multi-scale behavior.
 
 Usage:
     python run.py
@@ -30,16 +31,28 @@ FIGURES_DIR = os.path.join(os.path.dirname(__file__), "figures")
 
 CHROM    = "chr1"
 PLANE    = "YZ"
-LEVEL    = 60
+LEVELS   = [60, 80, 95, 100]
 XYZ_COLS = ("middle_x", "middle_y", "middle_z")
 
+CHROMS = [
+    "chr1",
+    "chr2","chr3","chr4","chr5","chr6","chr7",
+    "chr10","chr12","chr13","chr14","chr15","chr16",
+    "chr18","chr19","chr20","chr21","chr22","chr23",
+    "chr25","chr26","chr27","chr28","chr29",
+]
+TIMES = ["12hrs", "18hrs", "24hrs"]
+CONDS = ["untr", "vacv"]
+
 CFG_COMMON = mpase.CfgCommon(icp_iters=30)
-CFG_HDR    = mpase.CfgHDR(n_boot=128, mass_levels=(0.60, 0.80, 0.95, 1.00))
+CFG_HDR    = mpase.CfgHDR(n_boot=256, mass_levels=(0.60, 0.80, 0.95, 1.00))
 CFG_PF     = mpase.CfgPF(frac_levels=(0.60, 0.80, 0.95, 1.00))
+
 
 def _gene_info(chrom, hrs, cond):
     return os.path.join(DATA_ROOT, chrom, hrs, cond,
                         f"structure_{hrs}_{cond}_gene_info.csv")
+
 
 PAIRS = [
     {
@@ -89,25 +102,27 @@ def run_all() -> pd.DataFrame:
             cfg_hdr=CFG_HDR,
             cfg_pf=CFG_PF,
         )
-        for variant, label in [("hdr", "HDR"), ("point_fraction", "PF")]:
-            iou, meannn = extract_metric(result, PLANE, LEVEL, variant)
-            rows.append({
-                "pair":            pair["name"],
-                "category":        pair["label"],
-                "representation":  label,
-                "plane":           PLANE,
-                "level":           LEVEL,
-                "IoU":             round(iou, 4),
-                "meanNN":          round(meannn, 3),
-            })
-            print(f"    {label:4}  IoU={iou:.3f}  meanNN={meannn:.2f}")
+        for variant, rep_label in [("hdr", "HDR"), ("point_fraction", "PF")]:
+            for level in LEVELS:
+                iou, meannn = extract_metric(result, PLANE, level, variant)
+                rows.append({
+                    "pair":           pair["name"],
+                    "category":       pair["label"],
+                    "representation": rep_label,
+                    "plane":          PLANE,
+                    "level":          level,
+                    "IoU":            round(iou, 4),
+                    "meanNN":         round(meannn, 3),
+                })
+            iou60, _ = extract_metric(result, PLANE, 60, variant)
+            print(f"    {rep_label:4}  IoU@60%={iou60:.3f}")
     return pd.DataFrame(rows)
 
 
 # ── figures ──────────────────────────────────────────────────────────────────
 
 def plot_grouped_bars(df: pd.DataFrame):
-    """Side-by-side grouped bar: IoU and meanNN for HDR vs PF across pairs."""
+    sub        = df[df["level"] == 60]
     pair_order = [p["name"] for p in PAIRS]
     palette    = {"HDR": "#4c72b0", "PF": "#dd8452"}
 
@@ -116,16 +131,15 @@ def plot_grouped_bars(df: pd.DataFrame):
         x     = np.arange(len(pair_order))
         width = 0.35
         for i, rep in enumerate(["HDR", "PF"]):
-            vals = [df[(df["pair"] == p) & (df["representation"] == rep)][metric].values
+            vals = [sub[(sub["pair"] == p) & (sub["representation"] == rep)][metric].values
                     for p in pair_order]
             vals = [v[0] if len(v) else np.nan for v in vals]
-            bars = ax.bar(x + (i - 0.5) * width, vals, width,
-                          label=rep, color=palette[rep], alpha=0.88)
+            ax.bar(x + (i - 0.5) * width, vals, width,
+                   label=rep, color=palette[rep], alpha=0.88)
             for xi, v in zip(x, vals):
                 if not np.isnan(v):
                     ax.text(xi + (i - 0.5) * width, v + 0.003,
                             f"{v:.3f}", ha="center", va="bottom", fontsize=8)
-
         ax.set_xticks(x)
         ax.set_xticklabels(pair_order, rotation=12, ha="right", fontsize=9)
         ax.set_ylabel(metric)
@@ -144,15 +158,15 @@ def plot_grouped_bars(df: pd.DataFrame):
 
 
 def plot_heatmaps(df: pd.DataFrame):
-    """Two heatmaps: pairs × representations for IoU and meanNN."""
+    sub        = df[df["level"] == 60]
     pair_order = [p["name"] for p in PAIRS]
 
     for metric, cmap, vmin, vmax in [
         ("IoU",    "RdYlGn",   0, 1),
         ("meanNN", "RdYlGn_r", 0, 20),
     ]:
-        pivot = df.pivot_table(index="pair", columns="representation",
-                               values=metric, aggfunc="first")
+        pivot = sub.pivot_table(index="pair", columns="representation",
+                                values=metric, aggfunc="first")
         pivot = pivot.reindex(pair_order)[["HDR", "PF"]]
 
         fig, ax = plt.subplots(figsize=(4, 3))
@@ -171,7 +185,7 @@ def plot_heatmaps(df: pd.DataFrame):
 
 
 def plot_delta(df: pd.DataFrame):
-    """Bar chart showing IoU difference (PF - HDR) per pair."""
+    sub        = df[df["level"] == 60]
     pair_order = [p["name"] for p in PAIRS]
     categories = [p["label"] for p in PAIRS]
 
@@ -179,12 +193,12 @@ def plot_delta(df: pd.DataFrame):
     for ax, metric in zip(axes, ["IoU", "meanNN"]):
         deltas = []
         for p in pair_order:
-            hdr = df[(df["pair"] == p) & (df["representation"] == "HDR")][metric].values
-            pf  = df[(df["pair"] == p) & (df["representation"] == "PF")][metric].values
+            hdr = sub[(sub["pair"] == p) & (sub["representation"] == "HDR")][metric].values
+            pf  = sub[(sub["pair"] == p) & (sub["representation"] == "PF")][metric].values
             deltas.append(float(pf[0] - hdr[0]) if len(hdr) and len(pf) else np.nan)
 
         bar_colors = ["#2ca02c" if d >= 0 else "#d62728" for d in deltas]
-        bars = ax.bar(range(len(pair_order)), deltas, color=bar_colors, alpha=0.85)
+        ax.bar(range(len(pair_order)), deltas, color=bar_colors, alpha=0.85)
         ax.axhline(0, color="black", linewidth=0.8)
         ax.set_xticks(range(len(pair_order)))
         ax.set_xticklabels([f"{n}\n({c})" for n, c in zip(pair_order, categories)],
@@ -207,6 +221,229 @@ def plot_delta(df: pd.DataFrame):
     print(f"Saved {out}")
 
 
+def run_chrom_level() -> pd.DataFrame:
+    """
+    For each chromosome, pass all 6 CSVs (consistent normalization) and
+    extract IoU for UNTR vs VACV at 18h across all levels and both representations.
+    """
+    rows = []
+    for chrom in CHROMS:
+        csvs, labels = [], []
+        for hrs in TIMES:
+            for cond in CONDS:
+                p = os.path.join(DATA_ROOT, chrom, hrs, cond,
+                                 f"structure_{hrs}_{cond}_gene_info.csv")
+                if os.path.exists(p):
+                    csvs.append(p)
+                    labels.append(f"{chrom}_{hrs}_{cond}")
+        if len(csvs) < 2:
+            print(f"  {chrom}: missing files, skipping")
+            continue
+
+        A_label = f"{chrom}_18hrs_untr"
+        B_label = f"{chrom}_18hrs_vacv"
+
+        try:
+            result = mpase.run(
+                csv_list=csvs,
+                labels=labels,
+                xyz_cols=XYZ_COLS,
+                cfg_common=CFG_COMMON,
+                cfg_hdr=CFG_HDR,
+                cfg_pf=CFG_PF,
+            )
+            for variant, rep_label in [("hdr", "HDR"), ("point_fraction", "PF")]:
+                for level in LEVELS:
+                    df_m = result["metrics"]
+                    row  = df_m[
+                        (df_m["plane"] == PLANE) & (df_m["level"] == level) &
+                        (df_m["variant"] == variant) &
+                        (df_m["A"] == A_label) & (df_m["B"] == B_label)
+                    ]
+                    iou = float(row.iloc[0]["IoU"]) if not row.empty else float("nan")
+                    rows.append({
+                        "chrom":          chrom,
+                        "representation": rep_label,
+                        "level":          level,
+                        "IoU":            round(iou, 4),
+                    })
+            print(f"  {chrom}: done")
+        except Exception as e:
+            print(f"  {chrom}: ERROR — {e}")
+
+    return pd.DataFrame(rows)
+
+
+def plot_chrom_level_heatmap(df: pd.DataFrame, representation: str):
+    """
+    Table-style heatmap: chromosomes × HDR/PF levels, cells = IoU.
+    Fixed comparison: UNTR vs VACV at 18h, YZ plane.
+    """
+    HEATMAP_LEVELS = [60, 80, 95]
+    sub   = df[(df["representation"] == representation) & (df["level"].isin(HEATMAP_LEVELS))]
+    pivot = sub.pivot_table(index="chrom", columns="level", values="IoU")
+    pivot = pivot[[60, 80, 95]]
+    pivot.columns = ["60%", "80%", "95%"]
+    pivot = pivot.reindex(sorted(pivot.index, key=lambda c: int(c.replace("chr", ""))))
+
+    fig, ax = plt.subplots(figsize=(5, max(5, len(pivot) * 0.38)))
+    sns.heatmap(pivot, annot=True, fmt=".3f", cmap="viridis",
+                vmin=0, vmax=1, ax=ax,
+                linewidths=0.5, cbar_kws={"label": "IoU"})
+    ax.set_title(f"IoU — UNTR vs VACV at 18h ({representation})\n"
+                 f"YZ plane | PCA+ICP alignment\n"
+                 f"lower = greater structural difference")
+    ax.set_xlabel("HDR level" if representation == "HDR" else "PF level")
+    ax.set_ylabel("Chromosome")
+    plt.tight_layout()
+    fname = f"chrom_level_heatmap_{representation.lower()}.png"
+    out   = os.path.join(FIGURES_DIR, fname)
+    plt.savefig(out, dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"Saved {out}")
+
+
+def plot_iou_vs_level(df: pd.DataFrame, representation: str):
+    """
+    Line plot: IoU vs density level for each comparison pair.
+    Shows how similarity varies from dense core (60%) to near-global (100%).
+    """
+    sub        = df[df["representation"] == representation]
+    pair_order = [p["name"] for p in PAIRS]
+    categories = [p["label"] for p in PAIRS]
+    palette    = sns.color_palette("tab10", len(pair_order))
+    x_labels   = [f"{l}%" for l in LEVELS]
+
+    fig, ax = plt.subplots(figsize=(7, 4))
+    for color, pair_name, cat in zip(palette, pair_order, categories):
+        psub = sub[sub["pair"] == pair_name].sort_values("level")
+        iou_vals = [psub[psub["level"] == l]["IoU"].values for l in LEVELS]
+        iou_vals = [v[0] if len(v) else np.nan for v in iou_vals]
+        ax.plot(range(len(LEVELS)), iou_vals, marker="o", color=color,
+                linewidth=2, label=f"{pair_name} ({cat})")
+        for xi, v in enumerate(iou_vals):
+            if not np.isnan(v):
+                ax.annotate(f"{v:.3f}", (xi, v),
+                            textcoords="offset points", xytext=(0, 7),
+                            ha="center", fontsize=7, color=color)
+
+    ax.set_xticks(range(len(LEVELS)))
+    ax.set_xticklabels(x_labels)
+    ax.set_xlabel("Density level")
+    ax.set_ylabel("IoU")
+    ax.set_ylim(0, 0.8)
+    ax.set_title(f"IoU vs Density Level — {representation} (YZ, Chr1)\n"
+                 f"lower levels = dense core, higher levels = global structure")
+    ax.legend(fontsize=8)
+    ax.grid(axis="y", alpha=0.3)
+    plt.tight_layout()
+    fname = f"iou_vs_level_{representation.lower()}.png"
+    out = os.path.join(FIGURES_DIR, fname)
+    plt.savefig(out, dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"Saved {out}")
+
+
+ALL_PAIRS = [
+    {"name": "UNTR 12h vs 18h",     "label": "Stability",            "hrs_a": "12hrs", "cond_a": "untr", "hrs_b": "18hrs", "cond_b": "untr"},
+    {"name": "VACV 12h vs 18h",     "label": "Temporal change",       "hrs_a": "12hrs", "cond_a": "vacv", "hrs_b": "18hrs", "cond_b": "vacv"},
+    {"name": "UNTR vs VACV at 18h", "label": "Condition difference",  "hrs_a": "18hrs", "cond_a": "untr", "hrs_b": "18hrs", "cond_b": "vacv"},
+]
+
+
+def run_all_chroms_all_pairs() -> pd.DataFrame:
+    rows = []
+    for chrom in CHROMS:
+        csvs, labels = [], []
+        for hrs in TIMES:
+            for cond in CONDS:
+                p = os.path.join(DATA_ROOT, chrom, hrs, cond,
+                                 f"structure_{hrs}_{cond}_gene_info.csv")
+                if os.path.exists(p):
+                    csvs.append(p)
+                    labels.append(f"{chrom}_{hrs}_{cond}")
+        if len(csvs) < 2:
+            continue
+        try:
+            result = mpase.run(
+                csv_list=csvs,
+                labels=labels,
+                xyz_cols=XYZ_COLS,
+                cfg_common=CFG_COMMON,
+                cfg_hdr=CFG_HDR,
+                cfg_pf=CFG_PF,
+            )
+            for pair in ALL_PAIRS:
+                A_label = f"{chrom}_{pair['hrs_a']}_{pair['cond_a']}"
+                B_label = f"{chrom}_{pair['hrs_b']}_{pair['cond_b']}"
+                for variant, rep_label in [("hdr", "HDR"), ("point_fraction", "PF")]:
+                    for level in LEVELS:
+                        df_m = result["metrics"]
+                        row  = df_m[
+                            (df_m["plane"] == PLANE) & (df_m["level"] == level) &
+                            (df_m["variant"] == variant) &
+                            (df_m["A"] == A_label) & (df_m["B"] == B_label)
+                        ]
+                        iou = float(row.iloc[0]["IoU"]) if not row.empty else float("nan")
+                        rows.append({
+                            "chrom":          chrom,
+                            "pair":           pair["name"],
+                            "category":       pair["label"],
+                            "representation": rep_label,
+                            "level":          level,
+                            "IoU":            round(iou, 4),
+                        })
+            print(f"  {chrom}: done")
+        except Exception as e:
+            print(f"  {chrom}: ERROR — {e}")
+    return pd.DataFrame(rows)
+
+
+def plot_iou_vs_level_avg(df: pd.DataFrame, representation: str):
+    """
+    Line plot with ±std band: mean IoU vs density level across all chromosomes,
+    one line per comparison type.
+    """
+    sub     = df[df["representation"] == representation]
+    palette = {"Stability": "#2196F3", "Temporal change": "#FF9800", "Condition difference": "#E53935"}
+    pair_order = ["Stability", "Temporal change", "Condition difference"]
+    x_pos   = list(range(len(LEVELS)))
+    x_labels = [f"{l}%" for l in LEVELS]
+
+    fig, ax = plt.subplots(figsize=(7, 4))
+    for cat in pair_order:
+        csub = sub[sub["category"] == cat]
+        means, stds = [], []
+        for level in LEVELS:
+            vals = csub[csub["level"] == level]["IoU"].dropna()
+            means.append(vals.mean())
+            stds.append(vals.std())
+        means, stds = np.array(means), np.array(stds)
+        color = palette[cat]
+        ax.plot(x_pos, means, marker="o", color=color, linewidth=2, label=cat)
+        ax.fill_between(x_pos, means - stds, means + stds, color=color, alpha=0.15)
+        for xi, (m, s) in enumerate(zip(means, stds)):
+            ax.annotate(f"{m:.3f}", (xi, m),
+                        textcoords="offset points", xytext=(0, 7),
+                        ha="center", fontsize=7, color=color)
+
+    ax.set_xticks(x_pos)
+    ax.set_xticklabels(x_labels)
+    ax.set_xlabel("Density level")
+    ax.set_ylabel("IoU (mean ± std across 24 chromosomes)")
+    ax.set_ylim(0, 1.0)
+    ax.set_title(f"IoU vs Density Level — {representation} (YZ, all chromosomes)\n"
+                 f"shaded = ±1 std across chromosomes")
+    ax.legend(fontsize=8)
+    ax.grid(axis="y", alpha=0.3)
+    plt.tight_layout()
+    fname = f"iou_vs_level_avg_{representation.lower()}.png"
+    out   = os.path.join(FIGURES_DIR, fname)
+    plt.savefig(out, dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"Saved {out}")
+
+
 def main():
     os.makedirs(RESULTS_DIR, exist_ok=True)
     os.makedirs(FIGURES_DIR, exist_ok=True)
@@ -222,9 +459,28 @@ def main():
     plot_grouped_bars(df)
     plot_heatmaps(df)
     plot_delta(df)
+    plot_iou_vs_level(df, "HDR")
+    plot_iou_vs_level(df, "PF")
 
-    print("\n── Results ───────────────────────────────────────")
-    print(df.to_string(index=False))
+    print("\nRunning chromosome-level analysis (UNTR vs VACV at 18h, all chromosomes)...")
+    df_chrom = run_chrom_level()
+    chrom_csv = os.path.join(RESULTS_DIR, "chrom_level_iou.csv")
+    df_chrom.to_csv(chrom_csv, index=False)
+    print(f"Saved {chrom_csv}")
+
+    plot_chrom_level_heatmap(df_chrom, "HDR")
+    plot_chrom_level_heatmap(df_chrom, "PF")
+
+    print("\nRunning all pairs across all chromosomes (averaged IoU vs level)...")
+    df_avg = run_all_chroms_all_pairs()
+    avg_csv = os.path.join(RESULTS_DIR, "all_chroms_all_pairs_iou.csv")
+    df_avg.to_csv(avg_csv, index=False)
+    print(f"Saved {avg_csv}")
+    plot_iou_vs_level_avg(df_avg, "HDR")
+    plot_iou_vs_level_avg(df_avg, "PF")
+
+    print("\n── Results (60% level) ───────────────────────────────────────")
+    print(df[df["level"] == 60].to_string(index=False))
 
 
 if __name__ == "__main__":

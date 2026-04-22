@@ -52,6 +52,8 @@ VARIANTS = [
     ("hdr",            "hdr"),
     ("point_fraction", "pf"),
 ]
+TIMES = ["12hrs", "18hrs", "24hrs"]
+CONDS = ["untr", "vacv"]
 
 XYZ_COLS = ("middle_x", "middle_y", "middle_z")
 
@@ -59,14 +61,24 @@ CFG_HDR = mpase.CfgHDR(n_boot=256, mass_levels=(0.60, 0.80, 0.95, 1.00))
 CFG_PF  = mpase.CfgPF(frac_levels=(0.60, 0.80, 0.95, 1.00))
 
 
-def csv_path(chrom: str, hrs: str, cond: str) -> str:
-    return os.path.join(DATA_ROOT, chrom, hrs, cond,
-                        f"structure_{hrs}_{cond}_gene_info.csv")
+def collect_csvs_labels(chrom: str):
+    csvs, labels = [], []
+    for hrs in TIMES:
+        for cond in CONDS:
+            p = os.path.join(DATA_ROOT, chrom, hrs, cond,
+                             f"structure_{hrs}_{cond}_gene_info.csv")
+            if os.path.exists(p):
+                csvs.append(p)
+                labels.append(f"{chrom}_{hrs}_{cond}")
+    return csvs, labels
 
 
-def extract_metric(result: dict, plane: str, level: int, variant: str) -> tuple:
+def extract_metric(result: dict, plane: str, level: int, variant: str,
+                   A_label: str, B_label: str) -> tuple:
     df = result["metrics"]
-    row = df[(df["plane"] == plane) & (df["level"] == level) & (df["variant"] == variant)]
+    row = df[(df["plane"] == plane) & (df["level"] == level) &
+             (df["variant"] == variant) &
+             (df["A"] == A_label) & (df["B"] == B_label)]
     if row.empty:
         return float("nan"), float("nan")
     return float(row.iloc[0]["IoU"]), float(row.iloc[0]["meanNN"])
@@ -75,17 +87,19 @@ def extract_metric(result: dict, plane: str, level: int, variant: str) -> tuple:
 def run_all() -> pd.DataFrame:
     rows = []
     for chrom in CHROMS:
-        csv_a = csv_path(chrom, "12hrs", "untr")
-        csv_b = csv_path(chrom, "18hrs", "untr")
-        if not os.path.exists(csv_a) or not os.path.exists(csv_b):
+        csvs, labels = collect_csvs_labels(chrom)
+        if len(csvs) < 2:
             print(f"  {chrom}: missing files, skipping")
             continue
+
+        A_label = f"{chrom}_12hrs_untr"
+        B_label = f"{chrom}_18hrs_untr"
 
         for mode_name, mode_kwargs in ALIGN_MODES.items():
             try:
                 result = mpase.run(
-                    csv_list=[csv_a, csv_b],
-                    labels=["untr_12h", "untr_18h"],
+                    csv_list=csvs,
+                    labels=labels,
                     xyz_cols=XYZ_COLS,
                     cfg_hdr=CFG_HDR,
                     cfg_pf=CFG_PF,
@@ -93,7 +107,8 @@ def run_all() -> pd.DataFrame:
                 )
                 for variant_key, variant_folder in VARIANTS:
                     for level in LEVELS:
-                        iou, meannn = extract_metric(result, PLANE, level, variant_key)
+                        iou, meannn = extract_metric(result, PLANE, level, variant_key,
+                                                     A_label, B_label)
                         rows.append({
                             "chrom":          chrom,
                             "align":          mode_name,
@@ -264,6 +279,38 @@ def plot_all_chroms_trend(df: pd.DataFrame, variant_folder: str, level: int):
         print(f"Saved {out}")
 
 
+def plot_iou_gain_heatmap(df: pd.DataFrame, variant_folder: str, level: int, clip: float = 0.15):
+    pivot = df.pivot_table(index="chrom", columns="align", values="IoU")
+    if not {"none", "pca", "pca_icp"}.issubset(pivot.columns):
+        return
+    pivot = pivot.reindex(sorted(pivot.index, key=lambda c: int(c.replace("chr", ""))))
+
+    gains = pd.DataFrame(index=pivot.index)
+    gains["PCA − None"]     = pivot["pca"]     - pivot["none"]
+    gains["PCA+ICP − None"] = pivot["pca_icp"] - pivot["none"]
+
+    clipped = gains.clip(-clip, clip)
+    vmax    = clip
+    annot   = gains.round(3).astype(str)
+
+    variant_label = "HDR" if variant_folder == "hdr" else "PF"
+    fig, ax = plt.subplots(figsize=(5, max(5, len(gains) * 0.35)))
+    sns.heatmap(clipped, annot=annot, fmt="", cmap="RdBu",
+                vmin=-vmax, vmax=vmax, center=0,
+                ax=ax, linewidths=0.5,
+                cbar_kws={"label": f"IoU gain (clipped ±{clip})"})
+    ax.set_title(f"IoU Gain from Alignment — {variant_label}\n"
+                 f"(UNTR 12h vs 18h, YZ {level}%)\n"
+                 f"positive = improvement, negative = degradation")
+    ax.set_xlabel("")
+    ax.set_ylabel("Chromosome")
+    plt.tight_layout()
+    out = os.path.join(fig_dir(variant_folder, level), "iou_gain_heatmap.png")
+    plt.savefig(out, dpi=150, bbox_inches="tight")
+    plt.close()
+    print(f"Saved {out}")
+
+
 def generate_figures_for(df: pd.DataFrame, variant_key: str, variant_folder: str, level: int):
     sub = df[(df["variant"] == variant_key) & (df["level"] == level)].copy()
     if sub.empty:
@@ -274,6 +321,7 @@ def generate_figures_for(df: pd.DataFrame, variant_key: str, variant_folder: str
     plot_gain_heatmap(sub, variant_folder, level)
     plot_meannn_heatmap(sub, variant_folder, level)
     plot_all_chroms_trend(sub, variant_folder, level)
+    plot_iou_gain_heatmap(sub, variant_folder, level)
 
 
 def main():
