@@ -1,0 +1,16 @@
+\begin{table}[ht]
+\centering
+\small
+\caption{Shape method comparison for CHR1, YZ plane, 100\% of points. Stability = UNTR 12h vs 18h; Temporal = VACV 12h vs 18h; Condition = UNTR vs VACV at 18h. Gap = Stability IoU $-$ Condition IoU; higher = better discrimination.}
+\label{tab:chr1_yz_100}
+\begin{tabular}{lcccc}
+\toprule
+Method & Stability IoU & Temporal IoU & Condition IoU & Gap \\
+\midrule
+ConvexHull & 0.8376 & 0.7413 & 0.7142 & +0.1234 \\
+AlphaShape & 0.3235 & 0.2510 & 0.2603 & +0.0632 \\
+HDR & 0.7747 & 0.6403 & 0.6227 & +0.1520 \\
+PF & 0.7554 & 0.6007 & 0.5762 & +0.1792 \\
+\bottomrule
+\end{tabular}
+\end{table}

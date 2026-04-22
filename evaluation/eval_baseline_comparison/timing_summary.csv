@@ -1,0 +1,4 @@
+chrom,mpase_s,masks_s,metrics_s,tables_s,figures_s,total_s
+chr21,2.2,1.0,0.1,0.0,1.8,5.1
+chr7,1.6,0.8,0.1,0.0,1.7,4.1
+chr25,1.9,0.8,0.2,0.0,1.7,4.6

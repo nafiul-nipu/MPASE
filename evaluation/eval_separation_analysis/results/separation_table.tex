@@ -1,0 +1,20 @@
+\begin{table}[ht]
+\centering
+\small
+\caption{Separation analysis for CHR21 at 100\% density. Mean IoU per method and category. Gap = Stability\,IoU $-$ Condition\,IoU; a larger gap indicates better discriminative power.}
+\label{tab:separation_chr21}
+\begin{tabular}{lllllll}
+\toprule
+Plane & Method & Stability & Temporal & Condition & Gap (S$-$C) & Gap (T$-$C) \\
+\midrule
+YZ & ConvexHull & 0.761 & 0.769 & 0.783 & -0.022 & -0.013 \\
+ & AlphaShape & 0.219 & 0.183 & 0.197 & 0.021 & -0.014 \\
+ & HDR & 0.680 & 0.650 & 0.676 & 0.005 & -0.026 \\
+ & PF & 0.624 & 0.584 & 0.625 & -0.002 & -0.042 \\
+XZ & ConvexHull & 0.773 & 0.695 & 0.739 & 0.034 & -0.045 \\
+ & AlphaShape & 0.311 & 0.334 & 0.375 & -0.064 & -0.041 \\
+ & HDR & 0.713 & 0.724 & 0.709 & 0.004 & 0.015 \\
+ & PF & 0.688 & 0.694 & 0.675 & 0.013 & 0.019 \\
+\bottomrule
+\end{tabular}
+\end{table}

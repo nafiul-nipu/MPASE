@@ -1,0 +1,73 @@
+comparison,category,plane,method,IoU,meanNN
+UNTR 12h vs 18h,Stability,YZ,ConvexHull,0.8331,3.317
+UNTR 12h vs 18h,Stability,YZ,AlphaShape,0.2373,2.464
+UNTR 12h vs 18h,Stability,YZ,HDR,0.7411,3.014
+UNTR 12h vs 18h,Stability,YZ,PF,0.6702,2.788
+UNTR 12h vs 18h,Stability,XZ,ConvexHull,0.793,3.504
+UNTR 12h vs 18h,Stability,XZ,AlphaShape,0.3683,3.337
+UNTR 12h vs 18h,Stability,XZ,HDR,0.7381,3.254
+UNTR 12h vs 18h,Stability,XZ,PF,0.709,2.858
+UNTR 12h vs 24h,Stability,YZ,ConvexHull,0.7652,4.693
+UNTR 12h vs 24h,Stability,YZ,AlphaShape,0.2296,55.8
+UNTR 12h vs 24h,Stability,YZ,HDR,0.6755,4.48
+UNTR 12h vs 24h,Stability,YZ,PF,0.6265,4.713
+UNTR 12h vs 24h,Stability,XZ,ConvexHull,0.7385,4.707
+UNTR 12h vs 24h,Stability,XZ,AlphaShape,0.2687,3.766
+UNTR 12h vs 24h,Stability,XZ,HDR,0.7072,4.251
+UNTR 12h vs 24h,Stability,XZ,PF,0.6831,4.031
+UNTR 18h vs 24h,Stability,YZ,ConvexHull,0.6837,6.951
+UNTR 18h vs 24h,Stability,YZ,AlphaShape,0.1892,54.749
+UNTR 18h vs 24h,Stability,YZ,HDR,0.6243,5.911
+UNTR 18h vs 24h,Stability,YZ,PF,0.5737,5.528
+UNTR 18h vs 24h,Stability,XZ,ConvexHull,0.7865,3.813
+UNTR 18h vs 24h,Stability,XZ,AlphaShape,0.295,3.742
+UNTR 18h vs 24h,Stability,XZ,HDR,0.694,4.404
+UNTR 18h vs 24h,Stability,XZ,PF,0.6718,4.054
+VACV 12h vs 18h,Temporal,YZ,ConvexHull,0.7908,4.371
+VACV 12h vs 18h,Temporal,YZ,AlphaShape,0.1584,2.835
+VACV 12h vs 18h,Temporal,YZ,HDR,0.6138,5.263
+VACV 12h vs 18h,Temporal,YZ,PF,0.5519,4.16
+VACV 12h vs 18h,Temporal,XZ,ConvexHull,0.7116,5.996
+VACV 12h vs 18h,Temporal,XZ,AlphaShape,0.3369,3.848
+VACV 12h vs 18h,Temporal,XZ,HDR,0.742,4.127
+VACV 12h vs 18h,Temporal,XZ,PF,0.6894,3.414
+VACV 12h vs 24h,Temporal,YZ,ConvexHull,0.8079,3.61
+VACV 12h vs 24h,Temporal,YZ,AlphaShape,0.1967,2.144
+VACV 12h vs 24h,Temporal,YZ,HDR,0.7135,3.705
+VACV 12h vs 24h,Temporal,YZ,PF,0.6427,2.743
+VACV 12h vs 24h,Temporal,XZ,ConvexHull,0.671,6.47
+VACV 12h vs 24h,Temporal,XZ,AlphaShape,0.3473,2.543
+VACV 12h vs 24h,Temporal,XZ,HDR,0.7363,3.852
+VACV 12h vs 24h,Temporal,XZ,PF,0.7246,2.747
+VACV 18h vs 24h,Temporal,YZ,ConvexHull,0.7095,6.183
+VACV 18h vs 24h,Temporal,YZ,AlphaShape,0.194,1.739
+VACV 18h vs 24h,Temporal,YZ,HDR,0.6223,4.789
+VACV 18h vs 24h,Temporal,YZ,PF,0.5566,4.129
+VACV 18h vs 24h,Temporal,XZ,ConvexHull,0.7011,5.5
+VACV 18h vs 24h,Temporal,XZ,AlphaShape,0.3188,3.239
+VACV 18h vs 24h,Temporal,XZ,HDR,0.6921,4.846
+VACV 18h vs 24h,Temporal,XZ,PF,0.6684,4.295
+UNTR vs VACV @ 12h,Condition,YZ,ConvexHull,0.8675,2.457
+UNTR vs VACV @ 12h,Condition,YZ,AlphaShape,0.2279,2.241
+UNTR vs VACV @ 12h,Condition,YZ,HDR,0.7225,3.545
+UNTR vs VACV @ 12h,Condition,YZ,PF,0.6748,2.793
+UNTR vs VACV @ 12h,Condition,XZ,ConvexHull,0.7306,5.188
+UNTR vs VACV @ 12h,Condition,XZ,AlphaShape,0.4616,1.727
+UNTR vs VACV @ 12h,Condition,XZ,HDR,0.7659,3.369
+UNTR vs VACV @ 12h,Condition,XZ,PF,0.7307,2.71
+UNTR vs VACV @ 18h,Condition,YZ,ConvexHull,0.7456,5.629
+UNTR vs VACV @ 18h,Condition,YZ,AlphaShape,0.1792,2.771
+UNTR vs VACV @ 18h,Condition,YZ,HDR,0.6567,4.439
+UNTR vs VACV @ 18h,Condition,YZ,PF,0.6035,4.01
+UNTR vs VACV @ 18h,Condition,XZ,ConvexHull,0.7804,4.028
+UNTR vs VACV @ 18h,Condition,XZ,AlphaShape,0.3198,2.53
+UNTR vs VACV @ 18h,Condition,XZ,HDR,0.6742,5.034
+UNTR vs VACV @ 18h,Condition,XZ,PF,0.6286,4.511
+UNTR vs VACV @ 24h,Condition,YZ,ConvexHull,0.7352,5.206
+UNTR vs VACV @ 24h,Condition,YZ,AlphaShape,0.1846,51.269
+UNTR vs VACV @ 24h,Condition,YZ,HDR,0.6475,5.048
+UNTR vs VACV @ 24h,Condition,YZ,PF,0.598,4.675
+UNTR vs VACV @ 24h,Condition,XZ,ConvexHull,0.7064,5.225
+UNTR vs VACV @ 24h,Condition,XZ,AlphaShape,0.3438,3.138
+UNTR vs VACV @ 24h,Condition,XZ,HDR,0.6861,4.568
+UNTR vs VACV @ 24h,Condition,XZ,PF,0.6651,4.154
