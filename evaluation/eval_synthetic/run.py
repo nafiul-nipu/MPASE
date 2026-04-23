@@ -30,6 +30,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import seaborn as sns
 from skimage.measure import find_contours
+from scipy.ndimage import gaussian_filter
 
 sys.stdout.reconfigure(line_buffering=True)
 
@@ -53,7 +54,7 @@ OUT_DIR = os.path.dirname(__file__)
 RES_DIR = os.path.join(OUT_DIR, "results")
 FIG_DIR = os.path.join(OUT_DIR, "figures")
 
-LEVELS   = [60, 80, 95, 100]
+LEVELS   = [95, 96, 97, 98, 99, 100]
 N_PTS    = 500      # points per replicate
 N_SEEDS  = 1        # one run per shape
 N_BOOT   = 256      # bootstrap iterations for HDR
@@ -291,21 +292,17 @@ def evaluate_shape(shape_name, density_fn):
 
 def fig_qualitative(shape_name, vis):
     """
-    Grid: rows = levels (60 / 80 / 95%), cols = GT + 4 methods.
-    100% is excluded — at full mass coverage every smooth density fills the
-    entire grid, making the panel uninformative.
-    Each method panel overlays the GT contour as a dashed green line.
+    Grid: rows = levels, cols = 4 methods (no GT column).
+    Shows sampled points + method mask contour only.
     """
-    QUAL_LEVELS = [60, 80, 95]
+    QUAL_LEVELS = [95, 96, 97, 98, 99]
 
-    xs, ys       = vis["xs"], vis["ys"]
-    pts2d        = vis["pts2d"]
-    dens_grid    = vis["dens_grid"]
-    gt_masks     = vis["gt_masks"]
-    ch_mask      = vis["ch_mask"]
-    as_mask      = vis["as_mask"]
-    result       = vis["result"]
-    lab          = vis["lab"]
+    xs, ys  = vis["xs"], vis["ys"]
+    pts2d   = vis["pts2d"]
+    ch_mask = vis["ch_mask"]
+    as_mask = vis["as_mask"]
+    result  = vis["result"]
+    lab     = vis["lab"]
 
     def _get_mpase_mask(variant, level):
         sp = result["shapes"].get(variant, {}).get(PLANE, {}).get(level, {}).get(lab)
@@ -313,62 +310,54 @@ def fig_qualitative(shape_name, vis):
             return np.zeros((len(ys), len(xs)), dtype=bool)
         return sp["mask"].astype(bool)
 
-    def _draw_contour(ax, mask, color, lw=2.0, ls="-", zorder=4):
+    def _draw_contour(ax, mask, color, lw=2.0, ls="-", zorder=4, smooth=False):
         if mask.sum() == 0:
             return
-        for c in find_contours(mask.astype(float), 0.5):
+        field = gaussian_filter(mask.astype(float), sigma=1.5) if smooth else mask.astype(float)
+        thr   = 0.3 if smooth else 0.5
+        for c in find_contours(field, thr):
             px = np.interp(c[:, 1], np.arange(len(xs)), xs)
             py = np.interp(c[:, 0], np.arange(len(ys)), ys)
             ax.plot(px, py, color=color, linewidth=lw, linestyle=ls, zorder=zorder)
 
-    cols = ["Ground Truth"] + METHODS
+    cols = METHODS
     fig, axes = plt.subplots(len(QUAL_LEVELS), len(cols),
                              figsize=(3.2 * len(cols), 3.0 * len(QUAL_LEVELS)))
 
+    ext = [xs.min(), xs.max(), ys.min(), ys.max()]
+
     for li, level in enumerate(QUAL_LEVELS):
-        gt      = gt_masks[level]
         hdr_msk = _get_mpase_mask("hdr", level)
         pf_msk  = _get_mpase_mask("point_fraction", level)
 
         method_masks = {
-            "Ground Truth": gt,
-            "ConvexHull":   ch_mask,
-            "AlphaShape":   as_mask,
-            "HDR":          hdr_msk,
-            "PF":           pf_msk,
+            "ConvexHull": ch_mask,
+            "AlphaShape": as_mask,
+            "HDR":        hdr_msk,
+            "PF":         pf_msk,
         }
 
         for ci, col in enumerate(cols):
             ax    = axes[li, ci]
             mask  = method_masks[col]
-            color = "#2ca02c" if col == "Ground Truth" else PALETTE.get(col, "black")
-            ext   = [xs.min(), xs.max(), ys.min(), ys.max()]
+            color = PALETTE.get(col, "black")
+            use_smooth = col in ("HDR", "PF")
 
-            # GT density background
-            ax.imshow(dens_grid, extent=ext, origin="lower",
-                      cmap="Greys", alpha=0.45, aspect="auto")
-            # projected points (light)
-            ax.scatter(pts2d[:, 0], pts2d[:, 1], s=2, c="gray", alpha=0.25, zorder=1)
+            # sampled points — clearly visible
+            ax.scatter(pts2d[:, 0], pts2d[:, 1], s=10, c="#333333", alpha=0.5, zorder=1)
 
             # transparent fill
             if mask.sum() > 0:
                 rgba       = np.zeros((*mask.shape, 4))
                 rgb        = mcolors.to_rgb(color)
-                rgba[mask] = [*rgb, 0.20]
+                rgba[mask] = [*rgb, 0.25]
                 ax.imshow(rgba, extent=ext, origin="lower", aspect="auto", zorder=2)
 
-            # solid method contour
-            _draw_contour(ax, mask, color, lw=2.2, ls="-",  zorder=4)
+            # solid method contour (smoothed for HDR/PF)
+            _draw_contour(ax, mask, color, lw=2.2, ls="-", zorder=4, smooth=use_smooth)
 
-            # dashed GT contour overlay on method panels
-            if col != "Ground Truth":
-                _draw_contour(ax, gt, "#2ca02c", lw=1.4, ls="--", zorder=3)
-                score = iou(mask, gt)
-                ax.set_title(f"{col}\nIoU={score:.3f}",
-                             fontsize=8, color=color, fontweight="bold")
-            else:
-                ax.set_title("Ground Truth\n(true density HDR)",
-                             fontsize=8, color="#2ca02c", fontweight="bold")
+            if li == 0:
+                ax.set_title(col, fontsize=8, color=color, fontweight="bold")
 
             ax.set_xlim(xs.min(), xs.max())
             ax.set_ylim(ys.min(), ys.max())
@@ -377,13 +366,99 @@ def fig_qualitative(shape_name, vis):
                 ax.set_ylabel(f"{level}%", fontsize=10, fontweight="bold")
 
     fig.suptitle(
-        f"Shape: {shape_name}  |  N={N_PTS} pts per replicate  |  "
-        f"Levels 60/80/95%  |  Dashed green = GT contour\n"
+        f"Shape: {shape_name}  |  N={N_PTS} pts per replicate  |  Levels 95–99%\n"
         f"(ConvexHull & AlphaShape applied to MPASE-projected 2D points)",
         fontsize=9, fontweight="bold",
     )
     plt.tight_layout()
     out = os.path.join(FIG_DIR, f"qualitative_{shape_name.lower().replace('-', '_')}.png")
+    plt.savefig(out, dpi=130, bbox_inches="tight"); plt.close()
+    _log(f"  Saved {out}")
+
+
+# ── combined qualitative figure (all shapes × all methods) ───────────────────
+
+def fig_combined_qualitative(all_vis, level=95):
+    """
+    One figure: rows = shapes, cols = [Points] + methods.
+    First column shows only the sampled points (no mask).
+    Remaining 4 columns show each method's mask at `level`%.
+    HDR and PF contours are Gaussian-smoothed.
+    """
+    cols        = ["Points"] + METHODS
+    shape_names = list(SHAPES.keys())
+    n_rows, n_cols = len(shape_names), len(cols)
+
+    fig, axes = plt.subplots(n_rows, n_cols,
+                             figsize=(3.0 * n_cols, 3.0 * n_rows))
+
+    for ri, shape_name in enumerate(shape_names):
+        vis     = all_vis[shape_name]
+        xs, ys  = vis["xs"], vis["ys"]
+        pts2d   = vis["pts2d"]
+        ch_mask = vis["ch_mask"]
+        as_mask = vis["as_mask"]
+        result  = vis["result"]
+        lab     = vis["lab"]
+
+        def _mpase_mask(variant):
+            sp = result["shapes"].get(variant, {}).get(PLANE, {}).get(level, {}).get(lab)
+            if sp is None:
+                return np.zeros((len(ys), len(xs)), dtype=bool)
+            return sp["mask"].astype(bool)
+
+        method_masks = {
+            "ConvexHull": ch_mask,
+            "AlphaShape": as_mask,
+            "HDR":        _mpase_mask("hdr"),
+            "PF":         _mpase_mask("point_fraction"),
+        }
+
+        ext = [xs.min(), xs.max(), ys.min(), ys.max()]
+
+        for ci, col in enumerate(cols):
+            ax    = axes[ri, ci]
+            color = PALETTE.get(col, "black")
+
+            # always show points
+            ax.scatter(pts2d[:, 0], pts2d[:, 1],
+                       s=10, c="#333333", alpha=0.55, zorder=3)
+
+            if col != "Points":
+                mask       = method_masks[col]
+                use_smooth = col in ("HDR", "PF")
+
+                if mask.sum() > 0:
+                    rgba       = np.zeros((*mask.shape, 4))
+                    rgb        = mcolors.to_rgb(color)
+                    rgba[mask] = [*rgb, 0.25]
+                    ax.imshow(rgba, extent=ext, origin="lower", aspect="auto", zorder=2)
+
+                    field = gaussian_filter(mask.astype(float), sigma=1.5) if use_smooth else mask.astype(float)
+                    thr   = 0.3 if use_smooth else 0.5
+                    for c in find_contours(field, thr):
+                        px = np.interp(c[:, 1], np.arange(len(xs)), xs)
+                        py = np.interp(c[:, 0], np.arange(len(ys)), ys)
+                        ax.plot(px, py, color=color, linewidth=1.8, zorder=4)
+
+            ax.set_xlim(xs.min(), xs.max())
+            ax.set_ylim(ys.min(), ys.max())
+            ax.set_xticks([]); ax.set_yticks([])
+            ax.set_facecolor("white")
+
+            if ci == 0:
+                ax.set_ylabel(shape_name, fontsize=9, fontweight="bold")
+            if ri == 0:
+                title_color = "#333333" if col == "Points" else color
+                ax.set_title(col, fontsize=8, color=title_color, fontweight="bold")
+
+    fig.suptitle(
+        f"Synthetic evaluation — {level}% density level\n"
+        f"Rows: shape  |  First col: raw points  |  Other cols: method mask",
+        fontsize=10, fontweight="bold",
+    )
+    plt.tight_layout()
+    out = os.path.join(FIG_DIR, f"combined_qualitative_{level}pct.png")
     plt.savefig(out, dpi=130, bbox_inches="tight"); plt.close()
     _log(f"  Saved {out}")
 
@@ -425,7 +500,7 @@ def fig_mean_iou_heatmap(df):
     fig, ax = plt.subplots(figsize=(7, 4))
     sns.heatmap(pivot, annot=True, fmt=".3f", cmap="RdYlGn",
                 vmin=0.2, vmax=0.9, ax=ax, linewidths=0.8,
-                cbar_kws={"label": "Mean IoU vs ground truth (levels 60–95%)"})
+                cbar_kws={"label": "Mean IoU vs ground truth (levels 95–99%)"})
     ax.set_title("Mean IoU vs ground truth (60–95% levels)\n"
                  "Evaluated via full MPASE pipeline on 3D point clouds",
                  fontsize=10)
@@ -461,7 +536,7 @@ def fig_boxplot_summary(df):
     fig, ax = plt.subplots(figsize=(10, 5))
     sns.boxplot(data=melted, x="shape", y="IoU", hue="method",
                 palette=PALETTE, ax=ax)
-    ax.set_title(f"IoU vs ground truth — levels 60–95%, MPASE pipeline", fontsize=10)
+    ax.set_title(f"IoU vs ground truth — levels 95–99%, MPASE pipeline", fontsize=10)
     ax.set_xlabel(""); ax.set_ylabel("IoU vs ground truth")
     ax.set_ylim(0, 1.05)
     ax.legend(title="Method", fontsize=9)
@@ -480,6 +555,7 @@ def main():
 
     t_total  = time.time()
     all_rows = []
+    all_vis  = {}
 
     for shape_name, density_fn in SHAPES.items():
         _log(f"\n{'='*55}")
@@ -489,6 +565,7 @@ def main():
 
         rows, vis = evaluate_shape(shape_name, density_fn)
         all_rows.extend(rows)
+        all_vis[shape_name] = vis
         _log(f"  Done — {time.time()-t0:.1f}s")
 
         _log(f"  Generating qualitative figure...")
@@ -502,6 +579,10 @@ def main():
     summary.to_csv(os.path.join(RES_DIR, "summary_by_shape_level.csv"))
     _log("Saved summary_by_shape_level.csv")
 
+    _log("\nGenerating combined qualitative figures (95–100%)...")
+    for lv in [95, 96, 97, 98, 99, 100]:
+        fig_combined_qualitative(all_vis, level=lv)
+
     _log("\nGenerating summary figures...")
     fig_iou_vs_level(df)
     fig_mean_iou_heatmap(df)
@@ -512,7 +593,7 @@ def main():
     mean_by_shape = sub.groupby("shape")[METHODS].mean().reindex(list(SHAPES.keys()))
     overall = sub[METHODS].mean()
 
-    _log(f"\n  === Mean IoU (levels 60–95%) ===")
+    _log(f"\n  === Mean IoU (levels 95–99%) ===")
     _log(mean_by_shape.to_string())
     _log(f"\n  === Overall mean across all shapes ===")
     _log(overall.to_string())

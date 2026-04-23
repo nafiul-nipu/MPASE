@@ -1,0 +1,97 @@
+chrom,align,category,pair,method,IoU
+chr1,no_align,Stability,UNTR 12h vs 18h,HDR,0.6877
+chr1,no_align,Stability,UNTR 12h vs 18h,PF,0.6364
+chr1,no_align,Temporal,VACV 12h vs 18h,HDR,0.6046
+chr1,no_align,Temporal,VACV 12h vs 18h,PF,0.549
+chr1,no_align,Condition,UNTR vs VACV @ 18h,HDR,0.597
+chr1,no_align,Condition,UNTR vs VACV @ 18h,PF,0.543
+chr1,naive_pca,Stability,UNTR 12h vs 18h,HDR,0.6529
+chr1,naive_pca,Stability,UNTR 12h vs 18h,PF,0.6219
+chr1,naive_pca,Temporal,VACV 12h vs 18h,HDR,0.7451
+chr1,naive_pca,Temporal,VACV 12h vs 18h,PF,0.7076
+chr1,naive_pca,Condition,UNTR vs VACV @ 18h,HDR,0.584
+chr1,naive_pca,Condition,UNTR vs VACV @ 18h,PF,0.5243
+chr1,pca_disambig,Stability,UNTR 12h vs 18h,HDR,0.7305
+chr1,pca_disambig,Stability,UNTR 12h vs 18h,PF,0.6918
+chr1,pca_disambig,Temporal,VACV 12h vs 18h,HDR,0.6189
+chr1,pca_disambig,Temporal,VACV 12h vs 18h,PF,0.574
+chr1,pca_disambig,Condition,UNTR vs VACV @ 18h,HDR,0.6019
+chr1,pca_disambig,Condition,UNTR vs VACV @ 18h,PF,0.56
+chr1,pca_icp,Stability,UNTR 12h vs 18h,HDR,0.7747
+chr1,pca_icp,Stability,UNTR 12h vs 18h,PF,0.7554
+chr1,pca_icp,Temporal,VACV 12h vs 18h,HDR,0.6403
+chr1,pca_icp,Temporal,VACV 12h vs 18h,PF,0.6007
+chr1,pca_icp,Condition,UNTR vs VACV @ 18h,HDR,0.6227
+chr1,pca_icp,Condition,UNTR vs VACV @ 18h,PF,0.5762
+chr7,no_align,Stability,UNTR 12h vs 18h,HDR,0.2098
+chr7,no_align,Stability,UNTR 12h vs 18h,PF,0.1618
+chr7,no_align,Temporal,VACV 12h vs 18h,HDR,0.6302
+chr7,no_align,Temporal,VACV 12h vs 18h,PF,0.5378
+chr7,no_align,Condition,UNTR vs VACV @ 18h,HDR,0.1873
+chr7,no_align,Condition,UNTR vs VACV @ 18h,PF,0.126
+chr7,naive_pca,Stability,UNTR 12h vs 18h,HDR,0.6275
+chr7,naive_pca,Stability,UNTR 12h vs 18h,PF,0.5657
+chr7,naive_pca,Temporal,VACV 12h vs 18h,HDR,0.6596
+chr7,naive_pca,Temporal,VACV 12h vs 18h,PF,0.6064
+chr7,naive_pca,Condition,UNTR vs VACV @ 18h,HDR,0.5769
+chr7,naive_pca,Condition,UNTR vs VACV @ 18h,PF,0.5024
+chr7,pca_disambig,Stability,UNTR 12h vs 18h,HDR,0.6235
+chr7,pca_disambig,Stability,UNTR 12h vs 18h,PF,0.5626
+chr7,pca_disambig,Temporal,VACV 12h vs 18h,HDR,0.6312
+chr7,pca_disambig,Temporal,VACV 12h vs 18h,PF,0.5335
+chr7,pca_disambig,Condition,UNTR vs VACV @ 18h,HDR,0.5834
+chr7,pca_disambig,Condition,UNTR vs VACV @ 18h,PF,0.4948
+chr7,pca_icp,Stability,UNTR 12h vs 18h,HDR,0.6019
+chr7,pca_icp,Stability,UNTR 12h vs 18h,PF,0.5514
+chr7,pca_icp,Temporal,VACV 12h vs 18h,HDR,0.6194
+chr7,pca_icp,Temporal,VACV 12h vs 18h,PF,0.5481
+chr7,pca_icp,Condition,UNTR vs VACV @ 18h,HDR,0.5634
+chr7,pca_icp,Condition,UNTR vs VACV @ 18h,PF,0.5006
+chr21,no_align,Stability,UNTR 12h vs 18h,HDR,0.189
+chr21,no_align,Stability,UNTR 12h vs 18h,PF,0.1379
+chr21,no_align,Temporal,VACV 12h vs 18h,HDR,0.3765
+chr21,no_align,Temporal,VACV 12h vs 18h,PF,0.3186
+chr21,no_align,Condition,UNTR vs VACV @ 18h,HDR,0.3203
+chr21,no_align,Condition,UNTR vs VACV @ 18h,PF,0.2539
+chr21,naive_pca,Stability,UNTR 12h vs 18h,HDR,0.7477
+chr21,naive_pca,Stability,UNTR 12h vs 18h,PF,0.6637
+chr21,naive_pca,Temporal,VACV 12h vs 18h,HDR,0.5394
+chr21,naive_pca,Temporal,VACV 12h vs 18h,PF,0.4855
+chr21,naive_pca,Condition,UNTR vs VACV @ 18h,HDR,0.512
+chr21,naive_pca,Condition,UNTR vs VACV @ 18h,PF,0.4715
+chr21,pca_disambig,Stability,UNTR 12h vs 18h,HDR,0.7305
+chr21,pca_disambig,Stability,UNTR 12h vs 18h,PF,0.6562
+chr21,pca_disambig,Temporal,VACV 12h vs 18h,HDR,0.6055
+chr21,pca_disambig,Temporal,VACV 12h vs 18h,PF,0.5321
+chr21,pca_disambig,Condition,UNTR vs VACV @ 18h,HDR,0.6503
+chr21,pca_disambig,Condition,UNTR vs VACV @ 18h,PF,0.6083
+chr21,pca_icp,Stability,UNTR 12h vs 18h,HDR,0.7411
+chr21,pca_icp,Stability,UNTR 12h vs 18h,PF,0.6702
+chr21,pca_icp,Temporal,VACV 12h vs 18h,HDR,0.6138
+chr21,pca_icp,Temporal,VACV 12h vs 18h,PF,0.5519
+chr21,pca_icp,Condition,UNTR vs VACV @ 18h,HDR,0.6567
+chr21,pca_icp,Condition,UNTR vs VACV @ 18h,PF,0.6035
+chr25,no_align,Stability,UNTR 12h vs 18h,HDR,0.3436
+chr25,no_align,Stability,UNTR 12h vs 18h,PF,0.2783
+chr25,no_align,Temporal,VACV 12h vs 18h,HDR,0.5431
+chr25,no_align,Temporal,VACV 12h vs 18h,PF,0.5007
+chr25,no_align,Condition,UNTR vs VACV @ 18h,HDR,0.6137
+chr25,no_align,Condition,UNTR vs VACV @ 18h,PF,0.5103
+chr25,naive_pca,Stability,UNTR 12h vs 18h,HDR,0.61
+chr25,naive_pca,Stability,UNTR 12h vs 18h,PF,0.5013
+chr25,naive_pca,Temporal,VACV 12h vs 18h,HDR,0.5728
+chr25,naive_pca,Temporal,VACV 12h vs 18h,PF,0.4536
+chr25,naive_pca,Condition,UNTR vs VACV @ 18h,HDR,0.5731
+chr25,naive_pca,Condition,UNTR vs VACV @ 18h,PF,0.4391
+chr25,pca_disambig,Stability,UNTR 12h vs 18h,HDR,0.7563
+chr25,pca_disambig,Stability,UNTR 12h vs 18h,PF,0.6008
+chr25,pca_disambig,Temporal,VACV 12h vs 18h,HDR,0.6952
+chr25,pca_disambig,Temporal,VACV 12h vs 18h,PF,0.5385
+chr25,pca_disambig,Condition,UNTR vs VACV @ 18h,HDR,0.6701
+chr25,pca_disambig,Condition,UNTR vs VACV @ 18h,PF,0.534
+chr25,pca_icp,Stability,UNTR 12h vs 18h,HDR,0.7554
+chr25,pca_icp,Stability,UNTR 12h vs 18h,PF,0.5844
+chr25,pca_icp,Temporal,VACV 12h vs 18h,HDR,0.6791
+chr25,pca_icp,Temporal,VACV 12h vs 18h,PF,0.5206
+chr25,pca_icp,Condition,UNTR vs VACV @ 18h,HDR,0.6272
+chr25,pca_icp,Condition,UNTR vs VACV @ 18h,PF,0.4966
