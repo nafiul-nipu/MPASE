@@ -1,0 +1,5 @@
+Method,Stability,Stability_mNN,Temporal,Temporal_mNN,Condition,Condition_mNN,Gap
+ConvexHull,0.665,6.964,0.649,6.984,0.6186,8.24,0.0464
+AlphaShape,0.5905,6.307,0.6489,5.444,0.5666,7.247,0.0239
+HDR,0.6019,6.083,0.6194,4.743,0.5634,6.566,0.0385
+PF,0.5514,4.871,0.5481,3.622,0.5006,5.545,0.0508

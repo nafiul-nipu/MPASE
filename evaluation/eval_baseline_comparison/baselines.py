@@ -52,18 +52,21 @@ def convex_hull_mask(pts2d: np.ndarray,
 
 def heuristic_alpha(pts2d: np.ndarray) -> float:
     """
-    Estimate alpha from the median nearest-neighbour distance in the point set.
-    alpha = 1 / (2 * median_nn_dist)
-    This is O(N log N) and avoids the slow optimizealpha binary search.
+    Estimate alpha using the sqrt(N)-th nearest neighbour distance.
+    Using k=1 (nearest neighbour) gives a tiny radius that fragments the shape
+    into local clusters. Using sqrt(N) captures the global connectivity scale —
+    how far apart points are at the territory level, not at the local density level.
     """
     if len(pts2d) < 4:
         return 0.0
-    tree  = KDTree(pts2d)
-    dists, _ = tree.query(pts2d, k=2)   # k=2: point itself + nearest neighbour
-    med   = np.median(dists[:, 1])
-    if med <= 0:
+    n    = len(pts2d)
+    k    = max(3, min(int(np.sqrt(n)), n - 1))
+    tree = KDTree(pts2d)
+    dists, _ = tree.query(pts2d, k=k + 1)   # k+1 because index 0 = point itself
+    scale = np.percentile(dists[:, k], 75)   # 75th percentile for robustness
+    if scale <= 0:
         return 0.0
-    return 1.0 / (2.0 * med)
+    return 1.0 / (2.0 * scale)
 
 
 def alpha_shape_mask(pts2d: np.ndarray,
