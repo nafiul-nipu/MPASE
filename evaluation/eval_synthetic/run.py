@@ -68,8 +68,22 @@ PALETTE = {
     "PF":         "#59a14f",
 }
 
-CFG_HDR = mpase.CfgHDR(n_boot=N_BOOT, mass_levels=tuple(lv / 100.0 for lv in LEVELS))
-CFG_PF  = mpase.CfgPF(frac_levels=tuple(lv / 100.0 for lv in LEVELS))
+CFG_HDR = mpase.CfgHDR(
+    n_boot=N_BOOT,
+    mass_levels=tuple(lv / 100.0 for lv in LEVELS),
+    sigma_px=3.0,            # stronger smoothing for sparse N=500 point clouds
+    density_floor_frac=0.01, # trim faint noise blobs before thresholding
+)
+CFG_PF = mpase.CfgPF(
+    frac_levels=tuple(lv / 100.0 for lv in LEVELS),
+    disk_px=3,               # larger rasterization disks for smoother fill
+    morph=mpase.CfgMorph(
+        closing=3,           # merge nearby point blobs
+        opening=1,
+        keep_largest=False,  # preserve two-lobe and ring topology
+        fill_holes=False,    # preserve ring's inner hole
+    ),
+)
 
 
 # ── 2D density functions ──────────────────────────────────────────────────────
