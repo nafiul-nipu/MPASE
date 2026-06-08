@@ -53,8 +53,8 @@ SHAPE_BLOB_MIN_AREA_FRAC = 0.08
 # Publication-facing smoother settings.
 CFG_HDR = mpase.CfgHDR(
     n_boot=256,
-    sigma_px=1.6,
-    density_floor_frac=0.003,
+    sigma_px=1.8,
+    density_floor_frac=0.002,
     mass_levels=(1.00, 0.95, 0.60),
 )
 
