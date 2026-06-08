@@ -31,34 +31,42 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 import mpase
-from mpase.metrics_calculation import all_contours_from_bool
+from mpase.visualization_save_image import _plot_single as mpase_plot_single
 
 
 DATA_ROOT = ROOT / "evaluation" / "data" / "all_structure_files"
 OUT_DIR = ROOT / "evaluation" / "supplementary_figures" / "output"
 XYZ_COLS = ("middle_x", "middle_y", "middle_z")
 DEFAULT_CHROM = "chr1"
+
+# Use condition-matched examples for the reviewer-facing transformation figure.
 EXAMPLES = (("12hrs", "untr"), ("12hrs", "vacv"))
+
 LEVELS = (100, 95, 60)
 PLANE_AXES = {"XY": (0, 1), "YZ": (1, 2), "XZ": (0, 2)}
 COLORS = ("#1f77b4", "#d62728")
+SHOW_SHAPE_BACKGROUND = True
+SHAPE_CLEAN_BLOBS = True
+SHAPE_BLOB_MIN_LEN = 15
+SHAPE_BLOB_MIN_AREA_FRAC = 0.08
 
-# These match the smoother settings used in examples/example.ipynb to avoid
-# tiny HDR islands and PF speckles in publication figures.
+# Publication-facing smoother settings.
 CFG_HDR = mpase.CfgHDR(
     n_boot=256,
     sigma_px=1.6,
     density_floor_frac=0.003,
     mass_levels=(1.00, 0.95, 0.60),
 )
+
 CFG_PF = mpase.CfgPF(
     frac_levels=(1.00, 0.95, 0.60),
-    morph=mpase.CfgMorph(closing=2, opening=2, keep_largest=True, fill_holes=True),
+    morph=mpase.CfgMorph(
+        closing=2,
+        opening=2,
+        keep_largest=True,
+        fill_holes=True,
+    ),
 )
-CLEAN_BLOBS = True
-BLOB_MIN_LEN = 25
-BLOB_MIN_AREA_FRAC = 0.01
-
 
 def _chrom_key(path: Path) -> tuple[int, str]:
     match = re.search(r"\d+", path.name)
@@ -77,7 +85,12 @@ def choose_chromosome(preferred: str = DEFAULT_CHROM) -> str:
     if _has_example(preferred, EXAMPLES):
         return preferred
 
-    for chrom_dir in sorted((p for p in DATA_ROOT.iterdir() if p.is_dir()), key=_chrom_key):
+    chrom_dirs = sorted(
+        (p for p in DATA_ROOT.iterdir() if p.is_dir()),
+        key=_chrom_key,
+    )
+
+    for chrom_dir in chrom_dirs:
         if _has_example(chrom_dir.name, EXAMPLES):
             return chrom_dir.name
 
@@ -97,24 +110,29 @@ def _pretty_label(hrs: str, cond: str) -> str:
 
 def collect_inputs(chrom: str) -> tuple[list[str], list[str], list[str]]:
     csvs, labels, pretty = [], [], []
+
     for hrs, cond in EXAMPLES:
         csvs.append(str(_structure_path(chrom, hrs, cond)))
         labels.append(f"{chrom}_{hrs}_{cond}")
         pretty.append(_pretty_label(hrs, cond))
+
     return csvs, labels, pretty
 
 
 def load_centered_points(csvs: list[str]) -> list[np.ndarray]:
     centered = []
+
     for csv_path in csvs:
         df = pd.read_csv(csv_path)
         pts = df[list(XYZ_COLS)].dropna().values.astype(np.float32)
         centered.append(pts - pts.mean(axis=0))
+
     return centered
 
 
 def run_example(chrom: str, plane: str) -> tuple[dict, list[str], list[np.ndarray], list[str]]:
     csvs, labels, pretty = collect_inputs(chrom)
+
     result = mpase.run(
         csv_list=csvs,
         labels=labels,
@@ -125,6 +143,7 @@ def run_example(chrom: str, plane: str) -> tuple[dict, list[str], list[np.ndarra
         cfg_pf=CFG_PF,
         planes=(plane,),
     )
+
     return result, pretty, load_centered_points(csvs), csvs
 
 
@@ -132,9 +151,11 @@ def _set_shared_2d_limits(axes, point_sets: list[np.ndarray]) -> None:
     stacked = np.vstack(point_sets)
     mins = stacked.min(axis=0)
     maxs = stacked.max(axis=0)
+
     center = (mins + maxs) / 2.0
     radius = max(float((maxs - mins).max()) / 2.0, 1e-8)
     pad = radius * 0.08
+
     for ax in axes:
         ax.set_xlim(center[0] - radius - pad, center[0] + radius + pad)
         ax.set_ylim(center[1] - radius - pad, center[1] + radius + pad)
@@ -149,19 +170,28 @@ def save_point_pair(
     dpi: int,
 ) -> None:
     fig, axes = plt.subplots(1, 2, figsize=(10.4, 5.2), sharex=True, sharey=True)
+
     for ax, pts, label, color in zip(axes, point_sets2d, pretty, COLORS):
         ax.scatter(pts[:, 0], pts[:, 1], s=4.0, alpha=0.65, color=color)
         ax.set_title(label)
         ax.set_xlabel(plane[0])
         ax.set_ylabel(plane[1])
         ax.set_aspect("equal")
+
     _set_shared_2d_limits(axes, point_sets2d)
+
     fig.suptitle(title)
     fig.savefig(out_path, dpi=dpi, bbox_inches="tight")
     plt.close(fig)
 
 
-def save_projection_csvs(point_sets2d: list[np.ndarray], labels: list[str], plane: str, out_dir: Path, prefix: str) -> None:
+def save_projection_csvs(
+    point_sets2d: list[np.ndarray],
+    labels: list[str],
+    plane: str,
+    out_dir: Path,
+    prefix: str,
+) -> None:
     for pts, label in zip(point_sets2d, labels):
         out = out_dir / f"{prefix}_{plane}_{_safe_name(label)}.csv"
         pd.DataFrame(pts, columns=[plane[0], plane[1]]).to_csv(out, index=False)
@@ -176,35 +206,66 @@ def _background_for(result: dict, plane: str, label: str):
         bg_single = result["background_by_label"][plane].get(label)
         if bg_single is not None:
             return bg_single
+
     return result.get("background", {}).get(plane)
 
 
-def plot_single_shape(ax, shape: dict, bg_single: np.ndarray, title: str, color: str) -> None:
-    if bg_single is not None:
-        ax.imshow(bg_single, cmap="gray", alpha=0.18)
-
-    contours = all_contours_from_bool(
-        shape["mask"],
-        min_len=BLOB_MIN_LEN,
-        min_area_frac=BLOB_MIN_AREA_FRAC if CLEAN_BLOBS else 0.0,
+def plot_single_shape(
+    ax,
+    shape: dict,
+    bg_single: np.ndarray | None,
+    title: str,
+    color: str,
+) -> None:
+    mpase_plot_single(
+        ax,
+        shape,
+        bg_single if SHOW_SHAPE_BACKGROUND else None,
+        title,
+        color=color,
+        clean=SHAPE_CLEAN_BLOBS,
+        blob_min_len=SHAPE_BLOB_MIN_LEN,
+        blob_min_area_frac=SHAPE_BLOB_MIN_AREA_FRAC,
     )
-    for contour in contours:
-        ax.plot(contour[:, 1], contour[:, 0], "-", lw=2.4, color=color, alpha=0.95)
-
-    ax.set_title(title)
-    ax.set_axis_off()
+    ax.set_xlim(0, shape["mask"].shape[1])
+    ax.set_ylim(shape["mask"].shape[0], 0)
+    ax.set_aspect("equal")
 
 
-def save_shape_pair(result: dict, pretty: list[str], plane: str, kind: str, level: int, out_dir: Path, dpi: int) -> None:
+def save_shape_pair(
+    result: dict,
+    pretty: list[str],
+    plane: str,
+    kind: str,
+    level: int,
+    out_dir: Path,
+    dpi: int,
+) -> None:
     labels = result["labels"]
     fig, axes = plt.subplots(1, 2, figsize=(10.4, 5.2))
+
     for ax, label, display, color in zip(axes, labels, pretty, COLORS):
         shape = _shape_for(result, kind, plane, level, label)
+
         if shape is None:
-            ax.text(0.5, 0.5, f"No {kind} {level}% for {label}", ha="center", va="center")
+            ax.text(
+                0.5,
+                0.5,
+                f"No {kind} {level}% for {label}",
+                ha="center",
+                va="center",
+                transform=ax.transAxes,
+            )
             ax.axis("off")
             continue
-        plot_single_shape(ax, shape, _background_for(result, plane, label), display, color)
+
+        plot_single_shape(
+            ax,
+            shape,
+            _background_for(result, plane, label),
+            display,
+            color,
+        )
 
     fig.suptitle(f"{plane} - {kind} {level}%")
     fig.savefig(out_dir / f"{kind}_{plane}_{level}.png", dpi=dpi, bbox_inches="tight")
@@ -214,6 +275,7 @@ def save_shape_pair(result: dict, pretty: list[str], plane: str, kind: str, leve
 def export_point_tables(result: dict, raw_centered: list[np.ndarray], out_dir: Path) -> None:
     data_dir = out_dir / "data"
     data_dir.mkdir(parents=True, exist_ok=True)
+
     labels = result["labels"]
     ids_by_label = result.get("ids_by_label", {})
 
@@ -224,13 +286,23 @@ def export_point_tables(result: dict, raw_centered: list[np.ndarray], out_dir: P
         for label, points in zip(labels, arrays):
             df = pd.DataFrame(np.asarray(points), columns=["x", "y", "z"])
             ids = ids_by_label.get(label)
+
             if ids is not None and len(ids) == len(df):
                 df.insert(0, "gene_id", ids)
+
             df.to_csv(data_dir / f"{_safe_name(label)}_{key}.csv", index=False)
 
 
-def save_images(result: dict, pretty: list[str], raw_centered: list[np.ndarray], plane: str, out_dir: Path, dpi: int) -> None:
+def save_images(
+    result: dict,
+    pretty: list[str],
+    raw_centered: list[np.ndarray],
+    plane: str,
+    out_dir: Path,
+    dpi: int,
+) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
+
     labels = result["labels"]
     i, j = PLANE_AXES[plane]
 
@@ -239,7 +311,7 @@ def save_images(result: dict, pretty: list[str], raw_centered: list[np.ndarray],
         raw2d,
         pretty,
         plane,
-        f"{plane} projection (centered before alignment)",
+        f"{plane} projection before alignment",
         out_dir / f"raw_projection_{plane}.png",
         dpi,
     )
@@ -250,7 +322,7 @@ def save_images(result: dict, pretty: list[str], raw_centered: list[np.ndarray],
         aligned2d,
         pretty,
         plane,
-        f"{plane} projection (aligned & scaled)",
+        f"{plane} projection after MPASE alignment",
         out_dir / f"projection_{plane}.png",
         dpi,
     )
