@@ -157,11 +157,11 @@ def _align_and_project(
     - full analysis via mpase()
     - alignment-only work via align_points()
     """
-    ref = raw_sets[0] - raw_sets[0].mean(0)
+    raw_centered: List[np.ndarray] = [pts - pts.mean(0) for pts in raw_sets]
+    ref = raw_centered[0]
     aligned: List[np.ndarray] = []
 
-    for idx, pts in enumerate(raw_sets):
-        centered = pts - pts.mean(0)
+    for idx, centered in enumerate(raw_centered):
 
         if idx == 0 or align_mode == "skip":
             # Use the first set as the reference frame, or skip rotational alignment entirely.
@@ -210,6 +210,7 @@ def _align_and_project(
 
     return {
         "labels": list(labels),
+        "raw_centered_points": raw_centered,
         "aligned_points": aligned,
         "shapes": {},
         "metrics": _empty_metrics(),
@@ -324,8 +325,13 @@ def mpase(
         # Keep the legacy flag working, but stop the computation here.
         if out_dir:
             # Import locally to avoid a circular dependency at module import time.
-            from .export_data_for_visd3three import export_aligned_points, export_meta
+            from .export_data_for_visd3three import (
+                export_aligned_points,
+                export_centered_points,
+                export_meta,
+            )
 
+            export_centered_points(base_result, out_dir)
             export_aligned_points(base_result, out_dir)
             export_meta(base_result, out_dir)
         return base_result

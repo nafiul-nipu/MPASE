@@ -135,6 +135,41 @@ def export_aligned_points(
     return written
 
 
+def export_centered_points(
+    result: RunResult,
+    out_dir: str,
+    *,
+    progress_report: bool = False,
+    report: Optional[Callable] = None,
+) -> List[str]:
+    """
+    Write one centered, pre-alignment point JSON per label.
+
+    These coordinates preserve each input point cloud after translation to its
+    own centroid, before PCA/ICP rotation and shared scaling.
+    """
+    written: List[str] = []
+    _ensure_dir(out_dir)
+
+    labels = list(result.get("labels", []))
+    centered = list(result.get("raw_centered_points", []))
+    ids_by_label = result.get("ids_by_label", {})
+
+    for lab, pts in zip(labels, centered):
+        payload = {
+            "positions": np.asarray(pts, dtype=float).tolist(),
+        }
+        if lab in ids_by_label:
+            payload["ids"] = [str(x) for x in ids_by_label[lab]]
+
+        fname = f"{_safe_name(lab)}_centered.json"
+        path = _write_json(os.path.join(out_dir, fname), payload)
+        written.append(path)
+        _notify(progress_report, "write", kind="centered_points", label=str(lab), path=path)
+
+    return written
+
+
 ################### D3: background-as-data ###################
 
 def export_background_mask_json(result: RunResult, out_dir: str, *, progress_report: bool = False, report: Optional[Callable] = None) -> List[str]:

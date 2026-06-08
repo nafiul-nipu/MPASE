@@ -64,6 +64,7 @@ class ShapeProduct(TypedDict):
 
 class RunResult(TypedDict):
     labels: List[str]                        # e.g. ["A", "B", "C"]
+    raw_centered_points: List[np.ndarray]    # one centered pre-alignment (N,3) array per label
     aligned_points: List[np.ndarray]         # one (N,3) array per label, same order as labels
     ids_by_label: Dict[str, List[str]]       # label -> original row IDs
     shapes: Dict[Variant, Dict[Plane, Dict[int, Dict[str, ShapeProduct]]]]

@@ -39,6 +39,7 @@ from .visualization_save_image import (
 # ---- Data export (user-facing) ----
 from .export_data_for_visd3three import (
     export_aligned_points,
+    export_centered_points,
     export_all,
 )
 
@@ -56,7 +57,7 @@ __all__ = [
     "view", "save_figures", "view_projections", "save_projections",
     "view_single", "save_per_label",
     # exporters
-    "export_all", "export_aligned_points",
+    "export_all", "export_aligned_points", "export_centered_points",
     # helper
     "load_points",
 ]
