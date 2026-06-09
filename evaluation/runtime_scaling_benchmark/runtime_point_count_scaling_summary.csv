@@ -1,0 +1,25 @@
+point_count_per_sample,stage,mean_seconds,min_seconds,max_seconds,num_repeats,mean_total_points,mean_sample_count,mean_point_count_per_sample,notes
+1000,data_preparation,0.0381451899993408,0.03728004899858206,0.03909282699896721,3,2000.0,2.0,1000.0,Completed repeats only; see results CSV for timeouts or failures.
+1000,pca_based_initialization,0.05183081233371922,0.050886169001387316,0.05310077700050897,3,2000.0,2.0,1000.0,Completed repeats only; see results CSV for timeouts or failures.
+1000,icp_refinement,0.019470786333234475,0.019195908000256168,0.019634631998997065,3,2000.0,2.0,1000.0,Completed repeats only; see results CSV for timeouts or failures.
+1000,projection_xy_yz_xz,0.01364247466699453,0.013555448000261094,0.013725062000958133,3,2000.0,2.0,1000.0,Completed repeats only; see results CSV for timeouts or failures.
+1000,hdr_shape_extraction,0.37553197399938654,0.36272524999913003,0.38314102699951036,3,2000.0,2.0,1000.0,Completed repeats only; see results CSV for timeouts or failures.
+1000,point_fraction_shape_extraction,0.5141665789997205,0.5106257819988969,0.5177469169993856,3,2000.0,2.0,1000.0,Completed repeats only; see results CSV for timeouts or failures.
+1000,shape_metric_computation,0.011873710666501816,0.011497872999825631,0.012195904999316554,3,2000.0,2.0,1000.0,Completed repeats only; see results CSV for timeouts or failures.
+1000,total_runtime,1.02467508133365,1.0093319010011328,1.0336785050003527,3,2000.0,2.0,1000.0,Completed repeats only; see results CSV for timeouts or failures.
+5000,data_preparation,0.04242996433276858,0.038767402998928446,0.049207468999156845,3,10000.0,2.0,5000.0,Completed repeats only; see results CSV for timeouts or failures.
+5000,pca_based_initialization,0.4149434186668562,0.4124932640006591,0.41973230300027353,3,10000.0,2.0,5000.0,Completed repeats only; see results CSV for timeouts or failures.
+5000,icp_refinement,0.12279401866665769,0.12048238999886962,0.1253464460005489,3,10000.0,2.0,5000.0,Completed repeats only; see results CSV for timeouts or failures.
+5000,projection_xy_yz_xz,0.06689218533332071,0.06676408000021183,0.0670779029987898,3,10000.0,2.0,5000.0,Completed repeats only; see results CSV for timeouts or failures.
+5000,hdr_shape_extraction,0.7506930786670031,0.7430585120000615,0.7581218459999945,3,10000.0,2.0,5000.0,Completed repeats only; see results CSV for timeouts or failures.
+5000,point_fraction_shape_extraction,10.803462108999762,10.779273492000357,10.825194944000032,3,10000.0,2.0,5000.0,Completed repeats only; see results CSV for timeouts or failures.
+5000,shape_metric_computation,0.011452527999911885,0.010442274000524776,0.013314572999661323,3,10000.0,2.0,5000.0,Completed repeats only; see results CSV for timeouts or failures.
+5000,total_runtime,12.212684695666516,12.189565042999675,12.23787609899955,3,10000.0,2.0,5000.0,Completed repeats only; see results CSV for timeouts or failures.
+10000,data_preparation,0.04152712933379613,0.03940614700150036,0.04452452499936044,3,20000.0,2.0,10000.0,Completed repeats only; see results CSV for timeouts or failures.
+10000,pca_based_initialization,1.0866665186670919,1.078913637000369,1.0945966110011796,3,20000.0,2.0,10000.0,Completed repeats only; see results CSV for timeouts or failures.
+10000,icp_refinement,0.29914889299955877,0.2926615659998788,0.3094970469992404,3,20000.0,2.0,10000.0,Completed repeats only; see results CSV for timeouts or failures.
+10000,projection_xy_yz_xz,0.13213569466703726,0.13205277500128432,0.13220056199861574,3,20000.0,2.0,10000.0,Completed repeats only; see results CSV for timeouts or failures.
+10000,hdr_shape_extraction,1.2084355799997866,1.194094655000299,1.2264094969996222,3,20000.0,2.0,10000.0,Completed repeats only; see results CSV for timeouts or failures.
+10000,point_fraction_shape_extraction,42.95651803699972,42.853455406999274,43.00913216200024,3,20000.0,2.0,10000.0,Completed repeats only; see results CSV for timeouts or failures.
+10000,shape_metric_computation,0.010577264333430017,0.009990560000005644,0.010971972000334063,3,20000.0,2.0,10000.0,Completed repeats only; see results CSV for timeouts or failures.
+10000,total_runtime,45.73502682400067,45.62401923500147,45.8043851780003,3,20000.0,2.0,10000.0,Completed repeats only; see results CSV for timeouts or failures.
