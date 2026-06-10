@@ -26,16 +26,20 @@ from typing import Iterable
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from scipy import ndimage as ndi
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 import mpase
+from mpase.create_grid_planes import points_to_pixel_indices
+from mpase.metrics_calculation import all_contours_from_bool
 from mpase.visualization_save_image import _plot_single as mpase_plot_single
 
 
 DATA_ROOT = ROOT / "evaluation" / "data" / "all_structure_files"
-OUT_DIR = ROOT / "evaluation" / "supplementary_figures" / "output"
+OUT_DIR = ROOT / "evaluation" / "supplementary_figures" / "output" / "noisy_instances" / "current"
+CANDIDATE_DIR = ROOT / "evaluation" / "supplementary_figures" / "output" / "noisy_instances" / "candidates"
 XYZ_COLS = ("middle_x", "middle_y", "middle_z")
 DEFAULT_CHROM = "chr1"
 
@@ -60,10 +64,11 @@ CFG_HDR = mpase.CfgHDR(
 
 CFG_PF = mpase.CfgPF(
     frac_levels=(1.00, 0.95, 0.60),
+    disk_px=3,
     morph=mpase.CfgMorph(
         closing=2,
-        opening=2,
-        keep_largest=True,
+        opening=0,
+        keep_largest=False,
         fill_holes=True,
     ),
 )
@@ -79,6 +84,21 @@ def _structure_path(chrom: str, hrs: str, cond: str) -> Path:
 
 def _has_example(chrom: str, examples: Iterable[tuple[str, str]]) -> bool:
     return all(_structure_path(chrom, hrs, cond).exists() for hrs, cond in examples)
+
+
+def _complete_condition_pairs() -> list[tuple[str, str]]:
+    pairs = []
+    chrom_dirs = sorted(
+        (p for p in DATA_ROOT.iterdir() if p.is_dir()),
+        key=_chrom_key,
+    )
+
+    for chrom_dir in chrom_dirs:
+        for hrs in ("12hrs", "18hrs", "24hrs"):
+            if _has_example(chrom_dir.name, ((hrs, "untr"), (hrs, "vacv"))):
+                pairs.append((chrom_dir.name, hrs))
+
+    return pairs
 
 
 def choose_chromosome(preferred: str = DEFAULT_CHROM) -> str:
@@ -119,6 +139,17 @@ def collect_inputs(chrom: str) -> tuple[list[str], list[str], list[str]]:
     return csvs, labels, pretty
 
 
+def collect_pair_inputs(chrom: str, hrs: str) -> tuple[list[str], list[str], list[str]]:
+    csvs, labels, pretty = [], [], []
+
+    for cond in ("untr", "vacv"):
+        csvs.append(str(_structure_path(chrom, hrs, cond)))
+        labels.append(f"{chrom}_{hrs}_{cond}")
+        pretty.append(_pretty_label(hrs, cond))
+
+    return csvs, labels, pretty
+
+
 def load_centered_points(csvs: list[str]) -> list[np.ndarray]:
     centered = []
 
@@ -132,6 +163,23 @@ def load_centered_points(csvs: list[str]) -> list[np.ndarray]:
 
 def run_example(chrom: str, plane: str) -> tuple[dict, list[str], list[np.ndarray], list[str]]:
     csvs, labels, pretty = collect_inputs(chrom)
+
+    result = mpase.run(
+        csv_list=csvs,
+        labels=labels,
+        xyz_cols=XYZ_COLS,
+        id_col="gene_name",
+        cfg_common=mpase.CfgCommon(),
+        cfg_hdr=CFG_HDR,
+        cfg_pf=CFG_PF,
+        planes=(plane,),
+    )
+
+    return result, pretty, load_centered_points(csvs), csvs
+
+
+def run_pair(chrom: str, hrs: str, plane: str) -> tuple[dict, list[str], list[np.ndarray], list[str]]:
+    csvs, labels, pretty = collect_pair_inputs(chrom, hrs)
 
     result = mpase.run(
         csv_list=csvs,
@@ -161,6 +209,26 @@ def _set_shared_2d_limits(axes, point_sets: list[np.ndarray]) -> None:
         ax.set_ylim(center[1] - radius - pad, center[1] + radius + pad)
 
 
+def _style_scatter_box(ax) -> None:
+    ax.set_xlabel("")
+    ax.set_ylabel("")
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_box_aspect(1)
+    ax.set_aspect("equal", adjustable="box")
+
+    for spine in ax.spines.values():
+        spine.set_visible(True)
+        spine.set_linewidth(0.8)
+        spine.set_color("black")
+
+
+def _flip_raw_scatter_y(axes) -> None:
+    for ax in axes:
+        ymin, ymax = ax.get_ylim()
+        ax.set_ylim(ymax, ymin)
+
+
 def save_point_pair(
     point_sets2d: list[np.ndarray],
     pretty: list[str],
@@ -174,11 +242,10 @@ def save_point_pair(
     for ax, pts, label, color in zip(axes, point_sets2d, pretty, COLORS):
         ax.scatter(pts[:, 0], pts[:, 1], s=4.0, alpha=0.65, color=color)
         ax.set_title(label)
-        ax.set_xlabel(plane[0])
-        ax.set_ylabel(plane[1])
-        ax.set_aspect("equal")
+        _style_scatter_box(ax)
 
     _set_shared_2d_limits(axes, point_sets2d)
+    _flip_raw_scatter_y(axes)
 
     fig.suptitle(title)
     fig.savefig(out_path, dpi=dpi, bbox_inches="tight")
@@ -195,6 +262,41 @@ def save_projection_csvs(
     for pts, label in zip(point_sets2d, labels):
         out = out_dir / f"{prefix}_{plane}_{_safe_name(label)}.csv"
         pd.DataFrame(pts, columns=[plane[0], plane[1]]).to_csv(out, index=False)
+
+
+def aligned_points_as_mask_pixels(result: dict, plane: str, labels: list[str]) -> tuple[list[np.ndarray], int, int]:
+    projection = result["projections"][plane]
+    xs, ys = projection["xs"], projection["ys"]
+    point_sets = []
+
+    for label in labels:
+        x_idx, y_idx = points_to_pixel_indices(projection["sets"][label], xs, ys)
+        point_sets.append(np.column_stack((x_idx, y_idx)))
+
+    return point_sets, len(xs), len(ys)
+
+
+def save_pixel_point_pair(
+    point_sets2d: list[np.ndarray],
+    pretty: list[str],
+    title: str,
+    out_path: Path,
+    dpi: int,
+    width: int,
+    height: int,
+) -> None:
+    fig, axes = plt.subplots(1, 2, figsize=(10.4, 5.2), sharex=True, sharey=True)
+
+    for ax, pts, label, color in zip(axes, point_sets2d, pretty, COLORS):
+        ax.scatter(pts[:, 0], pts[:, 1], s=4.0, alpha=0.65, color=color)
+        ax.set_title(label)
+        ax.set_xlim(0, width)
+        ax.set_ylim(height, 0)
+        _style_scatter_box(ax)
+
+    fig.suptitle(title)
+    fig.savefig(out_path, dpi=dpi, bbox_inches="tight")
+    plt.close(fig)
 
 
 def _shape_for(result: dict, kind: str, plane: str, level: int, label: str):
@@ -227,6 +329,9 @@ def plot_single_shape(
         blob_min_len=SHAPE_BLOB_MIN_LEN,
         blob_min_area_frac=SHAPE_BLOB_MIN_AREA_FRAC,
     )
+    legend = ax.get_legend()
+    if legend is not None:
+        legend.remove()
     ax.set_xlim(0, shape["mask"].shape[1])
     ax.set_ylim(shape["mask"].shape[0], 0)
     ax.set_aspect("equal")
@@ -270,6 +375,142 @@ def save_shape_pair(
     fig.suptitle(f"{plane} - {kind} {level}%")
     fig.savefig(out_dir / f"{kind}_{plane}_{level}.png", dpi=dpi, bbox_inches="tight")
     plt.close(fig)
+
+
+def _shape_noise_score(shape: dict) -> tuple[float, int, int, int]:
+    mask = np.asarray(shape["mask"], dtype=bool)
+    _, components = ndi.label(mask)
+    contours = all_contours_from_bool(mask, min_len=15, min_area_frac=0.05)
+    largest = 0
+
+    if components:
+        labeled, count = ndi.label(mask)
+        sizes = ndi.sum(mask, labeled, index=np.arange(1, count + 1))
+        largest = int(np.max(sizes)) if len(sizes) else 0
+
+    small_pixels = int(mask.sum()) - largest
+    score = float(components + len(contours) * 2 + small_pixels / 250.0)
+    return score, int(components), int(len(contours)), int(mask.sum())
+
+
+def score_candidate(result: dict, plane: str, level: int = 100) -> dict:
+    rows = []
+
+    for label in result["labels"]:
+        hdr_shape = _shape_for(result, "hdr", plane, level, label)
+        pf_shape = _shape_for(result, "point_fraction", plane, level, label)
+
+        hdr_score, hdr_components, hdr_contours, hdr_pixels = _shape_noise_score(hdr_shape)
+        pf_score, pf_components, pf_contours, pf_pixels = _shape_noise_score(pf_shape)
+        score = hdr_score + 0.5 * pf_score
+
+        rows.append(
+            {
+                "label": label,
+                "score": score,
+                f"hdr{level}_components": hdr_components,
+                f"hdr{level}_contours": hdr_contours,
+                f"hdr{level}_pixels": hdr_pixels,
+                f"pf{level}_components": pf_components,
+                f"pf{level}_contours": pf_contours,
+                f"pf{level}_pixels": pf_pixels,
+            }
+        )
+
+    return max(rows, key=lambda row: row["score"])
+
+
+def save_candidate_figure(
+    result: dict,
+    pretty: list[str],
+    raw_centered: list[np.ndarray],
+    plane: str,
+    chrom: str,
+    hrs: str,
+    out_dir: Path,
+    dpi: int,
+) -> None:
+    labels = result["labels"]
+    i, j = PLANE_AXES[plane]
+    raw2d = [pts[:, [i, j]] for pts in raw_centered]
+    projection = result["projections"][plane]
+    xs, ys = projection["xs"], projection["ys"]
+    aligned_pixels, _, _ = aligned_points_as_mask_pixels(result, plane, labels)
+
+    fig, axes = plt.subplots(2, 4, figsize=(10.6, 5.2))
+    colors = dict(zip(labels, COLORS))
+
+    for row, (label, display) in enumerate(zip(labels, pretty)):
+        color = colors[label]
+
+        axes[row, 0].scatter(raw2d[row][:, 0], raw2d[row][:, 1], s=4, alpha=0.6, color=color)
+        axes[row, 0].set_title(f"{display} raw", fontsize=10, pad=2)
+        _style_scatter_box(axes[row, 0])
+
+        axes[row, 1].scatter(aligned_pixels[row][:, 0], aligned_pixels[row][:, 1], s=4, alpha=0.6, color=color)
+        axes[row, 1].set_title(f"{display} aligned", fontsize=10, pad=2)
+        axes[row, 1].set_xlim(0, len(xs))
+        axes[row, 1].set_ylim(len(ys), 0)
+        _style_scatter_box(axes[row, 1])
+
+        for col, (kind, level) in enumerate((("hdr", 100), ("point_fraction", 100)), start=2):
+            shape = _shape_for(result, kind, plane, level, label)
+            plot_single_shape(
+                axes[row, col],
+                shape,
+                _background_for(result, plane, label),
+                f"{display} {kind} {level}%",
+                color,
+            )
+
+    _set_shared_2d_limits(axes[:, 0], raw2d)
+    _flip_raw_scatter_y(axes[:, 0])
+
+    fig.suptitle(
+        f"Noisy-instance candidate: {chrom} {hrs.replace('hrs', 'h')} ({plane}, 100%)",
+        fontsize=12,
+        y=0.965,
+    )
+    fig.subplots_adjust(left=0.045, right=0.995, bottom=0.075, top=0.86, wspace=0.08, hspace=0.24)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_dir / f"candidate_{chrom}_{hrs}_{plane}.png", dpi=dpi, bbox_inches="tight")
+    plt.close(fig)
+
+
+def find_noisy_candidates(plane: str, out_dir: Path, dpi: int, top_n: int) -> None:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for old_png in out_dir.glob(f"candidate_*_{plane}.png"):
+        old_png.unlink()
+    old_scores = out_dir / f"candidate_scores_{plane}.csv"
+    if old_scores.exists():
+        old_scores.unlink()
+
+    rows = []
+
+    for chrom, hrs in _complete_condition_pairs():
+        result, pretty, raw_centered, _ = run_pair(chrom, hrs, plane)
+        row = score_candidate(result, plane)
+        row.update({"chrom": chrom, "hrs": hrs})
+        rows.append(row)
+
+    summary = pd.DataFrame(rows).sort_values("score", ascending=False)
+    summary.to_csv(out_dir / f"candidate_scores_{plane}.csv", index=False)
+
+    for _, row in summary.head(top_n).iterrows():
+        result, pretty, raw_centered, _ = run_pair(str(row["chrom"]), str(row["hrs"]), plane)
+        save_candidate_figure(
+            result,
+            pretty,
+            raw_centered,
+            plane,
+            str(row["chrom"]),
+            str(row["hrs"]),
+            out_dir,
+            dpi,
+        )
+
+    print(f"Saved candidate score table: {out_dir / f'candidate_scores_{plane}.csv'}")
+    print(f"Saved top {top_n} candidate figures: {out_dir}")
 
 
 def export_point_tables(result: dict, raw_centered: list[np.ndarray], out_dir: Path) -> None:
@@ -318,13 +559,15 @@ def save_images(
     save_projection_csvs(raw2d, labels, plane, out_dir, "raw_projection")
 
     aligned2d = [result["projections"][plane]["sets"][label] for label in labels]
-    save_point_pair(
-        aligned2d,
+    aligned_pixels, width, height = aligned_points_as_mask_pixels(result, plane, labels)
+    save_pixel_point_pair(
+        aligned_pixels,
         pretty,
-        plane,
         f"{plane} projection after MPASE alignment",
         out_dir / f"projection_{plane}.png",
         dpi,
+        width,
+        height,
     )
     save_projection_csvs(aligned2d, labels, plane, out_dir, "projection")
 
@@ -338,8 +581,16 @@ def main() -> None:
     parser.add_argument("--chrom", default=DEFAULT_CHROM, help="Preferred chromosome, default: chr1")
     parser.add_argument("--plane", default="YZ", choices=tuple(PLANE_AXES), help="Projection plane")
     parser.add_argument("--out-dir", default=str(OUT_DIR), help="Output directory")
+    parser.add_argument("--candidate-dir", default=str(CANDIDATE_DIR), help="Candidate output directory")
+    parser.add_argument("--find-candidates", action="store_true", help="Scan all complete UNTR/VACV time pairs")
+    parser.add_argument("--top-n", default=8, type=int, help="Number of candidate figures to save")
     parser.add_argument("--dpi", default=400, type=int, help="PNG export DPI")
     args = parser.parse_args()
+
+    if args.find_candidates:
+        find_noisy_candidates(args.plane, Path(args.candidate_dir), args.dpi, args.top_n)
+        print(f"Rerun command: python evaluation/supplementary_noisy_instances.py --find-candidates")
+        return
 
     chrom = choose_chromosome(args.chrom)
     result, pretty, raw_centered, _ = run_example(chrom, args.plane)
