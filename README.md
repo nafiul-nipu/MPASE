@@ -1,6 +1,6 @@
-# Multi-Point Alignment and Shape Extraction (MPASE)
+# Multi-Point Alignment and Shape Extraction (MultiPASE)
 
-MPASE is a Python package for **aligning multiple 3D point clouds**, extracting **shape summaries** on shared 2D projection planes, and computing **pairwise comparison metrics** across conditions or time points. It was originally developed for comparative analysis of reconstructed **3D genome structures**, but it is designed to work with **any 3D point sets** (e.g., spatial omics coordinates, particle simulations, tracking data).
+MultiPASE is a Python package for **aligning multiple 3D point clouds**, extracting **shape summaries** on shared 2D projection planes, and computing **pairwise comparison metrics** across conditions or time points. It was originally developed for comparative analysis of reconstructed **3D genome structures**, but it is designed to work with **any 3D point sets** (e.g., spatial omics coordinates, particle simulations, tracking data).
 
 This README is written as **package-style documentation** (API + parameters + examples).
 
@@ -11,27 +11,27 @@ This README is written as **package-style documentation** (API + parameters + ex
 ### Option A Install from GitHub (current version)
 
 ```bash
-pip install git+https://github.com/nafiul-nipu/MPASE.git@v1.0.0
+pip install git+https://github.com/nafiul-nipu/MultiPASE.git@v1.0.0
 ```
 
 ### Option B (developer / editable install)
 
 ```bash
-git clone https://github.com/nafiul-nipu/MPASE.git
-cd MPASE
+git clone https://github.com/nafiul-nipu/MultiPASE.git
+cd MultiPASE
 python -m venv venv
 source venv/bin/activate
 pip install -U pip
 pip install -e .
 ```
 
-**Python:** MPASE requires **Python ≥ 3.9**. The package has been tested with 3.9.6 and 3.10.14
+**Python:** MultiPASE requires **Python ≥ 3.9**. The package has been tested with 3.9.6 and 3.10.14
 
 ---
 
 ## Quickstart
 
-### 1) Run MPASE on two CSV files
+### 1) Run MultiPASE on two CSV files
 
 ```python
 import mpase
@@ -89,13 +89,13 @@ mpase.export_aligned_points(aligned, out_dir="aligned_points_out")
 
 ## Input formats
 
-MPASE accepts input in one of two modes:
+MultiPASE accepts input in one of two modes:
 
 ### A) CSV mode (`csv_list`)
 
 Each CSV must contain 3 columns for 3D coordinates (default: `x`, `y`, `z`).
 
-Optional: you can provide an ID column (`id_col`) so that MPASE carries per-point IDs through alignment/export.
+Optional: you can provide an ID column (`id_col`) so that MultiPASE carries per-point IDs through alignment/export.
 
 ### B) Array mode (`points_list`)
 
@@ -154,7 +154,7 @@ mpase.align_points(
 - `points_list` (Sequence[np.ndarray] | None)  
   List of 3D point arrays, each shaped `(Ni, 3)`. Provide **either** `points_list` **or** `csv_list`.
 - `labels` (Sequence[str] | None)  
-  Names for each input set. If omitted, MPASE auto-generates labels (`S0`, `S1`, ...).  
+  Names for each input set. If omitted, MultiPASE auto-generates labels (`S0`, `S1`, ...).  
   Length must match the number of input sets.
 
 **CSV coordinate columns**
@@ -186,7 +186,7 @@ mpase.align_points(
   If True, compute **point-fraction** silhouettes (top fraction of points by KDE score).
 - `point_alignment_only` (bool)  
   If True, stop after alignment + projections + background masks (no silhouettes/metrics).  
-  If `out_dir` is provided, MPASE writes aligned-point JSON files plus `meta_data.json`.  
+  If `out_dir` is provided, MultiPASE writes aligned-point JSON files plus `meta_data.json`.  
   _Use this for backward compatibility. Prefer `mpase.align_points(...)` + `mpase.export_aligned_points(...)` for new code._
 
 **Output**
@@ -289,7 +289,7 @@ Controls bootstrap-averaged 2D densities and HDR silhouette extraction.
   Zeros out tiny densities before HDR threshold search (fraction of `D.max()`).
 - `mass_levels` (tuple[float,...])  
   HDR coverage levels in `[0,1]` (e.g., 0.95 means the smallest region containing 95% of probability mass).  
-  MPASE converts these to percentage levels (e.g., 95) for indexing/plotting.
+  MultiPASE converts these to percentage levels (e.g., 95) for indexing/plotting.
 - `rng_seed` (int, default=0)  
   Random seed for reproducible bootstrap results.
 
@@ -319,10 +319,10 @@ Controls point-fraction silhouette extraction.
 #### Parameters
 
 - `frac_levels` (tuple[float,...])  
-  Fraction levels in `[0,1]`. For each `f`, MPASE keeps the top `ceil(f*N)` points by KDE score before rasterizing. 1 means include 100% or all points.  
+  Fraction levels in `[0,1]`. For each `f`, MultiPASE keeps the top `ceil(f*N)` points by KDE score before rasterizing. 1 means include 100% or all points.  
   _Lower fractions highlight dense cores; higher fractions include broader structure._
 - `bandwidth` (float | None, default=None)  
-  KDE bandwidth. If None, MPASE selects an automatic bandwidth based on point spacing.  
+  KDE bandwidth. If None, MultiPASE selects an automatic bandwidth based on point spacing.  
   _Controls how local vs global the KDE scoring is (smaller = more local detail; larger = smoother ranking)._
 - `disk_px` (int, default=2)  
   Raster disk radius (in pixels) when painting kept points into the mask grid.  
@@ -370,7 +370,7 @@ mpase.view(
   Levels to show. Levels are in **percent** (e.g., 100, 95, 80).  
   _A common choice is [100, 80] to compare the main body and the dense core without showing every level._
 - `A_lab`, `B_lab` (str | None)  
-  Which two labels to overlay. If None, MPASE uses the first two labels in `result["labels"]`.
+  Which two labels to overlay. If None, MultiPASE uses the first two labels in `result["labels"]`.
 - `show_heat` (bool)  
   If True and `kind="hdr"` and densities exist, show the density heatmap underlay (for `A_lab`).
 - `clean_blobs`, `blob_min_len`, `blob_min_area_frac`  
@@ -657,7 +657,7 @@ P = load_points("A.csv", cols=("x","y","z"))
 
 ### Compare more than two conditions/time points
 
-MPASE supports N sets. Metrics are computed pairwise across labels.
+MultiPASE supports N sets. Metrics are computed pairwise across labels.
 
 ```python
 res = mpase.run(
@@ -731,7 +731,7 @@ python -c "import mpase; print(mpase.__file__)"
 
 ## Citation / attribution
 
-If you use MPASE in academic work, please cite the associated paper (to be added after publication).
+If you use MultiPASE in academic work, please cite the associated paper (to be added after publication).
 
 ---
 
