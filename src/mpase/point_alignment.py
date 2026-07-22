@@ -33,6 +33,10 @@ def best_pca_prealign(B_pts, A_pts):
             S = np.diag(s)
             # Orthogonal Procrustes Problem
             R = Va @ (P @ S) @ Vb.T
+            # Keep only proper rotations.
+            # det(R) = -1 indicates a reflection.
+            if np.linalg.det(R) < -1e-8:
+                continue
             rmse = nn_metrics(A_pts, B_pts @ R.T)
             if rmse < best_rmse:
                 best_rmse, best_R = rmse, R
